@@ -7,18 +7,30 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
+        <module name="azaz-user" />
+        <module name="azaz-interact" />
+        <module name="azaz-search" />
+        <module name="azaz-video" />
         <module name="azaz-model" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17">
-      <module name="azaz-service" target="17" />
+      <module name="azaz-service (1) (org.springframework.boot)" target="17" />
+      <module name="azaz-service (2) (com.azaz)" target="17" />
+      <module name="azaz-social" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="AZAZ" options="" />
+      <module name="azaz-interact" options="-parameters" />
       <module name="azaz-model" options="-parameters" />
-      <module name="azaz-service" options="-parameters" />
+      <module name="azaz-search" options="-parameters" />
+      <module name="azaz-service" options="" />
+      <module name="azaz-service (1) (org.springframework.boot)" options="-parameters" />
+      <module name="azaz-social" options="-parameters" />
+      <module name="azaz-user" options="-parameters" />
+      <module name="azaz-video" options="-parameters" />
     </option>
   </component>
 </project>
