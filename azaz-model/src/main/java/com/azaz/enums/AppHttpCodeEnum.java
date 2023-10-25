@@ -1,5 +1,13 @@
 package com.azaz.enums;
 
+import lombok.Getter;
+
+/**
+ * 网络请求返回码枚举类
+ * @author shigc
+ * &#064;date  2023-10-25
+ */
+@Getter
 public enum AppHttpCodeEnum {
 
     // 成功段固定为200
@@ -31,19 +39,18 @@ public enum AppHttpCodeEnum {
     MATERIASL_REFERENCE_FAIL(3501,"素材引用失效");
 
 
-    int code;
-    String errorMessage;
+    /**
+     * 错误码
+     */
+    final int code;
+    /**
+     * 错误信息
+     */
+    final String errorMessage;
 
     AppHttpCodeEnum(int code, String errorMessage){
         this.code = code;
         this.errorMessage = errorMessage;
     }
 
-    public int getCode() {
-        return code;
-    }
-
-    public String getErrorMessage() {
-        return errorMessage;
-    }
 }
