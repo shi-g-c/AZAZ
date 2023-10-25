@@ -2,28 +2,40 @@ package com.azaz.model;
 
 
 import com.azaz.enums.AppHttpCodeEnum;
-import com.solidfire.gson.Gson;
-import org.springframework.boot.autoconfigure.gson.GsonAutoConfiguration;
+import lombok.Getter;
 
 
 import java.io.Serializable;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 /**
  * 通用的结果返回类
+ * @author shigc
+ * &#064;date  2023/10/25
  * @param <T>
  */
 public class ResponseResult<T> implements Serializable {
 
+    /**
+     * 服务器地址
+     */
+    @Getter
     private String host;
 
+    /**
+     * 状态码
+     */
+    @Getter
     private Integer code;
 
-    private String Message;
+    /**
+     * 错误信息
+     */
+    private String message;
 
+    /**
+     * 返回数据
+     */
+    @Getter
     private T data;
 
     public ResponseResult() {
@@ -37,13 +49,13 @@ public class ResponseResult<T> implements Serializable {
 
     public ResponseResult(Integer code, String msg, T data) {
         this.code = code;
-        this.Message = msg;
+        this.message = msg;
         this.data = data;
     }
 
     public ResponseResult(Integer code, String msg) {
         this.code = code;
-        this.Message = msg;
+        this.message = msg;
     }
 
     public static ResponseResult errorResult(int code, String msg) {
@@ -82,7 +94,7 @@ public class ResponseResult<T> implements Serializable {
 
     public ResponseResult<?> error(Integer code, String msg) {
         this.code = code;
-        this.Message = msg;
+        this.message = msg;
         return this;
     }
 
@@ -95,7 +107,7 @@ public class ResponseResult<T> implements Serializable {
     public ResponseResult<?> success(Integer code, T data, String msg) {
         this.code = code;
         this.data = data;
-        this.Message = msg;
+        this.message = msg;
         return this;
     }
 
@@ -104,38 +116,24 @@ public class ResponseResult<T> implements Serializable {
         return this;
     }
 
-    public Integer getCode() {
-        return code;
-    }
-
     public void setCode(Integer code) {
         this.code = code;
     }
 
     public String getErrorMessage() {
-        return Message;
+        return message;
     }
 
     public void setErrorMessage(String errorMessage) {
-        this.Message = errorMessage;
-    }
-
-    public T getData() {
-        return data;
+        this.message = errorMessage;
     }
 
     public void setData(T data) {
         this.data = data;
     }
 
-    public String getHost() {
-        return host;
-    }
-
     public void setHost(String host) {
         this.host = host;
     }
-
-
 
 }

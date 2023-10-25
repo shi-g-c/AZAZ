@@ -4,24 +4,19 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="完成了result类的编写">
-      <change afterPath="$PROJECT_DIR$/.idea/modules.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/java/com/azaz/InteractApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-search/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/UserApplicaion.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-video/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+    <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="初始代码模块，完成了result类的编写">
+      <change afterPath="$PROJECT_DIR$/.idea/.gitignore" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/dictionaries/shigc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.en.md" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/README.md" beforeDir="false" afterPath="$PROJECT_DIR$/README.md" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/Main.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/enums/AppHttpCodeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/enums/AppHttpCodeEnum.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/enums/TaskTypeEnum.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-search/src/main/java/com/azaz/SearchApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-search/src/main/java/com/azaz/SearchApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-video/src/main/java/com/azaz/VideoApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-video/src/main/java/com/azaz/VideoApplication.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageResponseResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageResponseResult.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/ResponseResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/ResponseResult.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -71,16 +66,12 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "jdk.selected.JAVA_MODULE": "17",
-    "last_opened_file_path": "C:/Users/c'y'x/Documents/Tencent Files/99171168/FileRecv/AZAZ/azaz-service/azaz-interact/src/main/java/com/azaz",
+    "last_opened_file_path": "C:/Users/c'y'x/Documents/Tencent Files/99171168/FileRecv/AZAZ",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "reference.settings.project.maven.ignored.files",
-    "spring.configuration.checksum": "6625dd5b2e2dd0a01e368d16da26333d",
+    "settings.editor.selected.configurable": "vcs.Git",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -90,24 +81,47 @@
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ\azaz-service\azaz-interact\src\main\java\com\azaz" />
-      <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ\azaz-service" />
-      <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ" />
-      <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ\azaz-service\azaz-user\src\main\resources" />
       <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ\azaz-model\src\main\java\com\azaz" />
+      <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ\azaz-model\src\main\java\com\azaz\model" />
     </key>
   </component>
-  <component name="RunManager" selected="Spring Boot.VideoApplication">
-    <configuration name="UserApplicaion" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="azaz-user" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.UserApplicaion" />
+  <component name="RunManager" selected="Spring Boot.testApplication">
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.azaz.Main" />
+      <module name="azaz-model" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.azaz.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="VideoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
-      <module name="azaz-video" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.VideoApplication" />
+    <configuration name="Main" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="com.azaz.Main" />
+      <module name="azaz-service" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.azaz.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="AzazApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="AZAZ" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.azaz.AzazApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="testApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="azaz-service" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.testApplication" />
       <extension name="coverage">
         <pattern>
           <option name="PATTERN" value="com.azaz.*" />
@@ -120,7 +134,9 @@
     </configuration>
     <recent_temporary>
       <list>
-        <item itemvalue="Spring Boot.VideoApplication" />
+        <item itemvalue="Spring Boot.testApplication" />
+        <item itemvalue="Application.Main (1)" />
+        <item itemvalue="Application.Main" />
       </list>
     </recent_temporary>
   </component>
@@ -132,9 +148,7 @@
       <option name="number" value="Default" />
       <option name="presentableId" value="Default" />
       <updated>1698204394834</updated>
-      <workItem from="1698204396289" duration="5564000" />
-      <workItem from="1698213515388" duration="6611000" />
-      <workItem from="1698224993670" duration="467000" />
+      <workItem from="1698204396289" duration="3727000" />
     </task>
     <task id="LOCAL-00001" summary="初始代码模块，完成了result类的编写">
       <created>1698206780730</created>
@@ -143,21 +157,7 @@
       <option name="project" value="LOCAL" />
       <updated>1698206780730</updated>
     </task>
-    <task id="LOCAL-00002" summary="完成了result类的编写">
-      <created>1698210906112</created>
-      <option name="number" value="00002" />
-      <option name="presentableId" value="LOCAL-00002" />
-      <option name="project" value="LOCAL" />
-      <updated>1698210906112</updated>
-    </task>
-    <task id="LOCAL-00003" summary="完成了result类的编写">
-      <created>1698210921734</created>
-      <option name="number" value="00003" />
-      <option name="presentableId" value="LOCAL-00003" />
-      <option name="project" value="LOCAL" />
-      <updated>1698210921734</updated>
-    </task>
-    <option name="localTasksCounter" value="4" />
+    <option name="localTasksCounter" value="2" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -176,11 +176,6 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="初始代码模块，完成了result类的编写" />
-    <MESSAGE value="完成了result类的编写" />
-    <option name="LAST_COMMIT_MESSAGE" value="完成了result类的编写" />
-  </component>
-  <component name="XSLT-Support.FileAssociations.UIState">
-    <expand />
-    <select />
+    <option name="LAST_COMMIT_MESSAGE" value="初始代码模块，完成了result类的编写" />
   </component>
 </project>
