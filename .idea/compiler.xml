@@ -7,11 +7,13 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="azaz-user" />
-        <module name="azaz-interact" />
         <module name="azaz-search" />
         <module name="azaz-video" />
+        <module name="azaz-gateway" />
         <module name="azaz-model" />
+        <module name="azaz-user" />
+        <module name="azaz-interact" />
+        <module name="feign-api" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel target="17">
@@ -23,14 +25,14 @@
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
       <module name="AZAZ" options="" />
-      <module name="azaz-interact" options="-parameters" />
-      <module name="azaz-model" options="-parameters" />
-      <module name="azaz-search" options="-parameters" />
+      <module name="azaz-interact" options="" />
+      <module name="azaz-model" options="" />
+      <module name="azaz-search" options="" />
       <module name="azaz-service" options="" />
       <module name="azaz-service (1) (org.springframework.boot)" options="-parameters" />
       <module name="azaz-social" options="-parameters" />
-      <module name="azaz-user" options="-parameters" />
-      <module name="azaz-video" options="-parameters" />
+      <module name="azaz-user" options="" />
+      <module name="azaz-video" options="" />
     </option>
   </component>
 </project>

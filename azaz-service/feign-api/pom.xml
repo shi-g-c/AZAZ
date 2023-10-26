@@ -5,20 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.azaz</groupId>
-        <artifactId>AZAZ</artifactId>
+        <artifactId>azaz-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>azaz-service</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>azaz-user</module>
-        <module>azaz-interact</module>
-        <module>azaz-video</module>
-        <module>azaz-search</module>
-
-
-    </modules>
+    <artifactId>feign-api</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -27,6 +18,19 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!--httpClient的依赖 -->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.azaz</groupId>
+            <artifactId>azaz-model</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
-
 </project>

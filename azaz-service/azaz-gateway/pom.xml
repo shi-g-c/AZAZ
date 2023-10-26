@@ -5,20 +5,11 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.azaz</groupId>
-        <artifactId>AZAZ</artifactId>
+        <artifactId>azaz-service</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>azaz-service</artifactId>
-    <packaging>pom</packaging>
-    <modules>
-        <module>azaz-user</module>
-        <module>azaz-interact</module>
-        <module>azaz-video</module>
-        <module>azaz-search</module>
-
-
-    </modules>
+    <artifactId>azaz-gateway</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
@@ -27,6 +18,15 @@
     </properties>
 
     <dependencies>
+        <!--网关-->
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-gateway</artifactId>
+        </dependency>
+        <!--nacos服务发现依赖-->
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-discovery</artifactId>
+        </dependency>
     </dependencies>
-
 </project>
