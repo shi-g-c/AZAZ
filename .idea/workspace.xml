@@ -4,25 +4,10 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="初始代码模块，完成了result类的编写">
-      <change afterPath="$PROJECT_DIR$/azaz-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+    <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="全局异常处理器">
+      <change afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/user/dto/LoginDto.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-model/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/enums/AppHttpCodeEnum.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/enums/AppHttpCodeEnum.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/ResponseResult.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/ResponseResult.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-gateway/src/main/java/com/azaz/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/src/main/java/com/azaz/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/java/com/azaz/InteractApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/java/com/azaz/InteractApplication.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/feign-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/feign-api/src/main/java/com/azaz/Main.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/feign-api/src/main/java/com/azaz/clients/UserClient.java" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/src/main/java/com/azaz/clients/UserClient.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/feign-api/src/main/resources/bootstrap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/src/main/resources/bootstrap.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -58,7 +43,9 @@
     <option name="jreName" value="17" />
   </component>
   <component name="ProjectId" id="2XEq40ucItz1cH6H0aoAbbOFiMg" />
-  <component name="ProjectLevelVcsManager" settingsEditedManually="true" />
+  <component name="ProjectLevelVcsManager" settingsEditedManually="true">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -153,7 +140,7 @@
       <workItem from="1698291675717" duration="489000" />
       <workItem from="1698292337390" duration="2510000" />
       <workItem from="1698302448510" duration="116000" />
-      <workItem from="1698302579612" duration="2204000" />
+      <workItem from="1698302579612" duration="4583000" />
     </task>
     <task id="LOCAL-00001" summary="初始代码模块，完成了result类的编写">
       <created>1698206780730</created>
@@ -162,7 +149,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698206780730</updated>
     </task>
-    <option name="localTasksCounter" value="2" />
+    <task id="LOCAL-00002" summary="全局异常处理器">
+      <created>1698308562056</created>
+      <option name="number" value="00002" />
+      <option name="presentableId" value="LOCAL-00002" />
+      <option name="project" value="LOCAL" />
+      <updated>1698308562056</updated>
+    </task>
+    <option name="localTasksCounter" value="3" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -181,6 +175,7 @@
   </component>
   <component name="VcsManagerConfiguration">
     <MESSAGE value="初始代码模块，完成了result类的编写" />
-    <option name="LAST_COMMIT_MESSAGE" value="初始代码模块，完成了result类的编写" />
+    <MESSAGE value="全局异常处理器" />
+    <option name="LAST_COMMIT_MESSAGE" value="全局异常处理器" />
   </component>
 </project>

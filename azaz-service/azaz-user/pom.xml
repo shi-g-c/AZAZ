@@ -16,14 +16,19 @@
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
-
+     <!--azaz-model模块依赖-->
     <dependencies>
         <dependency>
             <groupId>com.azaz</groupId>
             <artifactId>azaz-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
-
+        <!--azaz-common模块依赖-->
+        <dependency>
+            <groupId>com.azaz</groupId>
+            <artifactId>azaz-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
         <!-- openfeign远程调用 -->
         <dependency>
             <groupId>org.springframework.cloud</groupId>
