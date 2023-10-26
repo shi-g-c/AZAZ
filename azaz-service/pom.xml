@@ -16,8 +16,6 @@
         <module>azaz-interact</module>
         <module>azaz-video</module>
         <module>azaz-search</module>
-
-
     </modules>
 
     <properties>

@@ -11,10 +11,10 @@
     <description>AZAZ</description>
     <modules>
         <module>azaz-model</module>
-        <module>azaz-model</module>
         <module>azaz-service</module>
-        <module>azaz-service/azaz-gateway</module>
-        <module>azaz-service/feign-api</module>
+        <module>feign-api</module>
+        <module>azaz-gateway</module>
+        <module>azaz-common</module>
     </modules>
     <properties>
         <!-- 项目编译JDK版本 -->

@@ -4,7 +4,6 @@ package com.azaz.model;
 import com.azaz.enums.AppHttpCodeEnum;
 import lombok.Getter;
 
-
 import java.io.Serializable;
 
 /**

@@ -11,6 +11,7 @@
         <module name="azaz-video" />
         <module name="azaz-gateway" />
         <module name="azaz-model" />
+        <module name="azaz-common" />
         <module name="azaz-user" />
         <module name="azaz-interact" />
         <module name="feign-api" />
