@@ -5,9 +5,18 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="全局异常处理器">
-      <change afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/user/dto/LoginDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/exception/CustomException.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/exception/ExceptionCatch.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-common/src/main/resources/META-INF/spring.factories" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/target/classes/bootstrap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/target/classes/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-search/target/classes/bootstrap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-search/target/classes/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/target/classes/bootstrap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/target/classes/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-video/target/classes/bootstrap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-video/target/classes/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/feign-api/target/classes/bootstrap.yaml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -140,7 +149,7 @@
       <workItem from="1698291675717" duration="489000" />
       <workItem from="1698292337390" duration="2510000" />
       <workItem from="1698302448510" duration="116000" />
-      <workItem from="1698302579612" duration="4583000" />
+      <workItem from="1698302579612" duration="4892000" />
     </task>
     <task id="LOCAL-00001" summary="初始代码模块，完成了result类的编写">
       <created>1698206780730</created>
@@ -156,7 +165,21 @@
       <option name="project" value="LOCAL" />
       <updated>1698308562056</updated>
     </task>
-    <option name="localTasksCounter" value="3" />
+    <task id="LOCAL-00003" summary="全局异常处理器">
+      <created>1698314489469</created>
+      <option name="number" value="00003" />
+      <option name="presentableId" value="LOCAL-00003" />
+      <option name="project" value="LOCAL" />
+      <updated>1698314489469</updated>
+    </task>
+    <task id="LOCAL-00004" summary="全局异常处理器">
+      <created>1698314629251</created>
+      <option name="number" value="00004" />
+      <option name="presentableId" value="LOCAL-00004" />
+      <option name="project" value="LOCAL" />
+      <updated>1698314629251</updated>
+    </task>
+    <option name="localTasksCounter" value="5" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
