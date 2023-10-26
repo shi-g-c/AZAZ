@@ -4,22 +4,7 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="全局异常处理器">
-      <change afterPath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/utils/QiniuOssUtil.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-common/src/test/java/test.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-model/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-search/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-search/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-video/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-video/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
-    </list>
+    <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="全局异常处理器" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -71,7 +56,7 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
+    "git-widget-placeholder": "正在合并 master",
     "jdk.selected.JAVA_MODULE": "17",
     "last_opened_file_path": "C:/Users/c'y'x/Documents/Tencent Files/99171168/FileRecv/AZAZ",
     "node.js.detected.package.eslint": "true",
