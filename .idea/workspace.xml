@@ -4,7 +4,9 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="全局异常处理器" />
+    <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="全局异常处理器">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+    </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
@@ -16,6 +18,7 @@
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
       <list>
+        <option value="Interface" />
         <option value="Class" />
       </list>
     </option>
@@ -29,9 +32,8 @@
   <component name="MavenImportPreferences">
     <option name="generalSettings">
       <MavenGeneralSettings>
-        <option name="mavenHome" value="$PROJECT_DIR$/../apache-maven-3.9.2" />
-        <option name="useMavenConfig" value="true" />
-        <option name="userSettingsFile" value="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\apache-maven-3.9.2\conf\settings.xml" />
+        <option name="localRepository" value="D:\Code\IDE\Idea\IntelliJ IDEA 2023.1.2\plugins\maven\lib\maven3\maven_repository" />
+        <option name="userSettingsFile" value="D:\Code\IDE\Idea\IntelliJ IDEA 2023.1.2\plugins\maven\lib\maven3\conf\settings.xml" />
       </MavenGeneralSettings>
     </option>
   </component>
@@ -48,6 +50,7 @@
   </component>
   <component name="PropertiesComponent"><![CDATA[{
   "keyToString": {
+    "ASKED_ADD_EXTERNAL_FILES": "true",
     "RequestMappingsPanelOrder0": "0",
     "RequestMappingsPanelOrder1": "1",
     "RequestMappingsPanelWidth0": "75",
@@ -56,35 +59,47 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "正在合并 master",
+    "git-widget-placeholder": "master",
     "jdk.selected.JAVA_MODULE": "17",
-    "last_opened_file_path": "C:/Users/c'y'x/Documents/Tencent Files/99171168/FileRecv/AZAZ",
+    "last_directory_selection": "E:/Code/Java/JavaWeb/AZAZ/azaz-service/azaz-user/src/main/java/com/azaz/service/impl",
+    "last_opened_file_path": "E:/Code/Java/JavaWeb/AZAZ/azaz-gateway/src/main/resources",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
+    "project.structure.last.edited": "项目",
+    "project.structure.proportion": "0.0",
+    "project.structure.side.proportion": "0.42870286",
     "settings.editor.selected.configurable": "MavenSettings",
-    "spring.configuration.checksum": "2aad50de00cb1a3696171b9a6e80d9d4",
+    "spring.configuration.checksum": "134ab1227d27d08214beaf4f50dee41a",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
     "ChangesTree.GroupingKeys": [
+    ],
+    "DatabaseDriversLRU": [
+      "mysql"
     ]
   }
 }]]></component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
-      <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ\azaz-common\src\main\resources" />
-      <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ\azaz-common\src\main\java\com\azaz\exception" />
-      <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ\azaz-model\src\main\java\com\azaz" />
-      <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ\azaz-model\src\main\java\com\azaz\model" />
+      <recent name="E:\Code\Java\JavaWeb\AZAZ\azaz-gateway\src\main\resources" />
+      <recent name="E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-interact\src\main\resources" />
+      <recent name="E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-search\src\main\resources" />
+      <recent name="E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\resources" />
+      <recent name="E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
       <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ" />
       <recent name="C:\Users\c'y'x\Documents\Tencent Files\99171168\FileRecv\AZAZ\azaz-service" />
+    </key>
+    <key name="MoveClassesOrPackagesDialog.RECENTS_KEY">
+      <recent name="com.azaz.service" />
+      <recent name="com.azaz.service.impl" />
+    </key>
+    <key name="CopyClassDialog.RECENTS_KEY">
+      <recent name="com.azaz.config" />
     </key>
   </component>
   <component name="RunDashboard">
@@ -94,10 +109,16 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="应用程序.test">
-    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
-      <option name="MAIN_CLASS_NAME" value="test" />
-      <module name="azaz-common" />
+  <component name="RunManager" selected="Spring Boot.InteractApplication">
+    <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
+      <module name="azaz-gateway" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.GatewayApplication" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="com.azaz.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
       <method v="2">
         <option name="Make" enabled="true" />
       </method>
@@ -123,6 +144,13 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
+      <module name="azaz-user" />
+      <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.UserApplication" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="VideoApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="azaz-video" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.VideoApplication" />
@@ -130,11 +158,14 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <recent_temporary>
-      <list>
-        <item itemvalue="应用程序.test" />
-      </list>
-    </recent_temporary>
+    <list>
+      <item itemvalue="Spring Boot.UserApplicaion" />
+      <item itemvalue="Spring Boot.InteractApplication" />
+      <item itemvalue="Spring Boot.SearchApplication" />
+      <item itemvalue="Spring Boot.UserApplication" />
+      <item itemvalue="Spring Boot.VideoApplication" />
+      <item itemvalue="Spring Boot.GatewayApplication" />
+    </list>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -148,8 +179,7 @@
       <workItem from="1698291675717" duration="489000" />
       <workItem from="1698292337390" duration="2510000" />
       <workItem from="1698302448510" duration="116000" />
-      <workItem from="1698302579612" duration="6560000" />
-      <workItem from="1698319840709" duration="5057000" />
+      <workItem from="1698302579612" duration="4892000" />
     </task>
     <task id="LOCAL-00001" summary="初始代码模块，完成了result类的编写">
       <created>1698206780730</created>
@@ -179,12 +209,13 @@
       <option name="project" value="LOCAL" />
       <updated>1698314629251</updated>
     </task>
-    <task id="LOCAL-00005" summary="全局异常处理器">
-      <created>1698314850013</created>
+    <task id="LOCAL-00005" summary="注册登录以及过滤器">
+      <option name="closed" value="true" />
+      <created>1698335744932</created>
       <option name="number" value="00005" />
       <option name="presentableId" value="LOCAL-00005" />
       <option name="project" value="LOCAL" />
-      <updated>1698314850013</updated>
+      <updated>1698335744932</updated>
     </task>
     <option name="localTasksCounter" value="6" />
     <servers />
@@ -204,8 +235,10 @@
     </option>
   </component>
   <component name="VcsManagerConfiguration">
+    <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="初始代码模块，完成了result类的编写" />
     <MESSAGE value="全局异常处理器" />
-    <option name="LAST_COMMIT_MESSAGE" value="全局异常处理器" />
+    <MESSAGE value="注册登录以及过滤器" />
+    <option name="LAST_COMMIT_MESSAGE" value="注册登录以及过滤器" />
   </component>
 </project>
