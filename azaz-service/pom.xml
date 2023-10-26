@@ -25,6 +25,10 @@
     </properties>
 
     <dependencies>
+        <dependency>
+            <groupId>com.solidfire.code.gson</groupId>
+            <artifactId>gson</artifactId>
+        </dependency>
     </dependencies>
 
 </project>
