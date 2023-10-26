@@ -1,7 +1,6 @@
 package com.azaz.model;
 
 import lombok.Data;
-import lombok.extern.slf4j.Slf4j;
 
 /**
  * 分页请求参数基类
@@ -9,7 +8,6 @@ import lombok.extern.slf4j.Slf4j;
  * &#064;date  2023-10-15
  */
 @Data
-@Slf4j
 public class PageRequestDto {
 
     protected Integer size;
