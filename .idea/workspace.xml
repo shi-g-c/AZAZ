@@ -5,18 +5,20 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="全局异常处理器">
-      <change afterPath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/exception/CustomException.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/exception/ExceptionCatch.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-common/src/main/resources/META-INF/spring.factories" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/target/classes/bootstrap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/target/classes/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-search/target/classes/bootstrap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-search/target/classes/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/target/classes/bootstrap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/target/classes/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-video/target/classes/bootstrap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-video/target/classes/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/feign-api/target/classes/bootstrap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/utils/QiniuOssUtil.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-common/src/test/java/test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-model/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-search/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-search/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-video/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-video/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feign-api/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/feign-api/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -71,16 +73,16 @@
     "WebServerToolWindowFactoryState": "false",
     "git-widget-placeholder": "master",
     "jdk.selected.JAVA_MODULE": "17",
-    "last_opened_file_path": "C:/Users/c'y'x/Documents/Tencent Files/99171168/FileRecv/AZAZ/azaz-common/src/main/resources",
+    "last_opened_file_path": "C:/Users/c'y'x/Documents/Tencent Files/99171168/FileRecv/AZAZ",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
     "project.structure.last.edited": "模块",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "MavenSettings",
-    "spring.configuration.checksum": "134ab1227d27d08214beaf4f50dee41a",
+    "spring.configuration.checksum": "2aad50de00cb1a3696171b9a6e80d9d4",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -107,7 +109,14 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.InteractApplication">
+  <component name="RunManager" selected="应用程序.test">
+    <configuration name="test" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="test" />
+      <module name="azaz-common" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
     <configuration name="InteractApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="azaz-interact" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.InteractApplication" />
@@ -136,6 +145,11 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="应用程序.test" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -149,7 +163,8 @@
       <workItem from="1698291675717" duration="489000" />
       <workItem from="1698292337390" duration="2510000" />
       <workItem from="1698302448510" duration="116000" />
-      <workItem from="1698302579612" duration="4892000" />
+      <workItem from="1698302579612" duration="6560000" />
+      <workItem from="1698319840709" duration="5057000" />
     </task>
     <task id="LOCAL-00001" summary="初始代码模块，完成了result类的编写">
       <created>1698206780730</created>
@@ -179,7 +194,14 @@
       <option name="project" value="LOCAL" />
       <updated>1698314629251</updated>
     </task>
-    <option name="localTasksCounter" value="5" />
+    <task id="LOCAL-00005" summary="全局异常处理器">
+      <created>1698314850013</created>
+      <option name="number" value="00005" />
+      <option name="presentableId" value="LOCAL-00005" />
+      <option name="project" value="LOCAL" />
+      <updated>1698314850013</updated>
+    </task>
+    <option name="localTasksCounter" value="6" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
