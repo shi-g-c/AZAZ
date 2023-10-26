@@ -7,11 +7,7 @@ import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-/**
- * 自定义异常捕获类
- * @Author cyx
- */
-@ControllerAdvice
+@ControllerAdvice  //控制器增强类
 @Slf4j
 public class ExceptionCatch {
 

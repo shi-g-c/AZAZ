@@ -9,14 +9,24 @@
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
-    <artifactId>azaz-video</artifactId>
+    <artifactId>feign-api</artifactId>
 
     <properties>
         <maven.compiler.source>17</maven.compiler.source>
         <maven.compiler.target>17</maven.compiler.target>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
+
     <dependencies>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <!--httpClient的依赖 -->
+        <dependency>
+            <groupId>io.github.openfeign</groupId>
+            <artifactId>feign-httpclient</artifactId>
+        </dependency>
         <dependency>
             <groupId>com.azaz</groupId>
             <artifactId>azaz-model</artifactId>
@@ -26,7 +36,5 @@
             <groupId>com.solidfire.code.gson</groupId>
             <artifactId>gson</artifactId>
         </dependency>
-
     </dependencies>
-
 </project>

@@ -2,19 +2,16 @@ package com.azaz.exception;
 
 
 import com.azaz.enums.AppHttpCodeEnum;
-import lombok.Getter;
-
-/**
- * 自定义异常
- * @author cyx
- */
-@Getter
+//自定义异常类，手动抛出异常
 public class CustomException extends RuntimeException {
 
-    private final AppHttpCodeEnum appHttpCodeEnum;
+    private AppHttpCodeEnum appHttpCodeEnum;
 
     public CustomException(AppHttpCodeEnum appHttpCodeEnum){
         this.appHttpCodeEnum = appHttpCodeEnum;
     }
 
+    public AppHttpCodeEnum getAppHttpCodeEnum() {
+        return appHttpCodeEnum;
+    }
 }

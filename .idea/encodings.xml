@@ -2,14 +2,8 @@
 <project version="4">
   <component name="Encoding">
     <file url="file://$APPLICATION_HOME_DIR$/plugins/maven/lib/maven3/maven_repository/org/springframework/boot/spring-boot-starter-parent/2.7.17/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/azaz-agteway/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/azaz-agteway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/azaz-common/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/azaz-common/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/azaz-feign-api/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/azaz-feign-api/src/main/resources" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/azaz-feign/src/main/java" charset="UTF-8" />
-    <file url="file://$PROJECT_DIR$/azaz-feign/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/azaz-gateway/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/azaz-gateway/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/azaz-model/src/main/java" charset="UTF-8" />
