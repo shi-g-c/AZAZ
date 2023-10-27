@@ -4,8 +4,71 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="全局异常处理器">
+    <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="注册登录以及登录拦截">
+      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/constant/UserConstant.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-feign-api/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/java/com/azaz/GatewayApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/java/com/azaz/filter/LoginFilter.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/resources/bootstrap.yaml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/resources/logback.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/user/dto/RegisterDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/user/dto/UserLoginDto.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/user/pojo/User.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-search/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-search/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/UserApplication.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/config/MybatisConfig.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/controller/UserLoginController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/mapper/UserLoginMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/mapper/UserMapper.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/service/UserLoginService.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/service/impl/UserLoginServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-video/src/main/resources/application-dev.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-video/src/main/resources/application.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-gateway/error.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-gateway/trace.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-interact/error.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-interact/trace.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-user/error.log" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-user/trace.log" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/AZAZ.iml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-common/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/exception/ExceptionCatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/exception/ExceptionCatch.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/utils/QiniuOssUtil.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-common/src/test/java/test.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-gateway/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-model/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageRequestDto.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/user/dto/LoginDto.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/resources/bootstrap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/resources/bootstrap.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-search/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-search/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-search/src/main/resources/bootstrap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-search/src/main/resources/bootstrap.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/UserApplicaion.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/resources/application.yml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/resources/bootstrap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/resources/bootstrap.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-video/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-video/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-video/src/main/resources/bootstrap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-video/src/main/resources/bootstrap.yaml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/azaz-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feign-api/pom.xml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/feign-api/src/main/java/com/azaz/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-feign-api/src/main/java/com/azaz/Main.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/feign-api/src/main/java/com/azaz/clients/UserClient.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/feign-api/src/main/resources/bootstrap.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/feign-api/target/classes/bootstrap.yaml" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -24,6 +87,11 @@
     </option>
   </component>
   <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="master-2" />
+      </map>
+    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="MarkdownSettingsMigration">
@@ -40,6 +108,9 @@
   <component name="MavenRunner">
     <option name="jreName" value="17" />
   </component>
+  <component name="ProjectColorInfo"><![CDATA[{
+  "associatedIndex": 0
+}]]></component>
   <component name="ProjectId" id="2XEq40ucItz1cH6H0aoAbbOFiMg" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -166,6 +237,11 @@
       <item itemvalue="Spring Boot.VideoApplication" />
       <item itemvalue="Spring Boot.GatewayApplication" />
     </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Spring Boot.GatewayApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -180,6 +256,7 @@
       <workItem from="1698292337390" duration="2510000" />
       <workItem from="1698302448510" duration="116000" />
       <workItem from="1698302579612" duration="4892000" />
+      <workItem from="1698366334148" duration="346000" />
     </task>
     <task id="LOCAL-00001" summary="初始代码模块，完成了result类的编写">
       <created>1698206780730</created>
@@ -217,7 +294,15 @@
       <option name="project" value="LOCAL" />
       <updated>1698335744932</updated>
     </task>
-    <option name="localTasksCounter" value="6" />
+    <task id="LOCAL-00006" summary="注册登录以及登录过滤器">
+      <option name="closed" value="true" />
+      <created>1698335936566</created>
+      <option name="number" value="00006" />
+      <option name="presentableId" value="LOCAL-00006" />
+      <option name="project" value="LOCAL" />
+      <updated>1698335936566</updated>
+    </task>
+    <option name="localTasksCounter" value="7" />
     <servers />
   </component>
   <component name="TypeScriptGeneratedFilesManager">
@@ -237,8 +322,10 @@
   <component name="VcsManagerConfiguration">
     <option name="ADD_EXTERNAL_FILES_SILENTLY" value="true" />
     <MESSAGE value="初始代码模块，完成了result类的编写" />
-    <MESSAGE value="全局异常处理器" />
     <MESSAGE value="注册登录以及过滤器" />
-    <option name="LAST_COMMIT_MESSAGE" value="注册登录以及过滤器" />
+    <MESSAGE value="注册登录以及登录过滤器" />
+    <MESSAGE value="全局异常处理器" />
+    <MESSAGE value="注册登录以及登录拦截" />
+    <option name="LAST_COMMIT_MESSAGE" value="注册登录以及登录拦截" />
   </component>
 </project>

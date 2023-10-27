@@ -8,11 +8,13 @@
         <option value="$PROJECT_DIR$/azaz-service/pom.xml" />
         <option value="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" />
         <option value="$PROJECT_DIR$/azaz-gateway/pom.xml" />
+        <option value="$PROJECT_DIR$/feign-api/pom.xml" />
       </list>
     </option>
     <option name="ignoredFiles">
       <set>
         <option value="$PROJECT_DIR$/azaz-service/azaz-vedio/pom.xml" />
+        <option value="$PROJECT_DIR$/feign-api/pom.xml" />
       </set>
     </option>
   </component>
