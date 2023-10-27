@@ -1991,3 +1991,39 @@ Caused by: com.mysql.cj.exceptions.WrongArgumentException: Malformed database UR
 2023-10-26 22:44:51.015 INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler :218  [32m        [0;39m Shutting down ExecutorService 'Nacos-Watch-Task-Scheduler'
 2023-10-26 22:44:51.016 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :94   [32m        [0;39m De-registering from Nacos Server now...
 2023-10-26 22:44:51.057 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :114  [32m        [0;39m De-registration finished.
+2023-10-27 15:51:42.996 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:335  [32m        [0;39m Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-27 15:51:43.259 INFO  com.azaz.UserApplication                          :655  [32m        [0;39m The following profiles are active: dev
+2023-10-27 15:51:43.698 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :249  [32m        [0;39m Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-27 15:51:43.700 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :127  [32m        [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-10-27 15:51:43.711 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :187  [32m        [0;39m Finished Spring Data repository scanning in 4ms. Found 0 Redis repository interfaces.
+2023-10-27 15:51:43.812 INFO  o.springframework.cloud.context.scope.GenericScope:295  [32m        [0;39m BeanFactory id=ca1d8b8b-70e6-3335-bca3-72746e1b5b86
+2023-10-27 15:51:43.964 INFO  o.s.c.s.PostProcessorRegistrationDelegate$BeanPostProcessorChecker:335  [32m        [0;39m Bean 'org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration' of type [org.springframework.cloud.autoconfigure.ConfigurationPropertiesRebinderAutoConfiguration] is not eligible for getting processed by all BeanPostProcessors (for example: not eligible for auto-proxying)
+2023-10-27 15:51:44.136 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :108  [32m        [0;39m Tomcat initialized with port(s): 8081 (http)
+2023-10-27 15:51:44.143 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m        [0;39m Initializing ProtocolHandler ["http-nio-8081"]
+2023-10-27 15:51:44.143 INFO  org.apache.catalina.core.StandardService          :173  [32m        [0;39m Starting service [Tomcat]
+2023-10-27 15:51:44.143 INFO  org.apache.catalina.core.StandardEngine           :173  [32m        [0;39m Starting Servlet engine: [Apache Tomcat/9.0.36]
+2023-10-27 15:51:44.282 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] :173  [32m        [0;39m Initializing Spring embedded WebApplicationContext
+2023-10-27 15:51:44.282 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext    :285  [32m        [0;39m Root WebApplicationContext: initialization completed in 1010 ms
+2023-10-27 15:51:44.413 INFO  c.a.d.s.b.a.DruidDataSourceAutoConfigure          :56   [32m        [0;39m Init DruidDataSource
+2023-10-27 15:51:44.486 INFO  com.alibaba.druid.pool.DruidDataSource            :985  [32m        [0;39m {dataSource-1} inited
+2023-10-27 15:51:44.952 WARN  com.netflix.config.sources.URLConfigurationSource :121  [32m        [0;39m No URLs will be polled as dynamic configuration sources.
+2023-10-27 15:51:44.952 INFO  com.netflix.config.sources.URLConfigurationSource :122  [32m        [0;39m To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2023-10-27 15:51:44.955 WARN  com.netflix.config.sources.URLConfigurationSource :121  [32m        [0;39m No URLs will be polled as dynamic configuration sources.
+2023-10-27 15:51:44.955 INFO  com.netflix.config.sources.URLConfigurationSource :122  [32m        [0;39m To enable URLs as dynamic configuration sources, define System property archaius.configurationSource.additionalUrls or make config.properties available on classpath.
+2023-10-27 15:51:45.024 INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor  :181  [32m        [0;39m Initializing ExecutorService 'applicationTaskExecutor'
+2023-10-27 15:51:45.224 INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler :181  [32m        [0;39m Initializing ExecutorService 'Nacos-Watch-Task-Scheduler'
+2023-10-27 15:51:45.922 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m        [0;39m Starting ProtocolHandler ["http-nio-8081"]
+2023-10-27 15:51:45.957 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :220  [32m        [0;39m Tomcat started on port(s): 8081 (http) with context path ''
+2023-10-27 15:51:46.001 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :75   [32m        [0;39m nacos registry, DEFAULT_GROUP azaz-service-user 192.168.1.102:8081 register finished
+2023-10-27 15:51:46.190 INFO  com.azaz.UserApplication                          :61   [32m        [0;39m Started UserApplication in 3.78 seconds (JVM running for 4.293)
+2023-10-27 15:52:01.832 WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder:108  [32m        [0;39m [HttpClientBeanHolder] Start destroying common HttpClient
+2023-10-27 15:52:01.832 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :145  [32m        [0;39m [NotifyCenter] Start destroying Publisher
+2023-10-27 15:52:01.832 WARN  com.alibaba.nacos.common.http.HttpClientBeanHolder:114  [32m        [0;39m [HttpClientBeanHolder] Destruction of the end
+2023-10-27 15:52:01.832 WARN  com.alibaba.nacos.common.notify.NotifyCenter      :162  [32m        [0;39m [NotifyCenter] Destruction of the end
+2023-10-27 15:52:01.857 INFO  o.s.scheduling.concurrent.ThreadPoolTaskScheduler :218  [32m        [0;39m Shutting down ExecutorService 'Nacos-Watch-Task-Scheduler'
+2023-10-27 15:52:01.858 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :94   [32m        [0;39m De-registering from Nacos Server now...
+2023-10-27 15:52:01.901 INFO  c.a.cloud.nacos.registry.NacosServiceRegistry     :114  [32m        [0;39m De-registration finished.
+2023-10-27 15:52:10.128 WARN  o.s.beans.factory.support.DisposableBeanAdapter   :349  [32m        [0;39m Destroy method 'close' on bean with name 'nacosServiceRegistry' threw an exception: java.lang.NullPointerException: Cannot invoke "com.alibaba.nacos.api.naming.NamingService.shutDown()" because "this.namingService" is null
+2023-10-27 15:52:10.128 INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor  :218  [32m        [0;39m Shutting down ExecutorService 'applicationTaskExecutor'
+2023-10-27 15:52:10.139 INFO  com.alibaba.druid.pool.DruidDataSource            :2032 [32m        [0;39m {dataSource-1} closing ...
+2023-10-27 15:52:10.140 INFO  com.alibaba.druid.pool.DruidDataSource            :2104 [32m        [0;39m {dataSource-1} closed

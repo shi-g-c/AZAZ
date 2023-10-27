@@ -6,4 +6,5 @@
 *.iws
 *.iml
 *.ipr
+workspace.xml
 ### application-dev.yml ###

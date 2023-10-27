@@ -5,70 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="9fde8342-6779-4273-ada7-2820bf216c28" name="Changes" comment="注册登录以及登录拦截">
-      <change afterPath="$PROJECT_DIR$/.idea/dataSources.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/constant/UserConstant.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-feign-api/pom.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/java/com/azaz/GatewayApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/java/com/azaz/filter/LoginFilter.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/resources/application-dev.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/resources/bootstrap.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-gateway/src/main/resources/logback.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/user/dto/RegisterDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/user/dto/UserLoginDto.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/user/pojo/User.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/resources/application-dev.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-search/src/main/resources/application-dev.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-search/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/UserApplication.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/config/MybatisConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/controller/UserLoginController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/mapper/UserLoginMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/mapper/UserMapper.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/service/UserLoginService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/service/impl/UserLoginServiceImpl.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/resources/application-dev.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-video/src/main/resources/application-dev.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/azaz-service/azaz-video/src/main/resources/application.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-gateway/error.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-gateway/trace.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-interact/error.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-interact/trace.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-user/error.log" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/project-log/azaz/azaz-user/trace.log" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/encodings.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/AZAZ.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-common/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-common/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/exception/ExceptionCatch.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/exception/ExceptionCatch.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-common/src/main/java/com/azaz/utils/QiniuOssUtil.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-common/src/test/java/test.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-gateway/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-gateway/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-model/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageRequestDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/model/PageRequestDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-model/src/main/java/com/azaz/user/dto/LoginDto.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/resources/bootstrap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-interact/src/main/resources/bootstrap.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-search/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-search/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-search/src/main/resources/bootstrap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-search/src/main/resources/bootstrap.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-user/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/java/com/azaz/UserApplicaion.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/resources/application.yml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/resources/application.yml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/resources/bootstrap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-user/src/main/resources/bootstrap.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-video/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-video/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/azaz-video/src/main/resources/bootstrap.yaml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/azaz-video/src/main/resources/bootstrap.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/azaz-service/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-service/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/src/main/java/com/azaz/Main.java" beforeDir="false" afterPath="$PROJECT_DIR$/azaz-feign-api/src/main/java/com/azaz/Main.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/src/main/java/com/azaz/clients/UserClient.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/src/main/resources/bootstrap.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/feign-api/target/classes/bootstrap.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -89,7 +27,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="master-2" />
+        <entry key="$PROJECT_DIR$" value="master-102711" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -108,9 +46,9 @@
   <component name="MavenRunner">
     <option name="jreName" value="17" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 0
-}]]></component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 0
+}</component>
   <component name="ProjectId" id="2XEq40ucItz1cH6H0aoAbbOFiMg" />
   <component name="ProjectLevelVcsManager" settingsEditedManually="true">
     <ConfirmationsSetting value="2" id="Add" />
@@ -119,40 +57,40 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "ASKED_ADD_EXTERNAL_FILES": "true",
-    "RequestMappingsPanelOrder0": "0",
-    "RequestMappingsPanelOrder1": "1",
-    "RequestMappingsPanelWidth0": "75",
-    "RequestMappingsPanelWidth1": "75",
-    "RunOnceActivity.OpenProjectViewOnStart": "true",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "WebServerToolWindowFactoryState": "false",
-    "git-widget-placeholder": "master",
-    "jdk.selected.JAVA_MODULE": "17",
-    "last_directory_selection": "E:/Code/Java/JavaWeb/AZAZ/azaz-service/azaz-user/src/main/java/com/azaz/service/impl",
-    "last_opened_file_path": "E:/Code/Java/JavaWeb/AZAZ/azaz-gateway/src/main/resources",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "项目",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.42870286",
-    "settings.editor.selected.configurable": "MavenSettings",
-    "spring.configuration.checksum": "134ab1227d27d08214beaf4f50dee41a",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;ASKED_ADD_EXTERNAL_FILES&quot;: &quot;true&quot;,
+    &quot;RequestMappingsPanelOrder0&quot;: &quot;0&quot;,
+    &quot;RequestMappingsPanelOrder1&quot;: &quot;1&quot;,
+    &quot;RequestMappingsPanelWidth0&quot;: &quot;75&quot;,
+    &quot;RequestMappingsPanelWidth1&quot;: &quot;75&quot;,
+    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;jdk.selected.JAVA_MODULE&quot;: &quot;17&quot;,
+    &quot;last_directory_selection&quot;: &quot;E:/Code/Java/JavaWeb/AZAZ/azaz-service/azaz-user/src/main/java/com/azaz/service/impl&quot;,
+    &quot;last_opened_file_path&quot;: &quot;E:/Code/Java/JavaWeb/AZAZ/azaz-gateway/src/main/resources&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;项目&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.42870286&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;MavenSettings&quot;,
+    &quot;spring.configuration.checksum&quot;: &quot;134ab1227d27d08214beaf4f50dee41a&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "ChangesTree.GroupingKeys": [
+  &quot;keyToStringList&quot;: {
+    &quot;ChangesTree.GroupingKeys&quot;: [
     ],
-    "DatabaseDriversLRU": [
-      "mysql"
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;mysql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="E:\Code\Java\JavaWeb\AZAZ\azaz-gateway\src\main\resources" />
@@ -180,7 +118,7 @@
       </set>
     </option>
   </component>
-  <component name="RunManager" selected="Spring Boot.InteractApplication">
+  <component name="RunManager" selected="Spring Boot.UserApplication">
     <configuration name="GatewayApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" temporary="true" nameIsGenerated="true">
       <module name="azaz-gateway" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.GatewayApplication" />
@@ -208,13 +146,6 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="UserApplicaion" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
-      <module name="azaz-user" />
-      <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.UserApplicaion" />
-      <method v="2">
-        <option name="Make" enabled="true" />
-      </method>
-    </configuration>
     <configuration name="UserApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="azaz-user" />
       <option name="SPRING_BOOT_MAIN_CLASS" value="com.azaz.UserApplication" />
@@ -230,7 +161,6 @@
       </method>
     </configuration>
     <list>
-      <item itemvalue="Spring Boot.UserApplicaion" />
       <item itemvalue="Spring Boot.InteractApplication" />
       <item itemvalue="Spring Boot.SearchApplication" />
       <item itemvalue="Spring Boot.UserApplication" />
@@ -239,6 +169,7 @@
     </list>
     <recent_temporary>
       <list>
+        <item itemvalue="Spring Boot.GatewayApplication" />
         <item itemvalue="Spring Boot.GatewayApplication" />
       </list>
     </recent_temporary>
