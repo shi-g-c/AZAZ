@@ -48,7 +48,7 @@
         <io.projectreactor.version>3.3.6.RELEASE</io.projectreactor.version>
         <rocketmq-spring-boot-starter.version>2.2.3</rocketmq-spring-boot-starter.version>
         <mybatis-spring-boot-starter.version>2.1.3</mybatis-spring-boot-starter.version>
-
+        <qiniu.version>[7.13.0, 7.13.99]</qiniu.version>
     </properties>
     <!-- 统一版本管理 -->
     <dependencyManagement>
@@ -102,6 +102,12 @@
                 <groupId>com.google.guava</groupId>
                 <artifactId>guava</artifactId>
                 <version>${guava.version}</version>
+            </dependency>
+            <!-- qiniu -->
+            <dependency>
+                <groupId>com.qiniu</groupId>
+                <artifactId>qiniu-java-sdk</artifactId>
+                <version>${qiniu.version}</version>
             </dependency>
             <!-- rocketmq -->
             <dependency>
