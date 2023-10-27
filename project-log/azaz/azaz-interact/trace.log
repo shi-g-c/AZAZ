@@ -1,0 +1,131 @@
+2023-10-27 16:55:12.121 INFO  com.azaz.InteractApplication                      :55   [32m        [0;39m Starting InteractApplication on Laptop-of-shigc with PID 4984 (E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-interact\target\classes started by shigc in E:\Code\Java\JavaWeb\AZAZ)
+2023-10-27 16:55:12.123 INFO  com.azaz.InteractApplication                      :651  [32m        [0;39m No active profile set, falling back to default profiles: default
+2023-10-27 16:55:12.495 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :249  [32m        [0;39m Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-27 16:55:12.496 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :127  [32m        [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-10-27 16:55:12.513 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :187  [32m        [0;39m Finished Spring Data repository scanning in 6ms. Found 0 Redis repository interfaces.
+2023-10-27 16:55:12.585 WARN  org.mybatis.spring.mapper.ClassPathMapperScanner  :44   [32m        [0;39m No MyBatis mapper was found in '[com.azaz]' package. Please check your configuration.
+2023-10-27 16:55:12.883 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :108  [32m        [0;39m Tomcat initialized with port(s): 8080 (http)
+2023-10-27 16:55:12.889 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m        [0;39m Initializing ProtocolHandler ["http-nio-8080"]
+2023-10-27 16:55:12.889 INFO  org.apache.catalina.core.StandardService          :173  [32m        [0;39m Starting service [Tomcat]
+2023-10-27 16:55:12.889 INFO  org.apache.catalina.core.StandardEngine           :173  [32m        [0;39m Starting Servlet engine: [Apache Tomcat/9.0.36]
+2023-10-27 16:55:12.941 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] :173  [32m        [0;39m Initializing Spring embedded WebApplicationContext
+2023-10-27 16:55:12.941 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext    :285  [32m        [0;39m Root WebApplicationContext: initialization completed in 794 ms
+2023-10-27 16:55:13.035 INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor  :181  [32m        [0;39m Initializing ExecutorService 'applicationTaskExecutor'
+2023-10-27 16:55:13.091 WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:559  [32m        [0;39m Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: ${azaz.datasource.driver-class-name}
+2023-10-27 16:55:13.092 INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor  :218  [32m        [0;39m Shutting down ExecutorService 'applicationTaskExecutor'
+2023-10-27 16:55:13.093 INFO  org.apache.catalina.core.StandardService          :173  [32m        [0;39m Stopping service [Tomcat]
+2023-10-27 16:55:13.102 INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener:136  [32m        [0;39m 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2023-10-27 16:55:13.114 ERROR org.springframework.boot.SpringApplication        :837  [32m        [0;39m Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: ${azaz.datasource.driver-class-name}
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:655)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:635)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1338)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1177)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:557)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:226)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:893)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:551)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at com.azaz.InteractApplication.main(InteractApplication.java:9)
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: ${azaz.datasource.driver-class-name}
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:185)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:650)
+	... 20 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot load driver class: ${azaz.datasource.driver-class-name}
+	at org.springframework.util.Assert.state(Assert.java:94)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:223)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.initializeDataSourceBuilder(DataSourceProperties.java:175)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:43)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:85)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
+	... 21 common frames omitted
+2023-10-27 16:56:54.433 INFO  com.azaz.InteractApplication                      :55   [32m        [0;39m Starting InteractApplication on Laptop-of-shigc with PID 33712 (E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-interact\target\classes started by shigc in E:\Code\Java\JavaWeb\AZAZ)
+2023-10-27 16:56:54.434 INFO  com.azaz.InteractApplication                      :651  [32m        [0;39m No active profile set, falling back to default profiles: default
+2023-10-27 16:56:54.775 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :249  [32m        [0;39m Multiple Spring Data modules found, entering strict repository configuration mode!
+2023-10-27 16:56:54.776 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :127  [32m        [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-10-27 16:56:54.786 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :187  [32m        [0;39m Finished Spring Data repository scanning in 4ms. Found 0 Redis repository interfaces.
+2023-10-27 16:56:54.846 WARN  org.mybatis.spring.mapper.ClassPathMapperScanner  :44   [32m        [0;39m No MyBatis mapper was found in '[com.azaz]' package. Please check your configuration.
+2023-10-27 16:56:55.134 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :108  [32m        [0;39m Tomcat initialized with port(s): 8080 (http)
+2023-10-27 16:56:55.139 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m        [0;39m Initializing ProtocolHandler ["http-nio-8080"]
+2023-10-27 16:56:55.139 INFO  org.apache.catalina.core.StandardService          :173  [32m        [0;39m Starting service [Tomcat]
+2023-10-27 16:56:55.139 INFO  org.apache.catalina.core.StandardEngine           :173  [32m        [0;39m Starting Servlet engine: [Apache Tomcat/9.0.36]
+2023-10-27 16:56:55.194 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] :173  [32m        [0;39m Initializing Spring embedded WebApplicationContext
+2023-10-27 16:56:55.195 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext    :285  [32m        [0;39m Root WebApplicationContext: initialization completed in 736 ms
+2023-10-27 16:56:55.296 INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor  :181  [32m        [0;39m Initializing ExecutorService 'applicationTaskExecutor'
+2023-10-27 16:56:55.360 WARN  o.s.b.w.s.c.AnnotationConfigServletWebServerApplicationContext:559  [32m        [0;39m Exception encountered during context initialization - cancelling refresh attempt: org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: ${azaz.datasource.driver-class-name}
+2023-10-27 16:56:55.360 INFO  o.s.scheduling.concurrent.ThreadPoolTaskExecutor  :218  [32m        [0;39m Shutting down ExecutorService 'applicationTaskExecutor'
+2023-10-27 16:56:55.362 INFO  org.apache.catalina.core.StandardService          :173  [32m        [0;39m Stopping service [Tomcat]
+2023-10-27 16:56:55.370 INFO  o.s.b.a.l.ConditionEvaluationReportLoggingListener:136  [32m        [0;39m 
+
+Error starting ApplicationContext. To display the conditions report re-run your application with 'debug' enabled.
+2023-10-27 16:56:55.372 ERROR org.springframework.boot.SpringApplication        :837  [32m        [0;39m Application run failed
+org.springframework.beans.factory.BeanCreationException: Error creating bean with name 'dataSource' defined in class path resource [org/springframework/boot/autoconfigure/jdbc/DataSourceConfiguration$Hikari.class]: Bean instantiation via factory method failed; nested exception is org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: ${azaz.datasource.driver-class-name}
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:655)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiateUsingFactoryMethod(ConstructorResolver.java:635)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.instantiateUsingFactoryMethod(AbstractAutowireCapableBeanFactory.java:1338)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBeanInstance(AbstractAutowireCapableBeanFactory.java:1177)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.doCreateBean(AbstractAutowireCapableBeanFactory.java:557)
+	at org.springframework.beans.factory.support.AbstractAutowireCapableBeanFactory.createBean(AbstractAutowireCapableBeanFactory.java:517)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.lambda$doGetBean$0(AbstractBeanFactory.java:323)
+	at org.springframework.beans.factory.support.DefaultSingletonBeanRegistry.getSingleton(DefaultSingletonBeanRegistry.java:226)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.doGetBean(AbstractBeanFactory.java:321)
+	at org.springframework.beans.factory.support.AbstractBeanFactory.getBean(AbstractBeanFactory.java:202)
+	at org.springframework.beans.factory.support.DefaultListableBeanFactory.preInstantiateSingletons(DefaultListableBeanFactory.java:893)
+	at org.springframework.context.support.AbstractApplicationContext.finishBeanFactoryInitialization(AbstractApplicationContext.java:879)
+	at org.springframework.context.support.AbstractApplicationContext.refresh(AbstractApplicationContext.java:551)
+	at org.springframework.boot.web.servlet.context.ServletWebServerApplicationContext.refresh(ServletWebServerApplicationContext.java:143)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:758)
+	at org.springframework.boot.SpringApplication.refresh(SpringApplication.java:750)
+	at org.springframework.boot.SpringApplication.refreshContext(SpringApplication.java:397)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:315)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1237)
+	at org.springframework.boot.SpringApplication.run(SpringApplication.java:1226)
+	at com.azaz.InteractApplication.main(InteractApplication.java:9)
+Caused by: org.springframework.beans.BeanInstantiationException: Failed to instantiate [com.zaxxer.hikari.HikariDataSource]: Factory method 'dataSource' threw exception; nested exception is java.lang.IllegalStateException: Cannot load driver class: ${azaz.datasource.driver-class-name}
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:185)
+	at org.springframework.beans.factory.support.ConstructorResolver.instantiate(ConstructorResolver.java:650)
+	... 20 common frames omitted
+Caused by: java.lang.IllegalStateException: Cannot load driver class: ${azaz.datasource.driver-class-name}
+	at org.springframework.util.Assert.state(Assert.java:94)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.determineDriverClassName(DataSourceProperties.java:223)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceProperties.initializeDataSourceBuilder(DataSourceProperties.java:175)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration.createDataSource(DataSourceConfiguration.java:43)
+	at org.springframework.boot.autoconfigure.jdbc.DataSourceConfiguration$Hikari.dataSource(DataSourceConfiguration.java:85)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke0(Native Method)
+	at java.base/jdk.internal.reflect.NativeMethodAccessorImpl.invoke(NativeMethodAccessorImpl.java:77)
+	at java.base/jdk.internal.reflect.DelegatingMethodAccessorImpl.invoke(DelegatingMethodAccessorImpl.java:43)
+	at java.base/java.lang.reflect.Method.invoke(Method.java:568)
+	at org.springframework.beans.factory.support.SimpleInstantiationStrategy.instantiate(SimpleInstantiationStrategy.java:154)
+	... 21 common frames omitted
+2023-10-27 22:19:00.428 INFO  com.azaz.InteractApplication                      :55   [32m        [0;39m Starting InteractApplication using Java 17.0.7 on Laptop-of-shigc with PID 14120 (E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-interact\target\classes started by shigc in E:\Code\Java\JavaWeb\AZAZ)
+2023-10-27 22:19:00.429 INFO  com.azaz.InteractApplication                      :645  [32m        [0;39m No active profile set, falling back to 1 default profile: "default"
+2023-10-27 22:19:00.779 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :262  [32m        [0;39m Multiple Spring Data modules found, entering strict repository configuration mode
+2023-10-27 22:19:00.781 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :132  [32m        [0;39m Bootstrapping Spring Data Redis repositories in DEFAULT mode.
+2023-10-27 22:19:00.794 INFO  o.s.d.r.config.RepositoryConfigurationDelegate    :201  [32m        [0;39m Finished Spring Data repository scanning in 5 ms. Found 0 Redis repository interfaces.
+2023-10-27 22:19:00.863 WARN  org.mybatis.spring.mapper.ClassPathMapperScanner  :44   [32m        [0;39m No MyBatis mapper was found in '[com.azaz]' package. Please check your configuration.
+2023-10-27 22:19:01.153 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :108  [32m        [0;39m Tomcat initialized with port(s): 8080 (http)
+2023-10-27 22:19:01.160 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m        [0;39m Initializing ProtocolHandler ["http-nio-8080"]
+2023-10-27 22:19:01.160 INFO  org.apache.catalina.core.StandardService          :173  [32m        [0;39m Starting service [Tomcat]
+2023-10-27 22:19:01.160 INFO  org.apache.catalina.core.StandardEngine           :173  [32m        [0;39m Starting Servlet engine: [Apache Tomcat/9.0.65]
+2023-10-27 22:19:01.219 INFO  o.a.c.core.ContainerBase.[Tomcat].[localhost].[/] :173  [32m        [0;39m Initializing Spring embedded WebApplicationContext
+2023-10-27 22:19:01.219 INFO  o.s.b.w.s.c.ServletWebServerApplicationContext    :290  [32m        [0;39m Root WebApplicationContext: initialization completed in 760 ms
+2023-10-27 22:19:01.734 INFO  org.apache.coyote.http11.Http11NioProtocol        :173  [32m        [0;39m Starting ProtocolHandler ["http-nio-8080"]
+2023-10-27 22:19:01.747 INFO  o.s.boot.web.embedded.tomcat.TomcatWebServer      :220  [32m        [0;39m Tomcat started on port(s): 8080 (http) with context path ''
+2023-10-27 22:19:01.753 INFO  com.azaz.InteractApplication                      :61   [32m        [0;39m Started InteractApplication in 1.566 seconds (JVM running for 2.026)
