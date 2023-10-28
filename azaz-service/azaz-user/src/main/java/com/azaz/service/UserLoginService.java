@@ -1,6 +1,6 @@
 package com.azaz.service;
 
-import com.azaz.model.ResponseResult;
+import com.azaz.response.ResponseResult;
 import com.azaz.user.dto.RegisterDto;
 import com.azaz.user.dto.UserLoginDto;
 import org.springframework.stereotype.Service;
@@ -23,5 +23,5 @@ public interface UserLoginService {
      * @param userLoginDto 登录信息
      * @return 登录结果
      */
-    ResponseResult userLogin(UserLoginDto userLoginDto);
+    ResponseResult<String> userLogin(UserLoginDto userLoginDto);
 }

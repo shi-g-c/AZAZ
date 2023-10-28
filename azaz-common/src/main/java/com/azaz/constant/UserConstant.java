@@ -1,7 +1,7 @@
 package com.azaz.constant;
 
 /**
- * 常量类
+ * 用户信息常量类
  * @author shigc
  */
 public class UserConstant {

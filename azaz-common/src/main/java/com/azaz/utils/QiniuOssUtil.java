@@ -8,6 +8,7 @@ import com.qiniu.storage.Configuration;
 import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
+import lombok.extern.log4j.Log4j2;
 
 import java.io.ByteArrayInputStream;
 
@@ -15,6 +16,7 @@ import java.io.ByteArrayInputStream;
  * 七牛云上传工具类
  * @author c'y'x
  */
+@Log4j2
 public class QiniuOssUtil {
     static String  accessKey = "dZv53Knxs8XBaPT4jCkyHar7L1u7nJ_LsEM1Fi3T";
     static String secretKey = "8dgc4VO3kFh06GaY_pIlZjJPafJ8GdyOOxCwPXwB";
@@ -37,18 +39,16 @@ public class QiniuOssUtil {
         UploadManager uploadManager = new UploadManager(cfg);
         //...生成上传凭证，然后准备上传
         //指定key为文件名
-        String key = objectName;
-        byte[] uploadBytes = bytes;
-        ByteArrayInputStream byteInputStream=new ByteArrayInputStream(uploadBytes);
+        ByteArrayInputStream byteInputStream=new ByteArrayInputStream(bytes);
         Auth auth = Auth.create(accessKey, secretKey);
         String upToken = auth.uploadToken(bucket);
         try {
-            Response response = uploadManager.put(byteInputStream,key,upToken,null, null);
+            Response response = uploadManager.put(byteInputStream, objectName,upToken,null, null);
             //解析上传成功的结果
             DefaultPutRet putRet = new Gson().fromJson(response.bodyString(), DefaultPutRet.class);
             filePath= CDN + "/" + putRet.key;
         } catch (QiniuException ex) {
-            ex.printStackTrace();
+            log.error("{} 七牛云上传失败:{}", objectName, ex.getMessage());
         }
         return filePath;
     }

@@ -1,6 +1,6 @@
 package com.azaz.controller;
 
-import com.azaz.model.ResponseResult;
+import com.azaz.response.ResponseResult;
 import com.azaz.service.UserLoginService;
 import com.azaz.user.dto.RegisterDto;
 import com.azaz.user.dto.UserLoginDto;
@@ -36,7 +36,7 @@ public class UserLoginController {
      * @return 登录结果
      */
     @PostMapping
-    public ResponseResult userLogin(UserLoginDto userLoginDto) {
+    public ResponseResult<String> userLogin(UserLoginDto userLoginDto) {
         return userLoginService.userLogin(userLoginDto);
     }
 }

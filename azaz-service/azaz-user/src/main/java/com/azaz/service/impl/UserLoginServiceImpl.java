@@ -4,10 +4,10 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.azaz.constant.UserConstant;
-import com.azaz.enums.AppHttpCodeEnum;
+import com.azaz.exception.*;
 import com.azaz.mapper.UserLoginMapper;
 import com.azaz.mapper.UserMapper;
-import com.azaz.model.ResponseResult;
+import com.azaz.response.ResponseResult;
 import com.azaz.user.dto.RegisterDto;
 import com.azaz.user.dto.UserLoginDto;
 import com.azaz.user.pojo.User;
@@ -46,21 +46,21 @@ public class UserLoginServiceImpl implements com.azaz.service.UserLoginService{
         log.info("用户注册，注册信息：{}", registerDto);
         // 1. 校验参数
         if (registerDto == null || registerDto.getPhone() == null || registerDto.getPassword() == null) {
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"注册信息不能为空");
+            throw new NullParamException("注册信息不能为空！");
         }
         String phone = registerDto.getPhone();
         String password = registerDto.getPassword();
         // 1.1 校验手机号是否合法
         if (!Validator.isMatchRegex(UserConstant.PHONE_REGEX, phone)) {
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"手机号不合法");
+            throw new ErrorParamException("手机号不合法！");
         }
         // 1.2 校验密码是否合法
         if (password.length() < UserConstant.PASSWORD_MIN_LENGTH || password.length() > UserConstant.PASSWORD_MAX_LENGTH) {
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"密码长度必须在5~20位之间");
+            throw new ErrorParamException("密码长度必须在5~20位之间！");
         }
         // 2. 校验手机号是否已经注册, 即手机号对应的记录数是否大于0
         if (userLoginMapper.ifExistPhone(phone) > 0) {
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"手机号已经注册");
+            throw new ErrorParamException("手机号已经注册！");
         }
         // 3. 注册用户
         // 3.1 随机生成 5 位长度的盐
@@ -80,10 +80,10 @@ public class UserLoginServiceImpl implements com.azaz.service.UserLoginService{
             userMapper.insert(user);
         } catch (Exception e) {
             log.error("注册信息插入错误，注册信息：{}", registerDto);
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"注册失败");
+            throw new DbOperationException("注册信息插入错误！");
         }
         // 4. 返回注册成功
-        return ResponseResult.successResult("注册成功");
+        return ResponseResult.successResult();
     }
 
     /**
@@ -92,21 +92,21 @@ public class UserLoginServiceImpl implements com.azaz.service.UserLoginService{
      * @return 登录结果
      */
     @Override
-    public ResponseResult userLogin(UserLoginDto userLoginDto) {
+    public ResponseResult<String> userLogin(UserLoginDto userLoginDto) {
         log.info("用户登录，登录信息：{}", userLoginDto);
         // 1. 校验参数
         if (userLoginDto == null || userLoginDto.getPhone() == null || userLoginDto.getPassword() == null) {
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"登录信息不能为空");
+            throw new NullParamException("登录信息不能为空！");
         }
         String phone = userLoginDto.getPhone();
         String password = userLoginDto.getPassword();
         // 1.1 校验手机号是否合法
         if (!Validator.isMatchRegex(UserConstant.PHONE_REGEX, phone)) {
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"手机号不合法");
+            throw new ErrorParamException("手机号不合法！");
         }
         // 1.2 校验密码是否合法
         if (password.length() < UserConstant.PASSWORD_MIN_LENGTH || password.length() > UserConstant.PASSWORD_MAX_LENGTH) {
-            return ResponseResult.errorResult(AppHttpCodeEnum.PARAM_INVALID,"密码错误");
+            throw new ErrorParamException("密码错误！");
         }
         // 2. 从数据库获取用户信息
         QueryWrapper<User> wrapper = new QueryWrapper<>();
@@ -114,13 +114,13 @@ public class UserLoginServiceImpl implements com.azaz.service.UserLoginService{
         User userDb = userMapper.selectOne(wrapper);
         // 3. 校验用户是否存在
         if (userDb == null) {
-            return ResponseResult.errorResult(AppHttpCodeEnum.DATA_NOT_EXIST,"用户不存在");
+            throw new UserNotExitedException();
         }
         // 4. 校验密码是否正确
         String passwordWithMd5 = DigestUtils.md5DigestAsHex((password + userDb.getSalt()).getBytes());
         if (!StrUtil.equals(passwordWithMd5, userDb.getPassword())) {
             // 4.1 密码错误，返回错误信息
-            return ResponseResult.errorResult(AppHttpCodeEnum.LOGIN_PASSWORD_ERROR,"密码错误");
+            throw new PasswordErrorException();
         }
         // 5. 登录成功，Redis中保存token， 返回用户信息
         // 5.1 生成用户token

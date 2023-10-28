@@ -7,4 +7,5 @@
 *.iml
 *.ipr
 workspace.xml
+*.log
 ### application-dev.yml ###

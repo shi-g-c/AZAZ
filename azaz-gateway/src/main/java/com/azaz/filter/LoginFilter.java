@@ -36,7 +36,6 @@ public class LoginFilter implements GlobalFilter {
      */
     @Override
     public Mono<Void> filter(ServerWebExchange exchange, GatewayFilterChain chain) {
-        log.info("进入登录过滤器{}", exchange.getRequest().getPath());
         RequestPath path = exchange.getRequest().getPath();
         //1.获取request和response对象
         ServerHttpRequest request = exchange.getRequest();
