@@ -26,11 +26,6 @@ public class UserConstant {
     public static final String DEFAULT_USER_NAME_PRE = "azaz_";
 
     /**
-     * 默认用户头像
-     */
-    public static final String DEFAULT_USER_IMAGE = "";
-
-    /**
      * 默认用户个性签名
      */
     public static final String DEFAULT_USER_SIGNATURE = "这个人很懒，什么都没有留下";

@@ -4,6 +4,7 @@ import com.azaz.response.ResponseResult;
 import com.azaz.service.UserLoginService;
 import com.azaz.user.dto.RegisterDto;
 import com.azaz.user.dto.UserLoginDto;
+import com.azaz.user.vo.UserLoginVo;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -36,7 +37,7 @@ public class UserLoginController {
      * @return 登录结果
      */
     @PostMapping
-    public ResponseResult<String> userLogin(UserLoginDto userLoginDto) {
+    public ResponseResult<UserLoginVo> userLogin(UserLoginDto userLoginDto) {
         return userLoginService.userLogin(userLoginDto);
     }
 }

@@ -4,6 +4,7 @@ import cn.hutool.core.lang.Validator;
 import cn.hutool.core.util.RandomUtil;
 import cn.hutool.core.util.StrUtil;
 import com.azaz.constant.UserConstant;
+import com.azaz.constant.UserDefaultImageConstant;
 import com.azaz.exception.*;
 import com.azaz.mapper.UserLoginMapper;
 import com.azaz.mapper.UserMapper;
@@ -11,6 +12,7 @@ import com.azaz.response.ResponseResult;
 import com.azaz.user.dto.RegisterDto;
 import com.azaz.user.dto.UserLoginDto;
 import com.azaz.user.pojo.User;
+import com.azaz.user.vo.UserLoginVo;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.log4j.Log4j2;
 import org.springframework.data.redis.core.StringRedisTemplate;
@@ -72,7 +74,7 @@ public class UserLoginServiceImpl implements com.azaz.service.UserLoginService{
                 .salt(salt)
                 .password(passwordWithMd5)
                 .username(UserConstant.DEFAULT_USER_NAME_PRE + RandomUtil.randomString(10))
-                .image(UserConstant.DEFAULT_USER_IMAGE)
+                .image(UserDefaultImageConstant.DEFAULT_USER_IMAGE_LIST[RandomUtil.randomInt(0, UserDefaultImageConstant.DEFAULT_USER_IMAGE_LIST.length)])
                 .signature(UserConstant.DEFAULT_USER_SIGNATURE)
                 .build();
         // 3.3 将用户信息插入数据库
@@ -92,7 +94,7 @@ public class UserLoginServiceImpl implements com.azaz.service.UserLoginService{
      * @return 登录结果
      */
     @Override
-    public ResponseResult<String> userLogin(UserLoginDto userLoginDto) {
+    public ResponseResult<UserLoginVo> userLogin(UserLoginDto userLoginDto) {
         log.info("用户登录，登录信息：{}", userLoginDto);
         // 1. 校验参数
         if (userLoginDto == null || userLoginDto.getPhone() == null || userLoginDto.getPassword() == null) {
@@ -129,7 +131,8 @@ public class UserLoginServiceImpl implements com.azaz.service.UserLoginService{
         stringRedisTemplate.opsForValue().set(UserConstant.REDIS_LOGIN_TOKEN + token, userDb.getId().toString(),
                 UserConstant.LOGIN_USER_TTL, java.util.concurrent.TimeUnit.SECONDS);
         // 5.3 返回用户信息
-        return ResponseResult.successResult(token);
+        UserLoginVo userLoginVo = new UserLoginVo(token, userDb.getId().toString());
+        return ResponseResult.successResult(userLoginVo);
     }
 
 }

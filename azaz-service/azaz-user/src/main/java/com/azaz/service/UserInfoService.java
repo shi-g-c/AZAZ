@@ -4,6 +4,7 @@ import com.azaz.response.ResponseResult;
 import com.azaz.user.dto.UserPersonInfo;
 import com.azaz.user.vo.UserPersonalInfoVo;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 /**
  * 用户信息服务接口
@@ -24,4 +25,11 @@ public interface UserInfoService {
      * @return ResponseResult 更新结果
      */
     ResponseResult updateUserPersonalInfo(UserPersonInfo userPersonInfo);
+
+    /**
+     * 上传用户头像
+     * @param imageFile 用户头像文件
+     * @return ResponseResult<String> 图片地址
+     */
+    ResponseResult<String> uploadUserImage(MultipartFile imageFile);
 }
