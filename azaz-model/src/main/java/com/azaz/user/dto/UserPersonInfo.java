@@ -1,11 +1,13 @@
 package com.azaz.user.dto;
 
+import lombok.Builder;
 import lombok.Data;
 
 /**
  * @author shigc
  */
 @Data
+@Builder
 public class UserPersonInfo {
 
     /**
