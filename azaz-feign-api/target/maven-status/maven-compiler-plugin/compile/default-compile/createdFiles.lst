@@ -1,1 +1,2 @@
-com\azaz\Main.class
+com\azaz\clients\InteractClient.class
+com\azaz\clients\UserClient.class

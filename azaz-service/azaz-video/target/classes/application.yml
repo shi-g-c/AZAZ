@@ -9,6 +9,10 @@ spring:
     port: 6380
     password: sgc123456
     database: 0
+  servlet:
+    multipart:
+      max-file-size: 255MB
+      max-request-size: 1024MB
 # 配置mybatis
 mybatis:
   #mapper配置文件
