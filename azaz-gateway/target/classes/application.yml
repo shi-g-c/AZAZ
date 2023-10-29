@@ -25,6 +25,10 @@ spring:
           uri: lb://azaz-service-user
           predicates: # 路由断言，也就是判断请求是否符合路由规则的条件
             - Path=/azaz/user/**
+        - id: azaz-service-video
+          uri: lb://azaz-service-video
+          predicates: # 路由断言，也就是判断请求是否符合路由规则的条件
+            - Path=/azaz/video/**
 logging:
   level:
     com:

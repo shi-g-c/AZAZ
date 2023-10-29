@@ -1,2 +1,4 @@
+com\azaz\config\MybatisConfig.class
 com\azaz\interceptor\TokenInterceptor.class
 com\azaz\InteractApplication.class
+com\azaz\config\WebMvcConfiguration.class
