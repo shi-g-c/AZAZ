@@ -13,6 +13,11 @@ spring:
     multipart:
       max-file-size: 255MB
       max-request-size: 1024MB
+  data:
+    mongodb:
+      host: 124.221.176.164
+      port: 27017
+      database: azaz
 # 配置mybatis
 mybatis:
   #mapper配置文件
@@ -30,3 +35,6 @@ logging:
         mapper: debug
         service: info
         controller: info
+#配置redisson
+redisson:
+  address: 'redis://127.0.0.1:6712'

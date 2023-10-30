@@ -30,3 +30,5 @@ logging:
         mapper: debug
         service: info
         controller: info
+redisson:
+  address: 'redis://127.0.0.1:6712'
