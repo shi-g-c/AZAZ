@@ -26,7 +26,7 @@ public class UserInfoController {
      * @return ResponseResult<UserPersonalInfoVo> 用户个人信息
      */
     @GetMapping("/personal")
-    public ResponseResult<UserPersonalInfoVo> getUserPersonalInfo(@RequestParam("userId") Long userId){
+    public ResponseResult<UserPersonalInfoVo> getUserPersonalInfo(@RequestParam(value = "userId", required = false) Long userId){
         return userInfoService.getUserPersonalInfo(userId);
     }
 
