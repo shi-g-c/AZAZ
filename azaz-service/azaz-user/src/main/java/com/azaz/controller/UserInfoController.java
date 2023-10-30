@@ -4,10 +4,8 @@ import com.azaz.response.ResponseResult;
 import com.azaz.service.UserInfoService;
 import com.azaz.user.dto.UserPersonInfo;
 import com.azaz.user.vo.UserPersonalInfoVo;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
 
@@ -28,10 +26,19 @@ public class UserInfoController {
      * @return ResponseResult<UserPersonalInfoVo> 用户个人信息
      */
     @GetMapping("/personal")
-    public ResponseResult<UserPersonalInfoVo> getUserPersonalInfo(Long userId){
+    public ResponseResult<UserPersonalInfoVo> getUserPersonalInfo(@RequestParam(value = "userId", required = false) Long userId){
         return userInfoService.getUserPersonalInfo(userId);
     }
 
+    /**
+     * 上传用户头像
+     * @param imageFile 用户头像文件
+     * @return ResponseResult<String> 图片地址
+     */
+    @PostMapping("/image/upload")
+    public ResponseResult<String> uploadUserImage(MultipartFile imageFile){
+        return userInfoService.uploadUserImage(imageFile);
+    }
 
     /**
      * 更新用户个人信息
