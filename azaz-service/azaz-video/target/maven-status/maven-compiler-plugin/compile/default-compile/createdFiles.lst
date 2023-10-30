@@ -1,8 +1,0 @@
-com\azaz\mapper\VideoMapper.class
-com\azaz\service\VideoUploadService.class
-com\azaz\config\MybatisConfig.class
-com\azaz\controller\VideoController.class
-com\azaz\interceptor\TokenInterceptor.class
-com\azaz\service\impl\VideoUploadServiceImp.class
-com\azaz\config\WebMvcConfiguration.class
-com\azaz\VideoApplication.class

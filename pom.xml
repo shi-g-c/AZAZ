@@ -48,7 +48,7 @@
         <io.projectreactor.version>3.3.6.RELEASE</io.projectreactor.version>
         <rocketmq-spring-boot-starter.version>2.2.3</rocketmq-spring-boot-starter.version>
         <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
-        <qiniu.version>[7.13.0, 7.13.99]</qiniu.version>
+        <qiniu.version>7.2.7</qiniu.version>
     </properties>
     <!-- 统一版本管理 -->
     <dependencyManagement>

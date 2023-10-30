@@ -10,15 +10,12 @@ import com.azaz.utils.ThreadLocalUtil;
 import com.azaz.video.dto.VideoPublishDto;
 import com.azaz.video.pojo.Video;
 import com.azaz.video.vo.VideoUploadVo;
-import com.qiniu.rtc.model.RoomResult;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.io.IOException;
-import java.time.LocalDateTime;
 import java.util.UUID;
 
 /**
