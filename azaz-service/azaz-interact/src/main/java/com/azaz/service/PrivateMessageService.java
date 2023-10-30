@@ -25,4 +25,5 @@ public interface PrivateMessageService {
      * @return ResponseResult
      */
     ResponseResult<MessageListVo> privateMessageList(MessageListDto messageListDto);
+
 }

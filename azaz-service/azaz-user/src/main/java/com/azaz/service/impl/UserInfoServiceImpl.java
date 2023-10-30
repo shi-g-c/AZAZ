@@ -5,7 +5,7 @@ import com.azaz.exception.UserNotExitedException;
 import com.azaz.exception.UserNotLoginException;
 import com.azaz.mapper.UserMapper;
 import com.azaz.response.ResponseResult;
-import com.azaz.user.dto.UserPersonInfo;
+import com.azaz.user.dto.UserPersonInfoDto;
 import com.azaz.user.pojo.User;
 import com.azaz.user.vo.UserPersonalInfoVo;
 import com.azaz.utils.QiniuOssUtil;
@@ -67,15 +67,21 @@ public class UserInfoServiceImpl implements com.azaz.service.UserInfoService{
      * @return ResponseResult
      */
     @Override
-    public ResponseResult updateUserPersonalInfo(UserPersonInfo userPersonInfo) {
+    public ResponseResult updateUserPersonalInfo(UserPersonInfoDto userPersonInfo) {
+        log.info("用户个人信息更新: {}", userPersonInfo);
         // 0. 校验参数
-        if (userPersonInfo == null || (userPersonInfo.getSignature() == null &&
-                userPersonInfo.getImage() == null && userPersonInfo.getUsername() == null)){
+        if (userPersonInfo == null || userPersonInfo.getSignature() == null ||
+                userPersonInfo.getImage() == null || userPersonInfo.getUsername() == null){
             throw new ErrorParamException("参数不能为空！");
+        }
+        if (userPersonInfo.getUsername().length() > 15) {
+            throw new ErrorParamException("用户名不能超过15个字符！");
+        }
+        if (userPersonInfo.getSignature().length() > 100) {
+            throw new ErrorParamException("签名不能超过100个字符！");
         }
         // 1. 获取到用户的id
         Long userId = ThreadLocalUtil.getUserId();
-        log.info("用户个人信息更新: {}", userPersonInfo);
         // 1.1 校验用户id是否为空
         if (userId == null){
             throw new UserNotLoginException();
@@ -110,9 +116,8 @@ public class UserInfoServiceImpl implements com.azaz.service.UserInfoService{
         if (!".jpg".equals(suffix) && !".png".equals(suffix) && !".jpeg".equals(suffix) ){
             throw new ErrorParamException("不支持的文件类型！");
         }
-        String name = fileName.substring(0, fileName.lastIndexOf("."));
         //2.2 拼接文件名
-        name = UUID.randomUUID() + suffix;
+        String name = UUID.randomUUID() + suffix;
         //3. 上传文件
         String url = null;
         try {

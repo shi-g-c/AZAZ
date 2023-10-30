@@ -1,7 +1,7 @@
 package com.azaz.service;
 
 import com.azaz.response.ResponseResult;
-import com.azaz.user.dto.UserPersonInfo;
+import com.azaz.user.dto.UserPersonInfoDto;
 import com.azaz.user.vo.UserPersonalInfoVo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +24,7 @@ public interface UserInfoService {
      * @param userPersonInfo 用户个人信息
      * @return ResponseResult 更新结果
      */
-    ResponseResult updateUserPersonalInfo(UserPersonInfo userPersonInfo);
+    ResponseResult updateUserPersonalInfo(UserPersonInfoDto userPersonInfo);
 
     /**
      * 上传用户头像
