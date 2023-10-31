@@ -47,7 +47,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
                 dbOpsService.insertIntoMongo(userId,videoId, VideoConstant.LIKE_TYPE,1);
                 //redis数据加一
                 dbOpsService.addIntSafely(strKey,1);
-                return ResponseResult.successResult();
+                return ResponseResult.successResult("点赞成功");
             }
             else {
                 return ResponseResult.errorResult("点赞失败");
@@ -103,6 +103,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
             }
         }
     }
+
 
 
 }

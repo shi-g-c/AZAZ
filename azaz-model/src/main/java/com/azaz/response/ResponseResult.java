@@ -42,7 +42,7 @@ public class ResponseResult<T> implements Serializable {
     public static <T> ResponseResult<T> successResult(T object) {
         ResponseResult<T> responseResult = new ResponseResult<T>();
         responseResult.data = object;
-        responseResult.code = 2;
+        responseResult.code = 200;
         return responseResult;
     }
 

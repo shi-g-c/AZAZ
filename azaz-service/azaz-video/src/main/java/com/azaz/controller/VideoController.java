@@ -41,9 +41,9 @@ public class VideoController {
         return videoDoLikeService.doLike(videoId,type);
     }
     //type为1收藏，为0取消收藏
-    @PostMapping("/collect")
+    @PostMapping("/doCollect")
     public ResponseResult doCollect(Long videoId,int type){
-        return videoDoLikeService.doLike(videoId,type);
+        return videoDoLikeService.doCollect(videoId,type);
     }
 
 }

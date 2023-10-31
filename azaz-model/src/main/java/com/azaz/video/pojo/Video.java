@@ -55,5 +55,15 @@ public class Video {
     @TableField("update_time")
     private LocalDateTime updateTime;
 
+    @TableField("likes")
+    private String likes;
+
+    @TableField("collects")
+    private String collects;
+
+    @TableField("comments")
+    private String comments;
+
+
 
 }

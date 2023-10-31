@@ -1,7 +1,10 @@
 package com.azaz.service.impl;
 
+import com.azaz.constant.VideoConstant;
 import com.azaz.exception.RedissonLockException;
+import com.azaz.mapper.VideoMapper;
 import com.azaz.service.DbOpsService;
+import com.azaz.video.pojo.Video;
 import com.azaz.video.pojo.VideoLike;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.api.RLock;
@@ -11,10 +14,13 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
 
+import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
 import java.util.ArrayList;
+import java.util.Set;
 import java.util.concurrent.TimeUnit;
 /**
  * @author c'y'x
@@ -30,6 +36,8 @@ public class DbOpsServiceImpl implements DbOpsService {
     RedissonClient redissonClient;
     @Resource
     MongoTemplate mongoTemplate;
+    @Resource
+    VideoMapper videoMapper;
 
 
     @Override
@@ -47,6 +55,7 @@ public class DbOpsServiceImpl implements DbOpsService {
             if(lock.tryLock(5, TimeUnit.SECONDS)){
                 //取出之前的数字
                 Integer exNum = (Integer)this.redisTemplate.opsForValue().get(key);
+                exNum=exNum==null?0:exNum;
                 //加上数字存入
                 this.redisTemplate.opsForValue().set(key,exNum+num);
                 return true;
@@ -81,6 +90,7 @@ public class DbOpsServiceImpl implements DbOpsService {
         VideoLike videoLike = mongoTemplate.findOne(query, VideoLike.class);
         //如果不存在，则添加userId和videoId
         if(videoLike==null){
+            videoLike=new VideoLike();
             videoLike.setVideoId(videoId);
             videoLike.setUserId(userId);
         }
@@ -99,6 +109,92 @@ public class DbOpsServiceImpl implements DbOpsService {
                 videoLike.setCommentList((ArrayList<String>) ops);
         }
         mongoTemplate.save(videoLike);
+    }
+
+    /**
+     * 把redis中kv类型的数据定时刷新到mysql中
+     * 每12小时执行一次
+     */
+    @PostConstruct
+    @Scheduled(cron = "0 */ 720 * * * ?")
+    public void fresh(){
+        Set likeKeys = redisTemplate.keys(VideoConstant.STRING_LIKE_KEY+'*');
+        Set collectKeys = redisTemplate.keys(VideoConstant.STRING_COLLECT_KEY+'*');
+        Set commentKeys = redisTemplate.keys(VideoConstant.STRING_COMMENT_KEY+'*');
+        if(likeKeys!=null) {
+            //更新点赞数
+            for (Object likeKey : likeKeys) {
+                //得到videoId
+                String sub= likeKey.toString().substring(VideoConstant.STRING_LIKE_KEY.length());
+                Long videoId=Long.parseLong(sub);
+                //创建新的video对象
+                Video video = new Video();
+                video.setId(videoId);
+                //获得点赞数
+                String strLikes="";
+                Long likes = Long.parseLong(redisTemplate.opsForValue().get(likeKey.toString()).toString());
+                //点赞数如果超过1000,以x.yk形式记录
+                if(likes>1000){
+                    strLikes=likes/1000+"k."+likes/100;
+                }
+                else {
+                    strLikes=likes.toString();
+                }
+                video.setLikes(strLikes);
+                //刷新到数据库
+                videoMapper.updateById(video);
+            }
+        }
+        if(collectKeys!=null) {
+            //更新收藏数
+            for (Object collectKey : collectKeys) {
+                //得到videoId
+                String sub= collectKey.toString().substring(VideoConstant.STRING_COLLECT_KEY.length());
+                Long videoId=Long.parseLong(sub);
+                //创建新的video对象
+                Video video = new Video();
+                video.setId(videoId);
+                //获得点赞数
+                String strLikes="";
+                Long likes = Long.parseLong(redisTemplate.opsForValue().get(collectKey.toString()).toString());
+                //点赞数如果超过1000,以x.yk形式记录
+                if(likes>1000){
+                    strLikes=likes/1000+"k."+likes/100;
+                }
+                else {
+                    strLikes=likes.toString();
+                }
+                video.setLikes(strLikes);
+                //刷新到数据库
+                videoMapper.updateById(video);
+            }
+        }
+        if(commentKeys!=null){
+            //更新评论数
+            for (Object commentKey : commentKeys) {
+                //得到videoId
+                String sub= commentKey.toString().substring(VideoConstant.STRING_COMMENT_KEY.length());
+                Long videoId=Long.parseLong(sub);
+                //创建新的video对象
+                Video video = new Video();
+                video.setId(videoId);
+                //获得点赞数
+                String strLikes="";
+                Long likes = Long.parseLong(redisTemplate.opsForValue().get(commentKey.toString()).toString());
+                //点赞数如果超过1000,以x.yk形式记录
+                if(likes>1000){
+                    strLikes=likes/1000+"k."+likes/100;
+                }
+                else {
+                    strLikes=likes.toString();
+                }
+                video.setLikes(strLikes);
+                //刷新到数据库
+                videoMapper.updateById(video);
+            }
+        }
+
+
     }
 
 
