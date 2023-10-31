@@ -25,11 +25,12 @@ public class MessageListVo {
     /**
      * 最后一条私信id
      */
-    private Long lastMessageId;
+    private String lastMessageId;
 
     /**
      * 私信列表
      */
     private List<MessageVo> messages;
+
 
 }

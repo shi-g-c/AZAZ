@@ -1,12 +1,9 @@
 package com.azaz.interact.vo;
 
-import com.azaz.user.dto.UserPersonInfo;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
-import java.time.LocalDateTime;
 
 /**
  * 私信vo
@@ -17,20 +14,15 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MessageVo {
-
     /**
-    * 发送者
-    */
-    private UserPersonInfo sender;
-    /**
-     * 发送者
+     * 发送者id
      */
-    private UserPersonInfo receiver;
+    private String senderId;
 
     /**
      * 私信id
      */
-    private Long messageId;
+    private String messageId;
 
     /**
     * 私信内容
@@ -38,7 +30,8 @@ public class MessageVo {
     private String messageContent;
 
     /**
-    * 发送时间
-    */
-    private LocalDateTime createdTime;
+     * 消息类型 0－私信 1－ 朋友分享 2－系统消息
+     */
+    private Integer status;
+
 }

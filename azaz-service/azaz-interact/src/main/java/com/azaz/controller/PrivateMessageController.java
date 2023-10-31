@@ -32,6 +32,7 @@ public class PrivateMessageController {
         return privateMessageService.sendPrivateMessage(messageSendDto);
     }
 
+
     /**
      * 私信列表
      * @param messageListDto 私信列表dto

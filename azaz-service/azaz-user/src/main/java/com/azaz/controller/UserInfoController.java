@@ -2,7 +2,7 @@ package com.azaz.controller;
 
 import com.azaz.response.ResponseResult;
 import com.azaz.service.UserInfoService;
-import com.azaz.user.dto.UserPersonInfo;
+import com.azaz.user.dto.UserPersonInfoDto;
 import com.azaz.user.vo.UserPersonalInfoVo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -46,7 +46,7 @@ public class UserInfoController {
      * @return ResponseResult 更新结果
      */
     @PutMapping("/personal")
-    public ResponseResult updateUserPersonalInfo(UserPersonInfo userPersonInfo){
+    public ResponseResult updateUserPersonalInfo(UserPersonInfoDto userPersonInfo){
         return userInfoService.updateUserPersonalInfo(userPersonInfo);
     }
 }

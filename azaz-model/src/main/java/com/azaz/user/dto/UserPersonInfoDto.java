@@ -8,7 +8,7 @@ import lombok.Data;
  */
 @Data
 @Builder
-public class UserPersonInfo {
+public class UserPersonInfoDto {
 
     /**
      * 用户id
