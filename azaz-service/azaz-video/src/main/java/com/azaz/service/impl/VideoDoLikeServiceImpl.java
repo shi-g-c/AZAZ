@@ -7,6 +7,7 @@ import com.azaz.service.VideoDoLikeService;
 import com.azaz.utils.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
@@ -20,7 +21,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
     @Resource
     DbOpsService dbOpsService;
     @Resource
-    RedisTemplate redisTemplate;
+    StringRedisTemplate stringRedisTemplate;
     /**
      * 点赞操作
      * @param videoId 视频id
@@ -36,7 +37,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         Long userId = ThreadLocalUtil.getUserId();
         if(type==1){
             //添加到redis，以set方式存储，key为videoId，value为userId
-            if(this.redisTemplate.opsForSet().add(setKey, userId)==1){
+            if(this.stringRedisTemplate.opsForSet().add(setKey, userId.toString())==1){
                 //异步添加到mongodb
                 dbOpsService.insertIntoMongo(userId,videoId, VideoConstant.LIKE_TYPE,1);
                 //redis数据加一
@@ -48,7 +49,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
             }
         }
         else {
-            if(this.redisTemplate.opsForSet().remove(setKey, userId)==1){
+            if(this.stringRedisTemplate.opsForSet().remove(setKey, userId)==1){
                 //异步更新到mongodb
                 dbOpsService.insertIntoMongo(userId,videoId,VideoConstant.LIKE_TYPE,0);
                 //redis数据减一
@@ -72,7 +73,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         //收藏操作
         if(type==1){
             //添加到redis，以set方式存储，key为videoId，value为userId
-            if(this.redisTemplate.opsForSet().add(setKey, userId)==1){
+            if(this.stringRedisTemplate.opsForSet().add(setKey, userId.toString())==1){
                 //异步添加到mongodb
                 dbOpsService.insertIntoMongo(userId,videoId, VideoConstant.COLLECT_TYPE,1);
                 //redis数据加一
@@ -85,7 +86,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         }
         //取消收藏
         else {
-            if(this.redisTemplate.opsForSet().remove(setKey, userId)==1){
+            if(this.stringRedisTemplate.opsForSet().remove(setKey, userId)==1){
                 //异步更新到mongodb
                 dbOpsService.insertIntoMongo(userId,videoId,VideoConstant.COLLECT_TYPE,0);
                 //redis数据减一
