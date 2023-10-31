@@ -49,6 +49,7 @@
         <rocketmq-spring-boot-starter.version>2.2.3</rocketmq-spring-boot-starter.version>
         <mybatis-spring-boot-starter.version>2.2.2</mybatis-spring-boot-starter.version>
         <qiniu.version>7.2.7</qiniu.version>
+        <redisson.version>3.16.3</redisson.version>
     </properties>
     <!-- 统一版本管理 -->
     <dependencyManagement>
@@ -96,6 +97,12 @@
                 <groupId>com.solidfire.code.gson</groupId>
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
+            </dependency>
+            <!-- redisson-->
+            <dependency>
+                <groupId>org.redisson</groupId>
+                <artifactId>redisson</artifactId>
+                <version>${redisson.version}</version>
             </dependency>
             <dependency>
                 <groupId>org.projectlombok</groupId>
