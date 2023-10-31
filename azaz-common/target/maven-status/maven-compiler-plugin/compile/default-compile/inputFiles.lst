@@ -4,6 +4,8 @@ E:\Code\Java\JavaWeb\AZAZ\azaz-common\src\main\java\com\azaz\exception\CustomExc
 E:\Code\Java\JavaWeb\AZAZ\azaz-common\src\main\java\com\azaz\constant\UserDefaultImageConstant.java
 E:\Code\Java\JavaWeb\AZAZ\azaz-common\src\main\java\com\azaz\exception\NullParamException.java
 E:\Code\Java\JavaWeb\AZAZ\azaz-common\src\main\java\com\azaz\utils\ThreadLocalUtil.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-common\src\main\java\com\azaz\constant\VideoConstant.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-common\src\main\java\com\azaz\exception\RedissonLockException.java
 E:\Code\Java\JavaWeb\AZAZ\azaz-common\src\main\java\com\azaz\exception\UserNotExitedException.java
 E:\Code\Java\JavaWeb\AZAZ\azaz-common\src\main\java\com\azaz\exception\QiniuException.java
 E:\Code\Java\JavaWeb\AZAZ\azaz-common\src\main\java\com\azaz\exception\ErrorParamException.java

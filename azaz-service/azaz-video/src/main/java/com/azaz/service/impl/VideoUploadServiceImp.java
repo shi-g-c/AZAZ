@@ -1,6 +1,7 @@
 package com.azaz.service.impl;
 
 import com.azaz.exception.DbOperationException;
+import com.azaz.exception.ErrorParamException;
 import com.azaz.exception.QiniuException;
 import com.azaz.mapper.VideoMapper;
 import com.azaz.response.ResponseResult;
@@ -12,7 +13,6 @@ import com.azaz.video.pojo.Video;
 import com.azaz.video.vo.VideoUploadVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -98,15 +98,17 @@ public class VideoUploadServiceImp implements VideoUploadService {
 
     /**
      * 处理文件名 uuid+文件名+后缀
-     * @param file
-     * @return
+     * @param file 文件
+     * @return 文件名
      */
     private String dealFileName(MultipartFile file){
         //原始文件名
         String originalFilename = file.getOriginalFilename();
         //截取原始文件名后缀
+        if (originalFilename == null) {
+            throw new ErrorParamException("文件格式错误！");
+        }
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String objectName= UUID.randomUUID().toString()+ extension;
-        return objectName;
+        return UUID.randomUUID() + extension;
     }
 }

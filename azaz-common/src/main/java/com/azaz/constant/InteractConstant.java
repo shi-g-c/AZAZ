@@ -24,4 +24,32 @@ public class InteractConstant {
      * Redis中保存的最多私信数量
      */
     public static final Integer REDIS_PRIVATE_MESSAGE_MAX_COUNT = 30;
+
+    /**
+     * 关注
+     */
+    public static final Integer FOLLOW_CODE = 1;
+
+    /**
+     * 取消关注
+     */
+    public static final Integer UNFOLLOW_CODE = 0;
+
+    /**
+     * 关注总数redis key
+     */
+    public static final String REDIS_FOLLOW_NUM_KEY = "follow:nums:";
+
+    /**
+     * 关注列表redis key
+     */
+    public static final String REDIS_FOLLOW_KEY = "follow:list:";
+    /**
+     * 关注锁redis key
+     */
+    public static final String REDIS_LOCK_FOLLOW_KEY = "lock:follow:";
+    /**
+     * 互关列表redis key
+     */
+    public static final String REDIS_FRIEND_KEY = "friend:list:";
 }

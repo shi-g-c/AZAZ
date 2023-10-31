@@ -26,3 +26,6 @@ logging:
         mapper: debug
         service: info
         controller: info
+#配置redisson
+redisson:
+  address: 'redis://124.221.176.164:6380'

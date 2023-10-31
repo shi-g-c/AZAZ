@@ -1,21 +1,15 @@
 package com.azaz.service.impl;
 
-import cn.hutool.db.sql.Condition;
 import com.azaz.constant.VideoConstant;
-import com.azaz.exception.RedissonLockException;
 import com.azaz.response.ResponseResult;
 import com.azaz.service.DbOpsService;
 import com.azaz.service.VideoDoLikeService;
 import com.azaz.utils.ThreadLocalUtil;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.api.RLock;
-import org.redisson.api.RedissonClient;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
-import java.util.concurrent.TimeUnit;
 
 /**
  * @author c'y'x

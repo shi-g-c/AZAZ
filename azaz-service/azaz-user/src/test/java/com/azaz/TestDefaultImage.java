@@ -1,8 +1,12 @@
 package com.azaz;
 
+import com.azaz.constant.InteractConstant;
 import com.azaz.utils.QiniuOssUtil;
 import org.junit.Test;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.data.redis.core.StringRedisTemplate;
 
+import javax.annotation.Resource;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -10,7 +14,11 @@ import java.nio.file.Files;
 /**
  * 测试默认头像
  */
+@SpringBootApplication
 public class TestDefaultImage {
+
+    @Resource
+    private StringRedisTemplate stringRedisTemplate;
 
     @Test
     public void test01() throws IOException {
@@ -31,4 +39,10 @@ public class TestDefaultImage {
             System.out.println("public static final String DEFAULT_USER_IMAGE_" + i + " = \"" + upload + "\";");
         }
     }
+
+    @Test
+    public void test02() {
+        stringRedisTemplate.opsForValue().increment(InteractConstant.REDIS_FOLLOW_NUM_KEY + 0);
+    }
+
 }
