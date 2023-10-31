@@ -14,7 +14,7 @@ spring:
       max-file-size: 255MB
       max-request-size: 1024MB
 rocketmq:
-  name-server: 127.0.0.1:9876
+  name-server: 1.14.111.29:9876
   producer:
     group: user-service-message
     send-message-timeout: 2000

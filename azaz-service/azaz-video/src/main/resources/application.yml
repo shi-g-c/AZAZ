@@ -37,4 +37,4 @@ logging:
         controller: info
 #配置redisson
 redisson:
-  address: 'redis://127.0.0.1:6712'
+  address: 'redis://124.221.176.164:6380'

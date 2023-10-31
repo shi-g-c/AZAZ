@@ -1,12 +1,9 @@
 package com.azaz.service.impl;
 
-import cn.hutool.db.sql.Condition;
 import com.azaz.exception.RedissonLockException;
 import com.azaz.service.DbOpsService;
 import com.azaz.video.pojo.VideoLike;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.ibatis.annotations.Case;
-import org.aspectj.lang.annotation.Aspect;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -14,6 +11,7 @@ import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
 import java.util.ArrayList;
@@ -23,6 +21,7 @@ import java.util.concurrent.TimeUnit;
  * 此类用作数据库操作，包括redis和mongodb
  */
 @Slf4j
+@Service
 public class DbOpsServiceImpl implements DbOpsService {
 
     @Resource
