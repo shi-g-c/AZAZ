@@ -58,9 +58,9 @@ public class VideoUploadServiceImp implements VideoUploadService {
                 title(videoPublishDto.getTitle()!=null?videoPublishDto.getTitle():"视频").
                 //状态默认为正常
                 status(0).
-                likes("0").
-                collects("0").
-                comments("0").
+                likes(0L).
+                collects(0L).
+                comments(0L).
                 build();
         try {
             videoMapper.insert(video);

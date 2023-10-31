@@ -19,9 +19,9 @@ public class VideoLike implements Serializable {
     public Long userId;
     //视频id
     public Long videoId;
-    //是否点赞(1是2否)
+    //是否点赞(1是0否)
     public Integer isLike;
-    //是否收藏(1是2否)
+    //是否收藏(1是0否)
     public Integer isCollect;
     //评论
     public ArrayList<String> commentList;

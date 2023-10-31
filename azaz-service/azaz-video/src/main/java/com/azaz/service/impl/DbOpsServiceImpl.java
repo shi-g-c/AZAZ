@@ -13,6 +13,7 @@ import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Service;
@@ -31,7 +32,7 @@ import java.util.concurrent.TimeUnit;
 public class DbOpsServiceImpl implements DbOpsService {
 
     @Resource
-    RedisTemplate redisTemplate;
+    StringRedisTemplate stringRedisTemplate;
     @Resource
     RedissonClient redissonClient;
     @Resource
@@ -54,10 +55,11 @@ public class DbOpsServiceImpl implements DbOpsService {
             //尝试上锁，5s没加上则抛异常
             if(lock.tryLock(5, TimeUnit.SECONDS)){
                 //取出之前的数字
-                Integer exNum = (Integer)this.redisTemplate.opsForValue().get(key);
+                Integer exNum = Integer.parseInt(this.stringRedisTemplate.opsForValue().get(key));
                 exNum=exNum==null?0:exNum;
                 //加上数字存入
-                this.redisTemplate.opsForValue().set(key,exNum+num);
+                Integer now=exNum+num;
+                this.stringRedisTemplate.opsForValue().set(key,now.toString());
                 return true;
             }
             else {
@@ -118,9 +120,9 @@ public class DbOpsServiceImpl implements DbOpsService {
     @PostConstruct
     @Scheduled(cron = "0 */ 720 * * * ?")
     public void fresh(){
-        Set likeKeys = redisTemplate.keys(VideoConstant.STRING_LIKE_KEY+'*');
-        Set collectKeys = redisTemplate.keys(VideoConstant.STRING_COLLECT_KEY+'*');
-        Set commentKeys = redisTemplate.keys(VideoConstant.STRING_COMMENT_KEY+'*');
+        Set likeKeys = stringRedisTemplate.keys(VideoConstant.STRING_LIKE_KEY+'*');
+        Set collectKeys = stringRedisTemplate.keys(VideoConstant.STRING_COLLECT_KEY+'*');
+        Set commentKeys = stringRedisTemplate.keys(VideoConstant.STRING_COMMENT_KEY+'*');
         if(likeKeys!=null) {
             //更新点赞数
             for (Object likeKey : likeKeys) {
@@ -131,16 +133,9 @@ public class DbOpsServiceImpl implements DbOpsService {
                 Video video = new Video();
                 video.setId(videoId);
                 //获得点赞数
-                String strLikes="";
-                Long likes = Long.parseLong(redisTemplate.opsForValue().get(likeKey.toString()).toString());
+                Long likes = Long.parseLong(stringRedisTemplate.opsForValue().get(likeKey));
                 //点赞数如果超过1000,以x.yk形式记录
-                if(likes>1000){
-                    strLikes=likes/1000+"k."+likes/100;
-                }
-                else {
-                    strLikes=likes.toString();
-                }
-                video.setLikes(strLikes);
+                video.setLikes(likes);
                 //刷新到数据库
                 videoMapper.updateById(video);
             }
@@ -155,16 +150,8 @@ public class DbOpsServiceImpl implements DbOpsService {
                 Video video = new Video();
                 video.setId(videoId);
                 //获得点赞数
-                String strLikes="";
-                Long likes = Long.parseLong(redisTemplate.opsForValue().get(collectKey.toString()).toString());
-                //点赞数如果超过1000,以x.yk形式记录
-                if(likes>1000){
-                    strLikes=likes/1000+"k."+likes/100;
-                }
-                else {
-                    strLikes=likes.toString();
-                }
-                video.setLikes(strLikes);
+                Long likes = Long.parseLong(stringRedisTemplate.opsForValue().get(collectKey));
+                video.setLikes(likes);
                 //刷新到数据库
                 videoMapper.updateById(video);
             }
@@ -178,17 +165,8 @@ public class DbOpsServiceImpl implements DbOpsService {
                 //创建新的video对象
                 Video video = new Video();
                 video.setId(videoId);
-                //获得点赞数
-                String strLikes="";
-                Long likes = Long.parseLong(redisTemplate.opsForValue().get(commentKey.toString()).toString());
-                //点赞数如果超过1000,以x.yk形式记录
-                if(likes>1000){
-                    strLikes=likes/1000+"k."+likes/100;
-                }
-                else {
-                    strLikes=likes.toString();
-                }
-                video.setLikes(strLikes);
+                Long likes = Long.parseLong(stringRedisTemplate.opsForValue().get(commentKey));
+                video.setLikes(likes);
                 //刷新到数据库
                 videoMapper.updateById(video);
             }

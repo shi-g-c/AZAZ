@@ -56,13 +56,13 @@ public class Video {
     private LocalDateTime updateTime;
 
     @TableField("likes")
-    private String likes;
+    private Long likes;
 
     @TableField("collects")
-    private String collects;
+    private Long collects;
 
     @TableField("comments")
-    private String comments;
+    private Long comments;
 
 
 
