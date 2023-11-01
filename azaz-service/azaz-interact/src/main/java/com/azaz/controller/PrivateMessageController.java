@@ -2,6 +2,7 @@ package com.azaz.controller;
 
 import com.azaz.interact.dto.MessageListDto;
 import com.azaz.interact.dto.MessageSendDto;
+import com.azaz.interact.vo.ChatListVo;
 import com.azaz.interact.vo.MessageListVo;
 import com.azaz.response.ResponseResult;
 import com.azaz.service.PrivateMessageService;
@@ -32,7 +33,6 @@ public class PrivateMessageController {
         return privateMessageService.sendPrivateMessage(messageSendDto);
     }
 
-
     /**
      * 私信列表
      * @param messageListDto 私信列表dto
@@ -41,5 +41,14 @@ public class PrivateMessageController {
     @GetMapping("/list")
     public ResponseResult<MessageListVo> privateMessageList(MessageListDto messageListDto) {
         return privateMessageService.privateMessageList(messageListDto);
+    }
+
+    /**
+     * 私信列表
+     * @return  ResponseResult
+     */
+    @GetMapping("/chatList")
+    public ResponseResult<ChatListVo> chatList() {
+        return privateMessageService.chatList();
     }
 }

@@ -1,5 +1,5 @@
 server:
-  port:  8082   # 服务端口
+  port:  8086  # 服务端口
 spring:
   application:
     name: azaz-service-video # 服务名称

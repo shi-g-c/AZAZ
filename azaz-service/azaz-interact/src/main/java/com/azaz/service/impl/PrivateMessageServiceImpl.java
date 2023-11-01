@@ -7,14 +7,18 @@ import com.azaz.exception.NullParamException;
 import com.azaz.interact.dto.MessageListDto;
 import com.azaz.interact.dto.MessageSendDto;
 import com.azaz.interact.pojo.PrivateMessage;
+import com.azaz.interact.vo.ChatListVo;
 import com.azaz.interact.vo.MessageListVo;
 import com.azaz.interact.vo.MessageVo;
 import com.azaz.mapper.PrivateMessageMapper;
 import com.azaz.response.ResponseResult;
 import com.azaz.service.PrivateMessageService;
+import com.azaz.service.UserFollowService;
 import com.azaz.utils.ThreadLocalUtil;
+import lombok.extern.log4j.Log4j2;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
 import java.time.LocalDateTime;
@@ -26,6 +30,7 @@ import java.util.List;
  * @author shigc
  */
 @Service
+@Log4j2
 public class PrivateMessageServiceImpl implements PrivateMessageService {
 
     @Resource
@@ -34,6 +39,9 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
     @Resource
     private StringRedisTemplate stringRedisTemplate;
 
+    @Resource
+    private UserFollowService userFollowService;
+
 
     /**
      * 发送私信
@@ -41,7 +49,9 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
      * @return ResponseResult
      */
     @Override
+    @Transactional
     public ResponseResult sendPrivateMessage(MessageSendDto messageSendDto) {
+        log.info("发送私信，参数：{}", messageSendDto);
         //1.1 校验参数
         if (messageSendDto == null || messageSendDto.getReceiverId() == null
                 || messageSendDto.getContent() == null || messageSendDto.getStatus() == null) {
@@ -57,15 +67,15 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
         }
         //2.检查是否互关
         Long userId = ThreadLocalUtil.getUserId();
-        // TODO 检查是否互关
-        boolean ifFollowEachOther = true;
+        ResponseResult<Boolean> ifFollow = userFollowService.ifFollow(userId, messageSendDto.getReceiverId());
+        boolean ifFollowEachOther = ifFollow.getData();
         if (!ifFollowEachOther && messageSendDto.getStatus() == 1) {
             //2.1 未互关，不能分享视频
             throw new ErrorParamException("未互关不能分享视频！");
         }
         if (!ifFollowEachOther && messageSendDto.getStatus() == 0) {
             //2.3 未互关，检查是否已发送三条私信
-            Integer count = privateMessageMapper.countBySenderId(userId);
+            Integer count = privateMessageMapper.countBySenderId(userId, messageSendDto.getReceiverId());
             if (count >= InteractConstant.MESSAGE_MAX_COUNT) {
                 throw new ErrorParamException("最多向未互关朋友发送三条私信！");
             }
@@ -93,7 +103,7 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
                 + "-" + Math.max(userId, messageSendDto.getReceiverId()) + ":";
         //3.3 设置私信过期时间为一周
         stringRedisTemplate.opsForList().leftPush(messageKey, JSON.toJSONString(messageVo));
-        stringRedisTemplate.expire(messageKey, 7, java.util.concurrent.TimeUnit.DAYS);
+        stringRedisTemplate.expire(messageKey, 15, java.util.concurrent.TimeUnit.DAYS);
         //3.4 检查私信数量是否超过30条，超过则删除最早的一条
         Long size = stringRedisTemplate.opsForList().size(messageKey);
         if (size == null || size > InteractConstant.REDIS_PRIVATE_MESSAGE_MAX_COUNT) {
@@ -109,6 +119,7 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
      */
     @Override
     public ResponseResult<MessageListVo> privateMessageList(MessageListDto messageListDto) {
+        log.info("查询私信列表，参数：{}", messageListDto);
         //1. 校验参数
         if (messageListDto == null || messageListDto.getFriendId() == null) {
             throw new NullParamException();
@@ -148,6 +159,15 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
                 .lastMessageId(messageVoList.get(messageVoList.size() - 1).getMessageId())
                 .build();
         return ResponseResult.successResult(messageListVo);
+    }
+
+    /**
+     * 私信列表
+     * @return ResponseResult
+     */
+    @Override
+    public ResponseResult<ChatListVo> chatList() {
+        return null;
     }
 
 

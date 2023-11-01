@@ -12,7 +12,6 @@ import org.redisson.api.RedissonClient;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.data.mongodb.core.query.Criteria;
 import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
@@ -56,7 +55,7 @@ public class DbOpsServiceImpl implements DbOpsService {
             if(lock.tryLock(5, TimeUnit.SECONDS)){
                 //取出之前的数字
                 Integer exNum = Integer.parseInt(this.stringRedisTemplate.opsForValue().get(key));
-                exNum=exNum==null?0:exNum;
+                exNum= exNum==null?0:exNum;
                 //加上数字存入
                 Integer now=exNum+num;
                 this.stringRedisTemplate.opsForValue().set(key,now.toString());
@@ -188,8 +187,5 @@ public class DbOpsServiceImpl implements DbOpsService {
         stringRedisTemplate.opsForValue().set(VideoConstant.STRING_COMMENT_KEY+videoId,video.getComments().toString());
         return video.getLikes();
     }
-
-
-
 
 }

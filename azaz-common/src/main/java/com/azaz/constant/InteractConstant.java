@@ -52,4 +52,9 @@ public class InteractConstant {
      * 互关列表redis key
      */
     public static final String REDIS_FRIEND_KEY = "friend:list:";
+
+    /**
+     * 粉丝总数redis key
+     */
+    public static final String REDIS_FANS_NUM_KEY = "follow:fansNum:";
 }

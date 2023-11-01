@@ -2,6 +2,7 @@ package com.azaz.service;
 
 import com.azaz.response.ResponseResult;
 import com.azaz.user.dto.UserPersonInfoDto;
+import com.azaz.user.vo.UserHomePageVo;
 import com.azaz.user.vo.UserPersonalInfoVo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -32,4 +33,11 @@ public interface UserInfoService {
      * @return ResponseResult<String> 图片地址
      */
     ResponseResult<String> uploadUserImage(MultipartFile imageFile);
+
+    /**
+     * 获取用户主页信息
+     * @param userId 用户id
+     * @return ResponseResult<UserHomePageVo> 用户主页信息
+     */
+    ResponseResult<UserHomePageVo> getUserHomePage(Long userId);
 }
