@@ -41,6 +41,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         //kv类型的key(key为videoId,value为点赞总数)
         String strKey=VideoConstant.STRING_LIKE_KEY+videoId;
         Long userId = ThreadLocalUtil.getUserId();
+        //点赞
         if(type==1){
             //添加到redis，以set方式存储，key为videoId，value为userId
             if(this.stringRedisTemplate.opsForSet().add(setKey, userId.toString())==1){
@@ -54,6 +55,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
                 return ResponseResult.errorResult("点赞失败");
             }
         }
+        //取消点赞
         else {
             if(this.stringRedisTemplate.opsForSet().remove(setKey, userId)==1){
                 //异步更新到mongodb

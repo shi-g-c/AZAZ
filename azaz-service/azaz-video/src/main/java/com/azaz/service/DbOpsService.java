@@ -11,4 +11,5 @@ import org.springframework.stereotype.Service;
 public interface DbOpsService {
     boolean addIntSafely(String key,int num);
     void insertIntoMongo(Long userId,Long videoId,int type,Object ops);
+    Long getSumFromDb(Long videoId);
 }

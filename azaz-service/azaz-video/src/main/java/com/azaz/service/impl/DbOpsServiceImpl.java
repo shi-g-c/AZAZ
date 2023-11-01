@@ -43,7 +43,7 @@ public class DbOpsServiceImpl implements DbOpsService {
 
     @Override
     /**
-     * 向redis中的set中添加值(加了分布式锁)
+     * 向redis中kv键值对的value上加值(加了分布式锁)
      * @param userId 当前用户id
      * @param key set的key
      * @return
@@ -171,8 +171,22 @@ public class DbOpsServiceImpl implements DbOpsService {
                 videoMapper.updateById(video);
             }
         }
+    }
 
-
+    /**
+     * 要是发现redis中like字段过期，则从数据库中查询数据返回，并同时把此视频所有字段刷新到redis
+     * @param videoId
+     * @return
+     */
+    @Override
+    public Long getSumFromDb(Long videoId){
+        //从数据库中查询当前video的数据
+        Video video = videoMapper.selectById(videoId);
+        //刷新到redis,同时刷新likes,collects,comments字段
+        stringRedisTemplate.opsForValue().set(VideoConstant.STRING_LIKE_KEY+videoId,video.getLikes().toString());
+        stringRedisTemplate.opsForValue().set(VideoConstant.STRING_COLLECT_KEY+videoId,video.getCollects().toString());
+        stringRedisTemplate.opsForValue().set(VideoConstant.STRING_COMMENT_KEY+videoId,video.getComments().toString());
+        return video.getLikes();
     }
 
 

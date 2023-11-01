@@ -5,6 +5,7 @@ import com.azaz.service.VideoDoLikeService;
 import com.azaz.service.VideoUploadService;
 import com.azaz.service.impl.VideoDoLikeServiceImpl;
 import com.azaz.video.dto.VideoPublishDto;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -34,7 +35,6 @@ public class VideoController {
     public ResponseResult upload(MultipartFile file){
         return videoUploadService.upload(file);
     }
-
     //type为1点赞，为0取消点赞
     @PostMapping("/doLike")
     public ResponseResult doLike(Long videoId,int type){
@@ -45,5 +45,7 @@ public class VideoController {
     public ResponseResult doCollect(Long videoId,int type){
         return videoDoLikeService.doCollect(videoId,type);
     }
-
+    //每次获取10个视频
+    @GetMapping("/getVideos")
+    public ResponseResult getVideo(Integer lastVideoId){return videoUploadService.getVideos(lastVideoId);}
 }
