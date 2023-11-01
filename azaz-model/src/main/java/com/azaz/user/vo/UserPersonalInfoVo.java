@@ -8,6 +8,10 @@ import lombok.Data;
  */
 @Data
 public class UserPersonalInfoVo {
+    /**
+     * 用户id
+     */
+    private String id;
 
     /**
      * 用户名

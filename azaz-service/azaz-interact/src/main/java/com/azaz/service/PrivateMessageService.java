@@ -2,6 +2,7 @@ package com.azaz.service;
 
 import com.azaz.interact.dto.MessageListDto;
 import com.azaz.interact.dto.MessageSendDto;
+import com.azaz.interact.vo.ChatListVo;
 import com.azaz.interact.vo.MessageListVo;
 import com.azaz.response.ResponseResult;
 import org.springframework.stereotype.Service;
@@ -26,4 +27,9 @@ public interface PrivateMessageService {
      */
     ResponseResult<MessageListVo> privateMessageList(MessageListDto messageListDto);
 
+    /**
+     * 私信列表
+     * @return ResponseResult
+     */
+    ResponseResult<ChatListVo> chatList();
 }

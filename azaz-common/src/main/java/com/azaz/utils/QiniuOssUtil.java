@@ -9,6 +9,7 @@ import com.qiniu.storage.UploadManager;
 import com.qiniu.storage.model.DefaultPutRet;
 import com.qiniu.util.Auth;
 import lombok.extern.log4j.Log4j2;
+import org.springframework.stereotype.Component;
 
 import java.io.ByteArrayInputStream;
 
@@ -17,11 +18,12 @@ import java.io.ByteArrayInputStream;
  * @author c'y'x
  */
 @Log4j2
+@Component
 public class QiniuOssUtil {
+
     static String  accessKey = "dZv53Knxs8XBaPT4jCkyHar7L1u7nJ_LsEM1Fi3T";
     static String secretKey = "8dgc4VO3kFh06GaY_pIlZjJPafJ8GdyOOxCwPXwB";
     static String bucket = "azaz";
-
     static String CDN="http://s349n62ri.bkt.clouddn.com";
 
     /**
@@ -31,6 +33,7 @@ public class QiniuOssUtil {
      * @return 文件路径
      */
     public static String upload(byte[] bytes,String objectName){
+
         String filePath="";
         Configuration cfg = new Configuration(Zone.autoZone());
         // 指定分片上传版本

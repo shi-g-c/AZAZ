@@ -47,6 +47,9 @@ public class VideoUploadServiceImp implements VideoUploadService {
         if(videoPublishDto.getSection()>9){
             videoPublishDto.setSection(0);
         }
+        if (videoPublishDto.getCoverUrl() == null || videoPublishDto.getCoverUrl().isEmpty()){
+            videoPublishDto.setCoverUrl(videoPublishDto.getVideoUrl() + "?vframe/jpg/offset/0");
+        }
         //保存视频到数据库
         Video video= Video.builder().
                 videoUrl(videoPublishDto.getVideoUrl()).

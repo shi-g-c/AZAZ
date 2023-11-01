@@ -3,6 +3,7 @@ package com.azaz.controller;
 import com.azaz.response.ResponseResult;
 import com.azaz.service.UserInfoService;
 import com.azaz.user.dto.UserPersonInfoDto;
+import com.azaz.user.vo.UserHomePageVo;
 import com.azaz.user.vo.UserPersonalInfoVo;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
@@ -48,5 +49,15 @@ public class UserInfoController {
     @PutMapping("/personal")
     public ResponseResult updateUserPersonalInfo(UserPersonInfoDto userPersonInfo){
         return userInfoService.updateUserPersonalInfo(userPersonInfo);
+    }
+
+    /**
+     * 获取用户主页信息
+     * @param userId 用户id
+     * @return ResponseResult<UserHomePageVo> 用户主页信息
+     */
+    @GetMapping("/homePage")
+    public ResponseResult<UserHomePageVo> getUserHomePage(Long userId){
+        return userInfoService.getUserHomePage(userId);
     }
 }
