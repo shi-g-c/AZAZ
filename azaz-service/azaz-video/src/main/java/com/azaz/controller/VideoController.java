@@ -4,6 +4,7 @@ import com.azaz.response.ResponseResult;
 import com.azaz.service.VideoDoLikeService;
 import com.azaz.service.VideoUploadService;
 import com.azaz.video.dto.VideoPublishDto;
+import com.azaz.video.pojo.Video;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import java.util.List;
 
 /**
  * 视频相关功能
@@ -52,5 +54,33 @@ public class VideoController {
     @GetMapping("/isLike")
     public ResponseResult isLike(Long videoId){
         return videoDoLikeService.isLike(videoId);
+    }
+
+    //得到用户被赞数
+    @GetMapping("/getUserLikes")
+    public ResponseResult<Integer> getUserLikes(Long userId){
+        return videoDoLikeService.getUserLikes(userId);
+    }
+    //得到用户被收藏数
+    @GetMapping("/getUserLikes")
+    public ResponseResult<Integer> getUserCollects(Long userId){
+        return videoDoLikeService.getUserCollects(userId);
+    }
+
+    //得到用户发布过的所有视频
+    @GetMapping("/getAllVideos")
+    public ResponseResult<List<Video>> getAllVideos(Long userId){
+        return videoDoLikeService.getAllVideos(userId);
+    }
+
+    //得到用户点赞过的所有视频
+    @GetMapping("/likes")
+    public ResponseResult likes(){
+        return videoDoLikeService.showLikesList();
+    }
+    //得到用户收藏过的所有视频
+    @GetMapping("/collects")
+    public ResponseResult collects(){
+        return videoDoLikeService.showCollectsList();
     }
 }

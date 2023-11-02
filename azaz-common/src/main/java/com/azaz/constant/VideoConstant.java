@@ -5,9 +5,16 @@ package com.azaz.constant;
  */
 public class VideoConstant {
     //以videoId为key的集合，记录点赞的user集合
-    public static final String SET_LIKE_KEY="set_like:";
-    public static final String SET_COLLECT_KEY="set_collect:";
-    public static final String SET_COMMENT_KEY="set_comment:";
+    public static final String SET_LIKE_KEY="video_set_like:";
+    public static final String SET_COLLECT_KEY="video_set_collect:";
+    public static final String SET_COMMENT_KEY="video_set_comment:";
+
+
+    //以userId为key的集合，记录点赞过的视频
+    public static final String USER_SET_LIKE_KEY="use_set_like:";
+    public static final String USER_SSET_COLLECT_KEY="use_set_collect:";
+    public static final String USER_SSET_COMMENT_KEY="use_set_comment:";
+
 
     //与videoId对应的video对象
     public static final String VIDEO_ID="video_id:";
