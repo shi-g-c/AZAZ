@@ -61,24 +61,45 @@ public class VideoController {
     public ResponseResult<Integer> getUserLikes(Long userId){
         return videoDoLikeService.getUserLikes(userId);
     }
+
+    /**
+     * 这个收藏总数不需要，需要一个返回作品总数的接口，见feign客户端
+     * @param userId
+     * @return
+     */
     //得到用户被收藏数
-    @GetMapping("/getUserLikes")
+    @GetMapping("/getUserWorks")
     public ResponseResult<Integer> getUserCollects(Long userId){
         return videoDoLikeService.getUserCollects(userId);
     }
 
     //得到用户发布过的所有视频
+
+    /**
+     * 应该是分页
+     * @param userId
+     * @return
+     */
     @GetMapping("/getAllVideos")
     public ResponseResult<List<Video>> getAllVideos(Long userId){
         return videoDoLikeService.getAllVideos(userId);
     }
 
     //得到用户点赞过的所有视频
+    /**
+     * 应该是分页
+     * @return
+     */
     @GetMapping("/likes")
     public ResponseResult likes(){
         return videoDoLikeService.showLikesList();
     }
+
     //得到用户收藏过的所有视频
+    /**
+     * 应该是分页
+     * @return
+     */
     @GetMapping("/collects")
     public ResponseResult collects(){
         return videoDoLikeService.showCollectsList();

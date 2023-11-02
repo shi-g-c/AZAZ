@@ -2,6 +2,7 @@ package com.azaz.service.impl;
 
 import com.alibaba.fastjson.JSON;
 import com.azaz.clients.InteractClient;
+import com.azaz.clients.VideoClient;
 import com.azaz.constant.UserConstant;
 import com.azaz.exception.ErrorParamException;
 import com.azaz.exception.UserNotExitedException;
@@ -41,6 +42,9 @@ public class UserInfoServiceImpl implements com.azaz.service.UserInfoService{
 
     @Resource
     private InteractClient interactClient;
+
+    @Resource
+    private VideoClient videoClient;
     /**
      * 获取用户个人信息
      * @param userId 用户id
@@ -174,7 +178,21 @@ public class UserInfoServiceImpl implements com.azaz.service.UserInfoService{
         Integer followNum = interactClient.getFollowNum(userId).getData();
         // 3. 获取粉丝数
         Integer fansNum = interactClient.getFansNum(userId).getData();
-        // TODO 获取被点赞数以及作品数
-        return null;
+        Integer workNums = videoClient.getUserWorks(userId).getData();
+        Integer likeNums = videoClient.getUserLikes(userId).getData();
+        // 4. 获取是否关注
+        Boolean isFollow = interactClient.ifFollow(ThreadLocalUtil.getUserId(), userId).getData();
+        UserHomePageVo userHomePageVo = UserHomePageVo.builder()
+                .id(userId)
+                .username(userPersonalInfo.getUsername())
+                .image(userPersonalInfo.getImage())
+                .signature(userPersonalInfo.getSignature())
+                .fansNum(fansNum)
+                .followNum(followNum)
+                .workNum(workNums)
+                .likedNum(likeNums)
+                .isFollow(isFollow)
+                .build();
+        return ResponseResult.successResult(userHomePageVo);
     }
 }
