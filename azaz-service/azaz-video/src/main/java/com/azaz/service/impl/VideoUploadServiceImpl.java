@@ -13,12 +13,11 @@ import com.azaz.utils.ThreadLocalUtil;
 import com.azaz.video.dto.VideoPublishDto;
 import com.azaz.video.pojo.Video;
 import com.azaz.video.vo.VideoUploadVo;
-import com.qiniu.util.Json;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -31,7 +30,7 @@ import java.util.UUID;
  */
 @Service
 @Slf4j
-public class VideoUploadServiceImp implements VideoUploadService {
+public class VideoUploadServiceImpl implements VideoUploadService {
     @Resource
     VideoMapper videoMapper;
     @Resource
@@ -43,6 +42,7 @@ public class VideoUploadServiceImp implements VideoUploadService {
     /**
      * 视频发布
      */
+    @Transactional
     @Override
     public ResponseResult publish(VideoPublishDto videoPublishDto){
         //得到userId
@@ -51,7 +51,7 @@ public class VideoUploadServiceImp implements VideoUploadService {
         if(userId==null){
             return ResponseResult.errorResult("未登录");
         }
-        if(videoPublishDto.getVideoUrl()==null){
+        if(videoPublishDto.getVideoUrl() == null || videoPublishDto.getVideoUrl().isEmpty()){
             return ResponseResult.errorResult("视频路径为空");
         }
         //默认封面
