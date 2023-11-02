@@ -8,6 +8,8 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public interface VideoDoLikeService {
-    ResponseResult doLike(Long videoId,int type);
-    ResponseResult doCollect(Long videoId,int type);
+    ResponseResult doLike(Long videoId,Long authorId,int type);
+    ResponseResult doCollect(Long videoId,Long authorId,int type);
+    ResponseResult isLike(Long videoId);
+    Integer getUserLikes();
 }

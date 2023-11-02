@@ -36,16 +36,21 @@ public class VideoController {
     }
     //type为1点赞，为0取消点赞
     @PostMapping("/doLike")
-    public ResponseResult doLike(Long videoId,int type){
-        return videoDoLikeService.doLike(videoId,type);
+    public ResponseResult doLike(Long videoId,Long authorId,int type){
+        return videoDoLikeService.doLike(videoId,authorId,type);
     }
 
     //type为1收藏，为0取消收藏
     @PostMapping("/doCollect")
-    public ResponseResult doCollect(Long videoId,int type){
-        return videoDoLikeService.doCollect(videoId,type);
+    public ResponseResult doCollect(Long videoId,Long authorId,int type){
+        return videoDoLikeService.doCollect(videoId,authorId,type);
     }
     //每次获取10个视频
     @GetMapping("/getVideos")
     public ResponseResult getVideo(Integer lastVideoId){return videoUploadService.getVideos(lastVideoId);}
+
+    @GetMapping("/isLike")
+    public ResponseResult isLike(Long videoId){
+        return videoDoLikeService.isLike(videoId);
+    }
 }

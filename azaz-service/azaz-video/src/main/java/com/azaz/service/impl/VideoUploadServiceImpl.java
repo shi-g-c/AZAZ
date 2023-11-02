@@ -85,6 +85,8 @@ public class VideoUploadServiceImpl implements VideoUploadService {
             //将对象存储在redis中的list里key为前缀+id/11
             String key=VideoConstant.VIDEO_LIST_KEY+video.getId()/11;
             stringRedisTemplate.opsForList().leftPush(key, JSON.toJSONString(video));
+            //存储userId下的videoId
+            stringRedisTemplate.opsForSet().add(VideoConstant.USER_VIDEO_SET+userId,video.getId().toString());
             String x=JSON.toJSONString(video);
             System.out.println(x);
         }catch (Exception e){

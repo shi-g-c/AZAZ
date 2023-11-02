@@ -49,13 +49,19 @@ public class DbOpsServiceImpl implements DbOpsService {
      */
     public boolean addIntSafely(String key,int num) {
         //获取分布式锁
-        RLock lock = redissonClient.getLock(key);
+        RLock lock = redissonClient.getLock(key+"xyz");
         try {
             //尝试上锁，5s没加上则抛异常
             if(lock.tryLock(5, TimeUnit.SECONDS)){
+                Integer exNum;
                 //取出之前的数字
-                Integer exNum = Integer.parseInt(this.stringRedisTemplate.opsForValue().get(key));
-                exNum= exNum==null?0:exNum;
+                String s = this.stringRedisTemplate.opsForValue().get(key);
+                if(s==null){
+                    exNum=0;
+                }
+                else {
+                    exNum=Integer.parseInt(s);
+                }
                 //加上数字存入
                 Integer now=exNum+num;
                 this.stringRedisTemplate.opsForValue().set(key,now.toString());
