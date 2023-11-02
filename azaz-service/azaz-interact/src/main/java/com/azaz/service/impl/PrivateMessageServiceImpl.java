@@ -2,12 +2,14 @@ package com.azaz.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.azaz.constant.InteractConstant;
+import com.azaz.exception.ErrorOperationException;
 import com.azaz.exception.ErrorParamException;
 import com.azaz.exception.NullParamException;
 import com.azaz.interact.dto.MessageListDto;
 import com.azaz.interact.dto.MessageSendDto;
 import com.azaz.interact.pojo.PrivateMessage;
 import com.azaz.interact.vo.ChatListVo;
+import com.azaz.interact.vo.ChatVo;
 import com.azaz.interact.vo.MessageListVo;
 import com.azaz.interact.vo.MessageVo;
 import com.azaz.mapper.PrivateMessageMapper;
@@ -16,6 +18,9 @@ import com.azaz.service.PrivateMessageService;
 import com.azaz.service.UserFollowService;
 import com.azaz.utils.ThreadLocalUtil;
 import lombok.extern.log4j.Log4j2;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
+import org.redisson.api.RLock;
+import org.redisson.api.RedissonClient;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -42,6 +47,12 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
     @Resource
     private UserFollowService userFollowService;
 
+    @Resource
+    private RedissonClient redissonClient;
+
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
+
 
     /**
      * 发送私信
@@ -65,49 +76,46 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
         if (messageSendDto.getStatus() != 0 && messageSendDto.getStatus() != 1) {
             throw new ErrorParamException("私信类型错误！");
         }
-        //2.检查是否互关
         Long userId = ThreadLocalUtil.getUserId();
-        ResponseResult<Boolean> ifFollow = userFollowService.ifFollow(userId, messageSendDto.getReceiverId());
-        boolean ifFollowEachOther = ifFollow.getData();
-        if (!ifFollowEachOther && messageSendDto.getStatus() == 1) {
-            //2.1 未互关，不能分享视频
-            throw new ErrorParamException("未互关不能分享视频！");
+        // 创建锁对象
+        RLock redisLock = redissonClient.getLock(InteractConstant.REDIS_LOCK_CHAT_KEY + userId);
+        // 尝试获取锁
+        boolean isLock = redisLock.tryLock();
+        if(!isLock){
+            throw new ErrorOperationException("请勿频繁发送消息!");
         }
-        if (!ifFollowEachOther && messageSendDto.getStatus() == 0) {
-            //2.3 未互关，检查是否已发送三条私信
-            Integer count = privateMessageMapper.countBySenderId(userId, messageSendDto.getReceiverId());
-            if (count >= InteractConstant.MESSAGE_MAX_COUNT) {
-                throw new ErrorParamException("最多向未互关朋友发送三条私信！");
+        try {
+            //2.检查是否互关
+            ResponseResult<Boolean> ifFollow = userFollowService.ifFollow(userId, messageSendDto.getReceiverId());
+            boolean ifFollowEachOther = ifFollow.getData();
+            if (!ifFollowEachOther && messageSendDto.getStatus() == 1) {
+                //2.1 未互关，不能分享视频
+                throw new ErrorParamException("未互关不能分享视频！");
             }
-        }
-        //3. 发送私信
-        PrivateMessage privateMessage = PrivateMessage.builder()
-                .messageContent(messageSendDto.getContent())
-                .receiverId(messageSendDto.getReceiverId())
-                .senderId(ThreadLocalUtil.getUserId())
-                .createTime(LocalDateTime.now())
-                .status(messageSendDto.getStatus())
-                .build();
-        //3.1 向数据库中添加私信，并且填充id
-        privateMessageMapper.insert(privateMessage);
-        //3.2 将私信转换为vo
-        // 5.3 封装私信vo
-        MessageVo messageVo = MessageVo.builder()
-                .senderId(userId.toString())
-                .messageId(privateMessage.getId().toString())
-                .messageContent(privateMessage.getMessageContent())
-                .status(privateMessage.getStatus())
-                .build();
-        //3.2 向redis中添加私信,key为小id-大id
-        String messageKey = InteractConstant.REDIS_PRIVATE_MESSAGE_KEY + Math.min(userId, messageSendDto.getReceiverId())
-                + "-" + Math.max(userId, messageSendDto.getReceiverId()) + ":";
-        //3.3 设置私信过期时间为一周
-        stringRedisTemplate.opsForList().leftPush(messageKey, JSON.toJSONString(messageVo));
-        stringRedisTemplate.expire(messageKey, 15, java.util.concurrent.TimeUnit.DAYS);
-        //3.4 检查私信数量是否超过30条，超过则删除最早的一条
-        Long size = stringRedisTemplate.opsForList().size(messageKey);
-        if (size == null || size > InteractConstant.REDIS_PRIVATE_MESSAGE_MAX_COUNT) {
-            stringRedisTemplate.opsForList().rightPop(messageKey);
+            // 向redis中添加私信,key为小id-大id
+            String messageKey = InteractConstant.REDIS_PRIVATE_MESSAGE_KEY + Math.min(userId, messageSendDto.getReceiverId())
+                    + "-" + Math.max(userId, messageSendDto.getReceiverId()) + ":";
+            if (!ifFollowEachOther && messageSendDto.getStatus() == 0) {
+                //2.3 未互关，检查是否已发送三条私信
+                Long count = stringRedisTemplate.opsForList().size(messageKey);
+                if (count != null && count >= InteractConstant.MESSAGE_MAX_COUNT) {
+                    throw new ErrorParamException("最多向未互关朋友发送三条私信！");
+                }
+            }
+            // 发送私信
+            PrivateMessage privateMessage = PrivateMessage.builder()
+                    .messageContent(messageSendDto.getContent())
+                    .receiverId(messageSendDto.getReceiverId())
+                    .senderId(ThreadLocalUtil.getUserId())
+                    .createTime(LocalDateTime.now())
+                    .status(messageSendDto.getStatus())
+                    .build();
+            // 向数据库中添加私信，并且填充id
+            privateMessageMapper.insert(privateMessage);
+            // 异步操作redis
+            rocketMQTemplate.convertAndSend("private_message", privateMessage);
+        } finally {
+            redisLock.unlock();
         }
         return ResponseResult.successResult();
     }
@@ -167,6 +175,17 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
      */
     @Override
     public ResponseResult<ChatListVo> chatList() {
+        // 获取redis中的list
+        Long userId = ThreadLocalUtil.getUserId();
+        String chatListKey = InteractConstant.REDIS_USER_CHAT_LIST + userId;
+        List<String> chatList = stringRedisTemplate.opsForList().range(chatListKey, 0, -1);
+        List<ChatVo> chatVoList = new ArrayList<>();
+        if (chatList == null || chatList.isEmpty()) {
+            return ResponseResult.successResult(ChatListVo.builder().chatList(chatVoList).build());
+        }
+        for (String chatUserId : chatList) {
+            // TODO 从redis中获取用户信息
+        }
         return null;
     }
 

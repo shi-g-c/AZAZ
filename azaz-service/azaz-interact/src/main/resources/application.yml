@@ -9,6 +9,15 @@ spring:
     port: 6380
     password: sgc123456
     database: 0
+rocketmq:
+  name-server: 1.14.111.29:9876
+  producer:
+    group: private_message_group
+    send-message-timeout: 2000
+    retry-times-when-send-failed: 1
+    retry-times-when-send-async-failed: 1
+  consumer:
+    group: private_message_group
 # 配置mybatis
 mybatis:
   #mapper配置文件
@@ -22,7 +31,7 @@ mybatis-plus:
 logging:
   level:
     com:
-      sky:
+      azaz:
         mapper: debug
         service: info
         controller: info

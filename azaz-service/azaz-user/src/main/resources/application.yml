@@ -34,7 +34,7 @@ mybatis-plus:
 logging:
   level:
     com:
-      sky:
+      azaz:
         mapper: debug
         service: info
         controller: info
