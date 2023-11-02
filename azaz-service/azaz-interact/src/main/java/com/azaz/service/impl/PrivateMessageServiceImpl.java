@@ -1,6 +1,7 @@
 package com.azaz.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.azaz.clients.UserClient;
 import com.azaz.constant.InteractConstant;
 import com.azaz.exception.ErrorOperationException;
 import com.azaz.exception.ErrorParamException;
@@ -16,8 +17,10 @@ import com.azaz.mapper.PrivateMessageMapper;
 import com.azaz.response.ResponseResult;
 import com.azaz.service.PrivateMessageService;
 import com.azaz.service.UserFollowService;
+import com.azaz.user.vo.UserPersonalInfoVo;
 import com.azaz.utils.ThreadLocalUtil;
 import lombok.extern.log4j.Log4j2;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.redisson.api.RLock;
 import org.redisson.api.RedissonClient;
@@ -29,6 +32,7 @@ import javax.annotation.Resource;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 
 /**
  * 私信service
@@ -52,6 +56,9 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
 
     @Resource
     private RocketMQTemplate rocketMQTemplate;
+
+    @Resource
+    private UserClient userClient;
 
 
     /**
@@ -178,15 +185,39 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
         // 获取redis中的list
         Long userId = ThreadLocalUtil.getUserId();
         String chatListKey = InteractConstant.REDIS_USER_CHAT_LIST + userId;
-        List<String> chatList = stringRedisTemplate.opsForList().range(chatListKey, 0, -1);
+        Set<String> chatList = stringRedisTemplate.opsForZSet().range(chatListKey, 0, -1);
         List<ChatVo> chatVoList = new ArrayList<>();
         if (chatList == null || chatList.isEmpty()) {
             return ResponseResult.successResult(ChatListVo.builder().chatList(chatVoList).build());
         }
         for (String chatUserId : chatList) {
-            // TODO 从redis中获取用户信息
+            Long otherId = Long.valueOf(chatUserId);
+            UserPersonalInfoVo userPersonalInfoVo = userClient.getUserPersonalInfo(otherId).getData();
+            if (userPersonalInfoVo == null) {
+                continue;
+            }
+            String messageKey = InteractConstant.REDIS_PRIVATE_MESSAGE_KEY + Math.min(userId, otherId)
+                    + "-" + Math.max(userId, otherId) + ":";
+            // 获取私信列表的第一条私信
+            String message = stringRedisTemplate.opsForList().index(messageKey, 0);
+            if (StringUtils.isBlank(message)) {
+                continue;
+            }
+            MessageVo messageVo = JSON.parseObject(message, MessageVo.class);
+            ChatVo chatVo = ChatVo.builder()
+                    .id(otherId.toString())
+                    .username(userPersonalInfoVo.getUsername())
+                    .image(userPersonalInfoVo.getImage())
+                    .signature(userPersonalInfoVo.getSignature())
+                    .latestMessage(messageVo.getMessageContent())
+                    .build();
+            chatVoList.add(chatVo);
         }
-        return null;
+        ChatListVo chatListVo = ChatListVo.builder()
+                .chatList(chatVoList)
+                .total(chatVoList.size())
+                .build();
+        return ResponseResult.successResult(chatListVo);
     }
 
 

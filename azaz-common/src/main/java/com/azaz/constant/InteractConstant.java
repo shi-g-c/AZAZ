@@ -67,8 +67,4 @@ public class InteractConstant {
      * 聊天列表
      */
     public static final String REDIS_USER_CHAT_LIST = "friend:chatList:";
-    /**
-     * 聊天列表最大数量
-     */
-    public static final Long REDIS_USER_CHAT_LIST_MAX_COUNT = 10L;
 }
