@@ -33,6 +33,10 @@ spring:
           uri: lb://azaz-service-interact
           predicates:
             - Path=/azaz/interact/**
+        - id: azaz-service-search
+          uri: lb://azaz-service-search
+          predicates:
+            - Path=/azaz/search/**
 logging:
   level:
     com:
