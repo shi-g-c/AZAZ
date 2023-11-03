@@ -13,10 +13,10 @@ import java.util.List;
 public interface VideoDoLikeService {
     ResponseResult doLike(Long videoId,Long authorId,int type);
     ResponseResult doCollect(Long videoId,Long authorId,int type);
-    ResponseResult isLike(Long videoId);
     ResponseResult<Integer> getUserLikes(Long userId);
-    ResponseResult<Integer> getUserCollects(Long userId);
-    ResponseResult<List<Video>> getAllVideos(Long userId);
-    ResponseResult showLikesList();
-    ResponseResult showCollectsList();
+    ResponseResult<Integer> getUserWorks(Long userId);
+    ResponseResult getPublishedVideos(Integer currentPage,Integer userId);
+    ResponseResult showCollectsList(Integer currentPage);
+
+
 }
