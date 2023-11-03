@@ -51,57 +51,40 @@ public class VideoController {
     @GetMapping("/getVideos")
     public ResponseResult getVideo(Integer lastVideoId){return videoUploadService.getVideos(lastVideoId);}
 
-    @GetMapping("/isLike")
-    public ResponseResult isLike(Long videoId){
-        return videoDoLikeService.isLike(videoId);
-    }
-
-    //得到用户被赞数
+    //得到用户获赞总数
     @GetMapping("/getUserLikes")
     public ResponseResult<Integer> getUserLikes(Long userId){
         return videoDoLikeService.getUserLikes(userId);
     }
 
     /**
-     * 这个收藏总数不需要，需要一个返回作品总数的接口，见feign客户端
+     * 作品总数
      * @param userId
      * @return
      */
-    //得到用户被收藏数
     @GetMapping("/getUserWorks")
-    public ResponseResult<Integer> getUserCollects(Long userId){
-        return videoDoLikeService.getUserCollects(userId);
+    public ResponseResult<Integer> getUserWorks(Long userId){
+        return videoDoLikeService.getUserWorks(userId);
     }
 
-    //得到用户发布过的所有视频
 
     /**
-     * 应该是分页
-     * @param userId
+     * 得到用户发布过的视频列表
      * @return
      */
-    @GetMapping("/getAllVideos")
-    public ResponseResult<List<Video>> getAllVideos(Long userId){
-        return videoDoLikeService.getAllVideos(userId);
+    @GetMapping("/getPublishedVideos")
+    public ResponseResult<List<Video>> getAllVideos(Integer currentPage,Integer userId){
+        return videoDoLikeService.getPublishedVideos(currentPage,userId);
     }
 
-    //得到用户点赞过的所有视频
-    /**
-     * 应该是分页
-     * @return
-     */
-    @GetMapping("/likes")
-    public ResponseResult likes(){
-        return videoDoLikeService.showLikesList();
-    }
 
-    //得到用户收藏过的所有视频
+    //当前用户收藏过的视频列表
     /**
      * 应该是分页
      * @return
      */
     @GetMapping("/collects")
-    public ResponseResult collects(){
-        return videoDoLikeService.showCollectsList();
+    public ResponseResult collects(Integer currentPage,Integer userId){
+        return videoDoLikeService.showCollectsList(currentPage);
     }
 }

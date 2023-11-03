@@ -2,6 +2,7 @@ package com.azaz.service.impl;
 
 import com.alibaba.nacos.shaded.io.opencensus.internal.DefaultVisibilityForTesting;
 import com.azaz.constant.VideoConstant;
+import com.azaz.mapper.VideoMapper;
 import com.azaz.response.ResponseResult;
 import com.azaz.service.DbOpsService;
 import com.azaz.service.VideoDoLikeService;
@@ -10,6 +11,8 @@ import com.azaz.user.pojo.User;
 import com.azaz.utils.ThreadLocalUtil;
 import com.azaz.video.pojo.Video;
 import com.azaz.video.pojo.VideoLike;
+import com.azaz.video.pojo.VideoList;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
 import org.redisson.client.protocol.convertor.VoidReplayConvertor;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -21,8 +24,10 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
+import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 /**
@@ -39,11 +44,12 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
     MongoTemplate mongoTemplate;
     @Resource
     VideoUploadService videoUploadService;
+    @Resource
+    VideoMapper videoMapper;
     /**
      * 点赞操作
      * @param videoId 视频id
      * @param type type为1点赞，0取消点赞
-     * @return
      */
     @Override
     public ResponseResult doLike(Long videoId,Long authorId,int type){
@@ -59,7 +65,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         //点赞
         if(type==1){
             //添加到redis，以set方式存储，key为videoId，value为userId
-            if(!this.stringRedisTemplate.opsForSet().isMember(setKey, String.valueOf(userId))){
+            if(Boolean.FALSE.equals(this.stringRedisTemplate.opsForSet().isMember(setKey, String.valueOf(userId)))){
                 //添加到redis
                 this.stringRedisTemplate.opsForSet().add(setKey, String.valueOf(userId));
                 this.stringRedisTemplate.opsForSet().add(nowUserKey,String.valueOf(videoId));
@@ -77,7 +83,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         //取消点赞
         else {
             //判断是否点过赞
-            if(this.stringRedisTemplate.opsForSet().isMember(setKey, String.valueOf(userId))){
+            if(Boolean.TRUE.equals(this.stringRedisTemplate.opsForSet().isMember(setKey, String.valueOf(userId)))){
                 //取消点赞
                 this.stringRedisTemplate.opsForSet().remove(setKey, userId.toString());
                 this.stringRedisTemplate.opsForSet().remove(nowUserKey,String.valueOf(videoId));
@@ -104,15 +110,15 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         String userKey=VideoConstant.USER_COLLECT_SUM+authorId;
         //获取userId
         Long userId = ThreadLocalUtil.getUserId();
-        //当前用户点赞的视频集合key
-        String nowUserKey=VideoConstant.USER_SSET_COLLECT_KEY+userId.toString();
+        //当前用户收藏的视频集合key
+        String nowUserKey=VideoConstant.USER_LIST_COLLECT_KEY+userId.toString();
         //收藏操作
         if(type==1){
             //添加到redis，以set方式存储，key为videoId，value为userId
-            if(!this.stringRedisTemplate.opsForSet().isMember(setKey, String.valueOf(userId))){
+            if(Boolean.FALSE.equals(this.stringRedisTemplate.opsForSet().isMember(setKey, String.valueOf(userId)))){
                 //添加到redis
                 this.stringRedisTemplate.opsForSet().add(setKey, String.valueOf(userId));
-                this.stringRedisTemplate.opsForSet().add(nowUserKey,String.valueOf(videoId));
+                this.stringRedisTemplate.opsForList().leftPush(nowUserKey,String.valueOf(videoId));
                 //异步添加到mongodb
                 dbOpsService.insertIntoMongo(userId,videoId, VideoConstant.COLLECT_TYPE,1);
                 //redis数据加一
@@ -127,7 +133,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         //取消收藏
         else {
             //判断是否收藏
-            if(this.stringRedisTemplate.opsForSet().isMember(setKey, String.valueOf(userId))){
+            if(Boolean.TRUE.equals(this.stringRedisTemplate.opsForSet().isMember(setKey, String.valueOf(userId)))){
                 //取消收藏
                 this.stringRedisTemplate.opsForSet().remove(setKey, userId.toString());
                 this.stringRedisTemplate.opsForSet().remove(nowUserKey,String.valueOf(videoId));
@@ -144,81 +150,15 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         }
     }
 
-    /**
-     * 判断当前用户是否对当前视频进行点赞
-     * @param videoId
-     * @return
-     */
-    @Override
-    public ResponseResult isLike(Long videoId){
-        Long userId = ThreadLocalUtil.getUserId();
-        //获取key
-        String setLikeKey = VideoConstant.SET_LIKE_KEY+videoId.toString();
-        //判断key是否存在
-        if(stringRedisTemplate.hasKey(setLikeKey)){
-            //如果userId在set里，说明已经点赞
-            if(stringRedisTemplate.opsForSet().isMember(setLikeKey,userId.toString())){
-                return ResponseResult.successResult((Integer)1);
-            }
-            else {
-                return ResponseResult.successResult((Integer)0);
-            }
-        }
-        //key不存在就在mongo里面找
-        else{
-            //查询当用户id和视频id所在的字段
-            Query query=Query.query
-                    (Criteria.where("userId").is(userId.toString()).
-                            and("videoId").is(videoId.toString()));
-            VideoLike videoLike = mongoTemplate.findOne(query, VideoLike.class);
-            //如果此字段不存在，直接返回0
-            if(videoLike==null||videoLike.getIsLike()==0){
-                return ResponseResult.successResult((Integer)0);
-            }
-            else {
-                return ResponseResult.successResult((Integer)1);
-            }
 
-        }
-    }
 
-    /**
-     * 展示当前用户点赞过的视频
-     * @return
-     */
-    @Override
-    public ResponseResult showLikesList(){
-        Long userId = ThreadLocalUtil.getUserId();
-        Set<String> videoIds = stringRedisTemplate.opsForSet().members(VideoConstant.USER_SET_LIKE_KEY + userId.toString());
-        List<Video>list=new ArrayList<>();
-        for (String videoId : videoIds) {
-            Video video = videoUploadService.getVideoById(Integer.parseInt(videoId));
-            list.add(video);
-        }
-        return ResponseResult.successResult(list);
-    }
-    /**
-     * 展示当前用户收藏过的视频
-     * @return
-     */
-    @Override
-    public ResponseResult showCollectsList(){
-        Long userId = ThreadLocalUtil.getUserId();
-        Set<String> videoIds = stringRedisTemplate.opsForSet().members(VideoConstant.USER_SSET_COLLECT_KEY + userId.toString());
-        List<Video>list=new ArrayList<>();
-        for (String videoId : videoIds) {
-            Video video = videoUploadService.getVideoById(Integer.parseInt(videoId));
-            list.add(video);
-        }
-        return ResponseResult.successResult(list);
-    }
+
 
 
 
 
     /**
-     * 得到当前用户的点赞量
-     * @return
+     * 得到当前用户的点赞量,其他微服务调用
      */
     @Override
     public ResponseResult<Integer> getUserLikes(Long userId1){
@@ -232,40 +172,71 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         }
     }
     /**
-     * 得到当前用户的收藏量
-     * @return
+     * 得到用户发布的视频数
      */
     @Override
-    public ResponseResult<Integer> getUserCollects(Long userId1){
-        String userId = userId1.toString();
-        String userKey=VideoConstant.USER_COLLECT_SUM+userId;
-        String s = stringRedisTemplate.opsForValue().get(userKey);
-        if(s==null){
-            return ResponseResult.successResult(0);
-        }else{
-            return ResponseResult.successResult(Integer.parseInt(s));
-        }
+    public ResponseResult<Integer> getUserWorks(Long userId){
+        QueryWrapper<Video>wrapper=new QueryWrapper<>();
+        wrapper.eq("author_id",userId);
+        Long num = videoMapper.selectCount(wrapper);
+        return ResponseResult.successResult(num.intValue());
     }
 
+
     /**
-     * 返回当前用户发布的所有视频
-     * @return
+     * 返回指定用户发布的所有视频
      */
     @Override
-    public ResponseResult<List<Video>> getAllVideos(Long userId1){
-        //得到当前用户id
-        String userId=userId1.toString();
+    public ResponseResult getPublishedVideos(Integer currentPage,Integer userId){
         //得到对应key
-        String key=VideoConstant.USER_VIDEO_SET+userId;
-        //得到当前用户发布的所有video
-        Set<String> videoIds = stringRedisTemplate.opsForSet().members(key);
+        String key=VideoConstant.USER_VIDEO_LIST+userId.toString();
+        //得到用户发布的当前页数的videoId
+        List<String> videoIds = stringRedisTemplate.opsForList().range(key, (currentPage-1)* 10L,currentPage*10);
+        if(videoIds==null){
+            return ResponseResult.successResult("没有辣");
+        }
         List<Video>videos=new ArrayList<>();
+        //得到videoId对应的实体类
         for (String videoId : videoIds) {
             Video video = videoUploadService.getVideoById(Integer.parseInt(videoId));
             if(video!=null) {
                 videos.add(video);
             }
         }
+        if(videos.isEmpty()){
+            return ResponseResult.errorResult("没有辣");
+        }
+        VideoList videoList=new VideoList();
+        videoList.setVideoList(videos);
+        //得到视频总数
+        videoList.setTotal(Objects.requireNonNull(stringRedisTemplate.opsForList().size(key)).intValue());
+        return ResponseResult.successResult(videos);
+    }
+    /**
+     * 展示用户收藏过的视频
+     */
+    @Override
+    public ResponseResult showCollectsList(Integer currentPage){
+        Long userId = ThreadLocalUtil.getUserId();
+        String key=VideoConstant.USER_LIST_COLLECT_KEY+userId.toString();
+        //得到用户发布的当前页数的videoId
+        List<String> videoIds = stringRedisTemplate.opsForList().range(key, (currentPage-1)* 10L,currentPage*10);
+        if(videoIds==null){
+            return ResponseResult.successResult("没有辣");
+        }
+        List<Video>videos=new ArrayList<>();
+        //得到videoId对应的实体类
+        for (String videoId : videoIds) {
+            Video video = videoUploadService.getVideoById(Integer.parseInt(videoId));
+            if(video!=null) {
+                videos.add(video);
+            }
+        }
+
+        VideoList videoList=new VideoList();
+        videoList.setVideoList(videos);
+        //得到视频总数
+        videoList.setTotal(Objects.requireNonNull(stringRedisTemplate.opsForList().size(key)).intValue());
         return ResponseResult.successResult(videos);
     }
 

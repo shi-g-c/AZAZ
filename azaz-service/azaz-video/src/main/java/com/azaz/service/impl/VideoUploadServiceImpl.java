@@ -1,6 +1,7 @@
 package com.azaz.service.impl;
 
 import com.alibaba.fastjson2.JSON;
+import com.azaz.clients.UserClient;
 import com.azaz.constant.VideoConstant;
 import com.azaz.exception.DbOperationException;
 import com.azaz.exception.QiniuException;
@@ -8,20 +9,33 @@ import com.azaz.mapper.VideoMapper;
 import com.azaz.response.ResponseResult;
 import com.azaz.service.DbOpsService;
 import com.azaz.service.VideoUploadService;
+import com.azaz.user.vo.UserPersonalInfoVo;
 import com.azaz.utils.QiniuOssUtil;
 import com.azaz.utils.ThreadLocalUtil;
 import com.azaz.video.dto.VideoPublishDto;
+import com.azaz.video.pojo.GetVideoInfo;
 import com.azaz.video.pojo.Video;
+import com.azaz.video.pojo.VideoDetailInfo;
+import com.azaz.video.pojo.VideoLike;
 import com.azaz.video.vo.VideoUploadVo;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
+import org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
+import javax.swing.*;
+import java.text.SimpleDateFormat;
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
@@ -38,6 +52,12 @@ public class VideoUploadServiceImpl implements VideoUploadService {
     StringRedisTemplate stringRedisTemplate;
     @Resource
     DbOpsService dbOpsService;
+    @Resource
+    UserClient userClient;
+    @Resource
+    MongoTemplate mongoTemplate;
+    @Resource
+    RocketMQTemplate rocketMQTemplate;
 
 
     /**
@@ -66,6 +86,9 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         if (videoPublishDto.getCoverUrl() == null || videoPublishDto.getCoverUrl().isEmpty()){
             videoPublishDto.setCoverUrl(videoPublishDto.getVideoUrl() + "?vframe/jpg/offset/0");
         }
+        //获取当前时间并格式化
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
+        String format = simpleDateFormat.format(System.currentTimeMillis());
         //保存视频到数据库
         Video video= Video.builder().
                 videoUrl(videoPublishDto.getVideoUrl()).
@@ -80,16 +103,15 @@ public class VideoUploadServiceImpl implements VideoUploadService {
                 likes(0L).
                 collects(0L).
                 comments(0L).
+                createTime(LocalDateTime.now()).
                 build();
         try {
             videoMapper.insert(video);
             //将视频存储在对应videoId下
             String videoKey=VideoConstant.VIDEO_ID+video.getId().toString();
             stringRedisTemplate.opsForValue().set(videoKey, JSON.toJSONString(video));
-            //存储userId下的videoId
-            stringRedisTemplate.opsForSet().add(VideoConstant.USER_VIDEO_SET+userId,video.getId().toString());
-            String x=JSON.toJSONString(video);
-            System.out.println(x);
+            //存储userId下的video类
+            stringRedisTemplate.opsForList().leftPush(VideoConstant.USER_VIDEO_LIST+userId,video.getId().toString());
         }catch (Exception e){
             log.error("保存视频信息失败{}",e);
             throw new DbOperationException("保存视频信息失败！");
@@ -126,25 +148,47 @@ public class VideoUploadServiceImpl implements VideoUploadService {
      * 获取视频,一次得10个
      * 在发布视频时根据VIDEO_LIST_KEY+视频id/11将视频存入相应的list中，这样每个list都会有10条视频
      * 在每个用户观看视频时根据NOW_List_ID+useId键在redis中取出对应id的list
-     * @return
+     * @return 返回response
      */
     @Override
     public ResponseResult getVideos(Integer lastVideoId) {
-        List <Video>result=new ArrayList<>();
-        for (Integer i = lastVideoId*10+1; i < lastVideoId*10+11; i++) {
+        GetVideoInfo getVideoInfo=new GetVideoInfo();
+        List <VideoDetailInfo>videoList=new ArrayList<>();
+        for (Integer i = lastVideoId+1; i < lastVideoId+11; i++) {
+            VideoDetailInfo videoDetailInfo=new VideoDetailInfo();
             //i就是videoId
             //得到video对象
-            result.add(getVideoById(i));
+            Video video = getVideoById(i);
+            //如果没视频了，把之前的视频返回
+            if(video==null){
+                getVideoInfo.setVideoList(videoList);
+                getVideoInfo.setLastVideoId(i);
+                getVideoInfo.setTotal(videoList.size());
+                return ResponseResult.successResult(getVideoInfo);
+            }
+            BeanUtils.copyProperties(video,videoDetailInfo);
+            //获取时间
+            DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+            String format = video.getCreateTime().format(df);
+            videoDetailInfo.setCreateTime(format);
+            //判断是否喜欢
+            videoDetailInfo.setIslike(isLike(i.longValue()));
+            //得到作者信息
+            ResponseResult<UserPersonalInfoVo> res = userClient.getUserPersonalInfo(video.getAuthorId());
+            UserPersonalInfoVo user = res.getData();
+            videoDetailInfo.setUserName(user.getUsername());
+            videoDetailInfo.setImage(user.getImage());
+            videoList.add(videoDetailInfo);
         }
-        if(result.size()==0){
-            return ResponseResult.successResult("到底了");
-        }
-        return ResponseResult.successResult(result);
+        getVideoInfo.setVideoList(videoList);
+        getVideoInfo.setTotal(videoList.size());
+        getVideoInfo.setLastVideoId(lastVideoId+10);
+        return ResponseResult.successResult(getVideoInfo);
     }
 
     /**
      * 处理文件名 uuid+文件名+后缀
-     * @param file
+     * @param file 传过来文件
      * @return
      */
     private String dealFileName(MultipartFile file){
@@ -185,4 +229,42 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         video.setComments(Long.parseLong(comments));
         return video;
     }
+
+    /**
+     * 判断当前用户是否对当前视频进行点赞
+     * @param videoId 视频id
+     * @return
+     */
+    public boolean isLike(Long videoId){
+        Long userId = ThreadLocalUtil.getUserId();
+        //获取key
+        String setLikeKey = VideoConstant.SET_LIKE_KEY+videoId.toString();
+        //判断key是否存在
+        if(Boolean.TRUE.equals(stringRedisTemplate.hasKey(setLikeKey))){
+            //如果userId在set里，说明已经点赞
+            if(stringRedisTemplate.opsForSet().isMember(setLikeKey,userId.toString())){
+                return true;
+            }
+            else {
+                return false;
+            }
+        }
+        //key不存在就在mongo里面找
+        else{
+            //查询当用户id和视频id所在的字段
+            Query query=Query.query
+                    (Criteria.where("userId").is(userId.toString()).
+                            and("videoId").is(videoId.toString()));
+            VideoLike videoLike = mongoTemplate.findOne(query, VideoLike.class);
+            //如果此字段不存在，直接返回0
+            if(videoLike==null||videoLike.getIsLike()==0){
+                return false;
+            }
+            else {
+                return true;
+            }
+
+        }
+    }
 }
+

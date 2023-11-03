@@ -53,7 +53,7 @@ public class DbOpsServiceImpl implements DbOpsService {
         try {
             //尝试上锁，5s没加上则抛异常
             if(lock.tryLock(5, TimeUnit.SECONDS)){
-                Integer exNum;
+                int exNum;
                 //取出之前的数字
                 String s = this.stringRedisTemplate.opsForValue().get(key);
                 if(s==null){
@@ -63,8 +63,8 @@ public class DbOpsServiceImpl implements DbOpsService {
                     exNum=Integer.parseInt(s);
                 }
                 //加上数字存入
-                Integer now=exNum+num;
-                this.stringRedisTemplate.opsForValue().set(key,now.toString());
+                int now=exNum+num;
+                this.stringRedisTemplate.opsForValue().set(key, Integer.toString(now));
                 return true;
             }
             else {
@@ -102,18 +102,15 @@ public class DbOpsServiceImpl implements DbOpsService {
             videoLike.setUserId(userId);
         }
         //根据类型对相应字段进行更新操作
-        switch (type){
+        switch (type) {
             //点赞
-            case 1:
-                videoLike.setIsLike((Integer) ops);
-                break;
+            case 1 -> videoLike.setIsLike((Integer) ops);
+
             //收藏
-            case 2:
-                videoLike.setIsCollect((Integer) ops);
-                break;
+            case 2 -> videoLike.setIsCollect((Integer) ops);
+
             //评论
-            case 3:
-                videoLike.setCommentList((ArrayList<String>) ops);
+            case 3 -> videoLike.setCommentList((ArrayList<String>) ops);
         }
         mongoTemplate.save(videoLike);
     }
