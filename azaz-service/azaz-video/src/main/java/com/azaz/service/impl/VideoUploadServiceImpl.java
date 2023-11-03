@@ -18,9 +18,7 @@ import com.azaz.video.pojo.Video;
 import com.azaz.video.pojo.VideoDetailInfo;
 import com.azaz.video.pojo.VideoLike;
 import com.azaz.video.vo.VideoUploadVo;
-import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.rocketmq.spring.autoconfigure.RocketMQAutoConfiguration;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.mongodb.core.MongoTemplate;
@@ -32,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import javax.swing.*;
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -75,16 +72,13 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         if(videoPublishDto.getVideoUrl() == null || videoPublishDto.getVideoUrl().isEmpty()){
             return ResponseResult.errorResult("视频路径为空");
         }
-        //默认封面
-        if(videoPublishDto.getCoverUrl()==null||videoPublishDto.getCoverUrl().isEmpty()){
-            videoPublishDto.setCoverUrl(videoPublishDto.getCoverUrl()+"?vframe/jpg/offset/0");
-        }
         //分区大于9不合规范，设为默认0
         if(videoPublishDto.getSection()>9){
             videoPublishDto.setSection(0);
         }
-        if (videoPublishDto.getCoverUrl() == null || videoPublishDto.getCoverUrl().isEmpty()){
-            videoPublishDto.setCoverUrl(videoPublishDto.getVideoUrl() + "?vframe/jpg/offset/0");
+        //默认封面
+        if(videoPublishDto.getCoverUrl()==null||videoPublishDto.getCoverUrl().isEmpty()){
+            videoPublishDto.setCoverUrl(videoPublishDto.getVideoUrl()+"?vframe/jpg/offset/0");
         }
         //获取当前时间并格式化
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
@@ -107,6 +101,7 @@ public class VideoUploadServiceImpl implements VideoUploadService {
                 build();
         try {
             videoMapper.insert(video);
+            rocketMQTemplate.convertAndSend("video_publish",video);
             //将视频存储在对应videoId下
             String videoKey=VideoConstant.VIDEO_ID+video.getId().toString();
             stringRedisTemplate.opsForValue().set(videoKey, JSON.toJSONString(video));

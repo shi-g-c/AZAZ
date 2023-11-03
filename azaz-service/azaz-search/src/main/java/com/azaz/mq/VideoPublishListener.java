@@ -23,7 +23,7 @@ import java.io.IOException;
  */
 @Log4j2
 @Component
-@RocketMQMessageListener(topic = "video", consumerGroup = "video_group")
+@RocketMQMessageListener(topic = "video_publish", consumerGroup = "video_group")
 public class VideoPublishListener implements RocketMQListener<Video> {
 
     @Resource

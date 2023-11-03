@@ -5,10 +5,9 @@ import com.azaz.service.VideoDoLikeService;
 import com.azaz.service.VideoUploadService;
 import com.azaz.video.dto.VideoPublishDto;
 import com.azaz.video.pojo.Video;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.azaz.video.vo.VideoDetail;
+import com.azaz.video.vo.VideoInfo;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -53,7 +52,7 @@ public class VideoController {
 
     //得到用户获赞总数
     @GetMapping("/getUserLikes")
-    public ResponseResult<Integer> getUserLikes(Long userId){
+    public ResponseResult<Integer> getUserLikes(@RequestParam("userId")Long userId){
         return videoDoLikeService.getUserLikes(userId);
     }
 
@@ -63,7 +62,7 @@ public class VideoController {
      * @return
      */
     @GetMapping("/getUserWorks")
-    public ResponseResult<Integer> getUserWorks(Long userId){
+    public ResponseResult<Integer> getUserWorks(@RequestParam("userId")Long userId){
         return videoDoLikeService.getUserWorks(userId);
     }
 
@@ -86,5 +85,27 @@ public class VideoController {
     @GetMapping("/collects")
     public ResponseResult collects(Integer currentPage,Integer userId){
         return videoDoLikeService.showCollectsList(currentPage);
+    }
+
+    // TODO
+    /**
+     * 得到视频信息
+     * @param videoId
+     * @return
+     */
+    @GetMapping("/info")
+    public ResponseResult<VideoInfo> getVideoInfo(@RequestParam("videoId") Long videoId){
+        return null;
+    }
+
+    // TODO
+    /**
+     * 得到视频信息
+     * @param videoId
+     * @return
+     */
+    @GetMapping("/detailInfo")
+    public ResponseResult<VideoDetail> getVideoDetailInfo(@RequestParam("videoId")Long videoId){
+        return null;
     }
 }

@@ -2,6 +2,8 @@ package com.azaz.clients;
 
 
 import com.azaz.response.ResponseResult;
+import com.azaz.video.vo.VideoDetail;
+import com.azaz.video.vo.VideoInfo;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -29,4 +31,19 @@ public interface VideoClient {
     @GetMapping("/azaz/video/getUserWorks")
     ResponseResult<Integer> getUserWorks(@RequestParam("userId")Long userId);
 
+    /**
+     * 得到视频简略信息
+     * @param videoId 视频id
+     * @return 视频简略信息
+     */
+    @GetMapping("/info")
+    ResponseResult<VideoInfo> getVideoInfo(@RequestParam("videoId") Long videoId);
+
+    /**
+     * 得到视频详细信息
+     * @param videoId 视频id
+     * @return 视频详细信息
+     */
+    @GetMapping("/detailInfo")
+    ResponseResult<VideoDetail> getVideoDetailInfo(@RequestParam("videoId") Long videoId);
 }
