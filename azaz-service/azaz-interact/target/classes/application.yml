@@ -9,6 +9,7 @@ spring:
     port: 6380
     password: sgc123456
     database: 0
+
 rocketmq:
   name-server: 1.14.111.29:9876
   producer:

@@ -1,7 +1,6 @@
 package com.azaz.mq;
 
 import com.alibaba.fastjson2.JSON;
-import com.azaz.clients.UserClient;
 import com.azaz.constant.InteractConstant;
 import com.azaz.interact.pojo.PrivateMessage;
 import com.azaz.interact.vo.MessageVo;
@@ -24,9 +23,6 @@ public class PrivateMessageListener implements RocketMQListener<PrivateMessage> 
 
     @Resource
     private StringRedisTemplate stringRedisTemplate;
-
-    @Resource
-    private UserClient userClient;
 
     @Override
     public void onMessage(PrivateMessage privateMessage) {

@@ -17,6 +17,7 @@ import com.azaz.utils.QiniuOssUtil;
 import com.azaz.utils.ThreadLocalUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.log4j.Log4j2;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
@@ -45,6 +46,9 @@ public class UserInfoServiceImpl implements com.azaz.service.UserInfoService{
 
     @Resource
     private VideoClient videoClient;
+
+    @Resource
+    private RocketMQTemplate rocketMQTemplate;
     /**
      * 获取用户个人信息
      * @param userId 用户id
@@ -124,6 +128,8 @@ public class UserInfoServiceImpl implements com.azaz.service.UserInfoService{
             log.error("用户信息更新失败: {}", e.getMessage());
             throw new ErrorParamException("用户不存在！");
         }
+        // 3. 发送消息到消息队列,ES索引库中更新用户信息
+        rocketMQTemplate.convertAndSend("user_info", user);
         return ResponseResult.successResult();
     }
 

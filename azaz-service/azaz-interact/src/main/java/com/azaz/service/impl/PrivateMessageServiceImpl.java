@@ -67,7 +67,7 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
      * @return ResponseResult
      */
     @Override
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     public ResponseResult sendPrivateMessage(MessageSendDto messageSendDto) {
         log.info("发送私信，参数：{}", messageSendDto);
         //1.1 校验参数
@@ -191,7 +191,7 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
             return ResponseResult.successResult(ChatListVo.builder().chatList(chatVoList).build());
         }
         for (String chatUserId : chatList) {
-            Long otherId = Long.valueOf(chatUserId);
+            Long otherId = Long.parseLong(chatUserId);
             UserPersonalInfoVo userPersonalInfoVo = userClient.getUserPersonalInfo(otherId).getData();
             if (userPersonalInfoVo == null) {
                 continue;
@@ -205,7 +205,7 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
             }
             MessageVo messageVo = JSON.parseObject(message, MessageVo.class);
             ChatVo chatVo = ChatVo.builder()
-                    .id(otherId.toString())
+                    .id(Long.toString(otherId))
                     .username(userPersonalInfoVo.getUsername())
                     .image(userPersonalInfoVo.getImage())
                     .signature(userPersonalInfoVo.getSignature())
