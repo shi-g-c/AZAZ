@@ -25,7 +25,7 @@ public interface InteractClient {
      * @param userId 用户id
      * @return 粉丝总数
      */
-    @GetMapping("/azaz/interact/fansNum")
+    @GetMapping("/azaz/interact/follow/fansNum")
     ResponseResult<Integer> getFansNum(@RequestParam("userId") Long userId);
 
     /**
