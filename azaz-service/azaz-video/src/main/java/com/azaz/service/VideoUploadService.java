@@ -19,8 +19,7 @@ public interface VideoUploadService {
       ResponseResult publish(VideoPublishDto videoPublishDto);
 
       ResponseResult upload(MultipartFile file);
-
-      ResponseResult getVideos(Integer lastVideoId);
+      ResponseResult getVideos(Integer lastVideoId,Integer section);
       Video getVideoById(Integer videoId);
       ResponseResult<VideoInfo> getVideoInfo(Long videoId);
       ResponseResult<VideoDetail> getVideoDetailInfo(Long videoId);

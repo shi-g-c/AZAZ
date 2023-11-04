@@ -56,7 +56,7 @@ public class VideoController {
     }
     //每次获取10个视频
     @GetMapping("/getVideos")
-    public ResponseResult getVideo(Integer lastVideoId){return videoUploadService.getVideos(lastVideoId);}
+    public ResponseResult getVideo(Integer lastVideoId,Integer section){return videoUploadService.getVideos(lastVideoId,section);}
 
     //得到用户获赞总数
     @GetMapping("/getUserLikes")
