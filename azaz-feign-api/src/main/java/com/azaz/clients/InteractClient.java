@@ -1,5 +1,6 @@
 package com.azaz.clients;
 
+import com.azaz.interceptor.MyFeignRequestInterceptor;
 import com.azaz.response.ResponseResult;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -9,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 交互服务客户端接口
  * @author shigc
  */
-@FeignClient("azaz-service-interact")
+@FeignClient(value = "azaz-service-interact", configuration = MyFeignRequestInterceptor.class)
 public interface InteractClient {
 
     /**

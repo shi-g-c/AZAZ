@@ -14,9 +14,29 @@
 
 本项目使用的后端框架为spring全家桶，框架版本对应为 jdk17 - springboot2.6.11 - springcloud2021.0.4 - springcloudalibaba2021.0.4.0 。
 
-### 全局架构图
+### 中间件
 
-### 架构与功能梳理
+| 中间件        | 版本   |
+| ------------- | ------ |
+| Qiniu对象存储 | 7.2.7  |
+| MySQL         | 8.0.27 |
+| Redis         | 6.2.6  |
+| Nacos         | 2.03   |
+| ElasticSearch | 7.12.1 |
+| RocketMQ      | 4.5.1  |
+| MongoDB       | 5.0.5  |
+
+### AZAZ音视频顶层模块设计
+
+![顶层模块](resource/imgs/azaz系统顶层模块设计图.png)
+
+### AZAZ音视频项目架构
+
+
+
+### AZAZ音视频服务梳理
+
+
 
 ## 功能描述
 
@@ -36,30 +56,21 @@
 
 ### 后端启动
 
-#### 1. 项目使用到的中间件以及其版本如下表：
-
-| 中间件        | 版本   |
-| ------------- | ------ |
-| MySQL         | 8.0.27 |
-| MongoDB       | 5.0.5  |
-| Redis         | 6.2.6  |
-| Nacos         | 2.03   |
-| ElasticSearch | 7.12.1 |
-| RocketMQ      | 4.5.1  |
-
-#### 2. 初始化MySQL数据库表结构
+#### 1. 初始化MySQL数据库表结构
 
 本项目的MySQL数据库表结构设计文档地址：[AZAZ数据库表结构设计](https://sqrmcnsjwo8.feishu.cn/docx/HOVZdtwVDorY2TxNSL1cYBlynLb?from=from_copylink)
 
-可以使用 resource/DB/azaz.sql 的sql脚本快速生成表结构。
+可以使用 *resource/DB/azaz.sql* 的sql脚本快速生成表结构。
 
-#### 3.初始化ElasticSearch索引库
+#### 2.初始化ElasticSearch索引库
 
 本项目针对用户表和视频表建立了索引库，用来搜索用户名或者视频标题。
 
-向ElasticSearch索引库添加Mapping映射的json语句在 resource/ES 路径下， 有esmapping-user.json与esmapping-video.json两个json文件, 分别用来建立用户与视频的索引映射。
+向ElasticSearch索引库添加Mapping映射的json语句在 *resource/ES* 路径下， 有*esmapping-user.json*与*esmapping-video.json*两个json文件, 分别用来建立用户与视频的索引映射。
 
-#### 4.修改配置文件中各项中间件的地址端口用户名密码等信息
+#### 3.按照上述中间件的版本部署中间件
+
+#### 4.修改配置文件中各项中间件的地址端口用户名密码
 
 #### 5.依次启动各个服务
 

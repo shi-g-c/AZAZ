@@ -8,6 +8,7 @@ import com.azaz.interact.vo.VideoListVo;
 import com.azaz.response.ResponseResult;
 import com.azaz.user.pojo.User;
 import com.azaz.user.vo.UserPersonalInfoVo;
+import com.azaz.utils.ThreadLocalUtil;
 import com.azaz.video.pojo.Video;
 import com.azaz.video.vo.VideoDetail;
 import lombok.extern.log4j.Log4j2;
@@ -106,6 +107,7 @@ public class SearchServiceImpl implements com.azaz.service.SearchService{
     @Override
     public ResponseResult<VideoListVo> searchVideo(String keyword, Integer page, Integer pageSize) {
         log.info("搜索视频，关键字：{}，页码：{}，页大小：{}", keyword, page, pageSize);
+        log.info("当前用户：{}", ThreadLocalUtil.getUserId());
         // 根据keyword搜索tb_user表，返回用户列表
         // 设置查询条件
         SearchRequest searchRequest = new SearchRequest("tb_video");

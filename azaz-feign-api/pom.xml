@@ -35,5 +35,10 @@
             <artifactId>azaz-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
+        <dependency>
+            <groupId>com.azaz</groupId>
+            <artifactId>azaz-common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
     </dependencies>
 </project>

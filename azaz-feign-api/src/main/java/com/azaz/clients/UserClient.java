@@ -1,5 +1,6 @@
 package com.azaz.clients;
 
+import com.azaz.interceptor.MyFeignRequestInterceptor;
 import com.azaz.response.ResponseResult;
 import com.azaz.user.vo.UserPersonalInfoVo;
 import org.springframework.cloud.openfeign.FeignClient;
@@ -10,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestParam;
  * 用户服务客户端接口
  * @author shigc
  */
-@FeignClient("azaz-service-user")
+@FeignClient(value = "azaz-service-user", configuration = MyFeignRequestInterceptor.class)
 public interface UserClient {
 
     /**
