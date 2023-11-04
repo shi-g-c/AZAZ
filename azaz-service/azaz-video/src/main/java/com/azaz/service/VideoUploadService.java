@@ -29,10 +29,12 @@ public interface VideoUploadService {
 
       /**
        * 获取视频列表
+       *
        * @param lastVideoId 最后一个视频的id
+       * @param section
        * @return 视频列表
        */
-      ResponseResult getVideos(Integer lastVideoId);
+      ResponseResult getVideos(Integer lastVideoId, Integer section);
 
       /**
        * 获取视频信息
