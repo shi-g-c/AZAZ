@@ -1,0 +1,14 @@
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\config\RedissonConfig.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\interceptor\TokenInterceptor.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\mapper\VideoMapper.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\config\WebMvcConfiguration.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\VideoApplication.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\service\VideoDoLikeService.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\service\DbOpsService.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\config\MybatisConfig.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\service\impl\VideoUploadServiceImpl.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\service\VideoUploadService.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\mapper\CommentMapper.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\controller\VideoController.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\service\impl\VideoDoLikeServiceImpl.java
+E:\Code\Java\JavaWeb\AZAZ\azaz-service\azaz-video\src\main\java\com\azaz\service\impl\DbOpsServiceImpl.java

@@ -4,6 +4,7 @@ import com.alibaba.fastjson2.JSON;
 import com.azaz.clients.UserClient;
 import com.azaz.constant.VideoConstant;
 import com.azaz.exception.DbOperationException;
+import com.azaz.exception.ErrorParamException;
 import com.azaz.exception.QiniuException;
 import com.azaz.mapper.VideoMapper;
 import com.azaz.response.ResponseResult;
@@ -60,7 +61,9 @@ public class VideoUploadServiceImpl implements VideoUploadService {
 
 
     /**
-     * 视频发布
+     * 发布视频
+     * @param videoPublishDto 视频信息
+     * @return 是否成功
      */
     @Transactional
     @Override
@@ -110,7 +113,7 @@ public class VideoUploadServiceImpl implements VideoUploadService {
             //存储userId下的video类
             stringRedisTemplate.opsForList().leftPush(VideoConstant.USER_VIDEO_LIST+userId,video.getId().toString());
         }catch (Exception e){
-            log.error("保存视频信息失败{}",e);
+            log.error("保存视频信息失败{}",e.getMessage());
             throw new DbOperationException("保存视频信息失败！");
         }
 
@@ -120,6 +123,12 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         return ResponseResult.successResult(videoUploadVo);
 
     }
+
+    /**
+     * 上传视频
+     * @param file 视频文件
+     * @return 是否成功
+     */
     @Override
     public ResponseResult upload(MultipartFile file){
         log.info("文件上传 ：{}",file);
@@ -134,7 +143,7 @@ public class VideoUploadServiceImpl implements VideoUploadService {
             try {
                 filePath=QiniuOssUtil.upload(file.getBytes(),dealFileName(file));
             }catch (Exception e){
-                log.error("文件上传失败{}",e);
+                log.error("文件上传失败{}",e.getMessage());
                 throw new QiniuException();
             }
         }
@@ -145,6 +154,7 @@ public class VideoUploadServiceImpl implements VideoUploadService {
      * 获取视频,一次得10个
      * 在发布视频时根据VIDEO_LIST_KEY+视频id/11将视频存入相应的list中，这样每个list都会有10条视频
      * 在每个用户观看视频时根据NOW_List_ID+useId键在redis中取出对应id的list
+     * @param lastVideoId 最后一个视频的id
      * @return 返回response
      */
     @Override
@@ -196,21 +206,23 @@ public class VideoUploadServiceImpl implements VideoUploadService {
     /**
      * 处理文件名 uuid+文件名+后缀
      * @param file 传过来文件
-     * @return
+     * @return 处理后的文件名
      */
     private String dealFileName(MultipartFile file){
         //原始文件名
         String originalFilename = file.getOriginalFilename();
+        if (originalFilename == null) {
+            throw new ErrorParamException("文件名为空");
+        }
         //截取原始文件名后缀
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        String objectName= UUID.randomUUID().toString()+ extension;
-        return objectName;
+        return UUID.randomUUID().toString()+ extension;
     }
 
     /**
      * 通过videoId得到video的实体类
-     * @param videoId
-     * @return
+     * @param videoId 视频id
+     * @return 视频实体类
      */
     @Override
     public Video getVideoById(Integer videoId){
@@ -237,6 +249,11 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         return video;
     }
 
+    /**
+     * 获取视频信息
+     * @param videoId 视频id
+     * @return 视频信息
+     */
     @Override
     public ResponseResult<VideoInfo> getVideoInfo(Long videoId) {
         Video video = getVideoById(videoId.intValue());
@@ -245,6 +262,11 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         return ResponseResult.successResult(videoInfo);
     }
 
+    /**
+     * 获取视频详细信息
+     * @param videoId 视频id
+     * @return 视频详细信息
+     */
     @Override
     public ResponseResult<VideoDetail> getVideoDetailInfo(Long videoId) {
         VideoDetail videoDetailInfo=new VideoDetail();
@@ -265,23 +287,19 @@ public class VideoUploadServiceImpl implements VideoUploadService {
     }
 
     /**
-     * 判断当前用户是否对当前视频进行点赞或收藏
+     * 判断是否点赞或收藏
      * @param videoId 视频id
-     * @return
+     * @param setLikeKey set集合的key
+     * @return 是否点赞或收藏
      */
     public boolean isDo(Long videoId,String setLikeKey){
         Long userId = ThreadLocalUtil.getUserId();
-//        //获取key
+        //获取key
 //        String setLikeKey = VideoConstant.SET_LIKE_KEY+videoId.toString();
         //判断key是否存在
         if(Boolean.TRUE.equals(stringRedisTemplate.hasKey(setLikeKey))){
             //如果userId在set里，说明已经点赞
-            if(Boolean.TRUE.equals(stringRedisTemplate.opsForSet().isMember(setLikeKey, userId.toString()))){
-                return true;
-            }
-            else {
-                return false;
-            }
+            return Boolean.TRUE.equals(stringRedisTemplate.opsForSet().isMember(setLikeKey, userId.toString()));
         }
         //key不存在就在mongo里面找
         else{
@@ -292,7 +310,6 @@ public class VideoUploadServiceImpl implements VideoUploadService {
             VideoLike videoLike = mongoTemplate.findOne(query, VideoLike.class);
             //如果此字段不存在，直接返回0
             return videoLike != null && videoLike.getIsLike() != 0;
-
         }
     }
 }

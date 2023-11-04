@@ -1,0 +1,10 @@
+com\azaz\service\impl\SearchServiceImpl.class
+com\azaz\SearchApplication.class
+com\azaz\controller\SearchController.class
+com\azaz\interceptor\TokenInterceptor.class
+com\azaz\config\MybatisConfig.class
+com\azaz\mq\VideoPublishListener.class
+com\azaz\service\SearchService.class
+com\azaz\config\WebMvcConfiguration.class
+com\azaz\config\ElasticSearchConfig.class
+com\azaz\mq\UserInfoListener.class

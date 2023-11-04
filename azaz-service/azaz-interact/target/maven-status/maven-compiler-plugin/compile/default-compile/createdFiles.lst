@@ -1,0 +1,14 @@
+com\azaz\service\impl\PrivateMessageServiceImpl.class
+com\azaz\mq\PrivateMessageListener.class
+com\azaz\controller\UserFollowController.class
+com\azaz\config\RedissonConfig.class
+com\azaz\interceptor\TokenInterceptor.class
+com\azaz\service\PrivateMessageService.class
+com\azaz\controller\PrivateMessageController.class
+com\azaz\InteractApplication.class
+com\azaz\service\impl\UserFollowServiceImpl.class
+com\azaz\mapper\FollowMapper.class
+com\azaz\config\MybatisConfig.class
+com\azaz\mapper\PrivateMessageMapper.class
+com\azaz\config\WebMvcConfiguration.class
+com\azaz\service\UserFollowService.class

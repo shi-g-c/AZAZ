@@ -1,0 +1,33 @@
+spring:
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://124.221.176.164:3306/azaz?serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf-8&zeroDateTimeBehavior=convertToNull&useSSL=false&allowPublicKeyRetrieval=true
+    username: root
+    password: sgc123456
+  redis:
+    host: 124.221.176.164
+    port: 6380
+    password: sgc123456
+    database: 0
+rocketmq:
+  name-server: 1.14.111.29:9876
+# 配置mybatis
+mybatis:
+  #mapper配置文件
+  mapper-locations: classpath:mapper/*.xml
+  configuration:
+    #开启驼峰命名
+    map-underscore-to-camel-case: true
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl #标准输出
+logging:
+  level:
+    com:
+      azaz:
+        mapper: debug
+        service: info
+        controller: info
+elasticsearch:
+  port: 9200
+  host: 127.0.1.1
