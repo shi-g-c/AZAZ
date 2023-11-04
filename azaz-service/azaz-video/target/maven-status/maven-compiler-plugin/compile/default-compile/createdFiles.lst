@@ -1,0 +1,14 @@
+com\azaz\service\impl\DbOpsServiceImpl.class
+com\azaz\mapper\CommentMapper.class
+com\azaz\service\impl\VideoDoLikeServiceImpl.class
+com\azaz\service\impl\VideoUploadServiceImpl.class
+com\azaz\controller\VideoController.class
+com\azaz\config\RedissonConfig.class
+com\azaz\service\VideoDoLikeService.class
+com\azaz\interceptor\TokenInterceptor.class
+com\azaz\service\DbOpsService.class
+com\azaz\mapper\VideoMapper.class
+com\azaz\service\VideoUploadService.class
+com\azaz\config\MybatisConfig.class
+com\azaz\config\WebMvcConfiguration.class
+com\azaz\VideoApplication.class

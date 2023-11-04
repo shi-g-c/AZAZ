@@ -44,10 +44,13 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
     CommentMapper commentMapper;
     @Resource
     UserClient userClient;
+
     /**
-     * 点赞操作
+     * 点赞
      * @param videoId 视频id
-     * @param type type为1点赞，0取消点赞
+     * @param authorId 作者id
+     * @param type 1为点赞，0为取消点赞
+     * @return 是否成功
      */
     @Override
     public ResponseResult doLike(Long videoId,Long authorId,int type){
@@ -98,6 +101,13 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         }
     }
 
+    /**
+     * 收藏
+     * @param videoId  视频id
+     * @param authorId  作者id
+     * @param type 1为收藏，0为取消收藏
+     * @return 是否成功
+     */
     @Override
     public ResponseResult doCollect(Long videoId,Long authorId, int type) {
         //set集合的key
@@ -180,8 +190,10 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
     }
 
     /**
-     * 查询当前评论的子评论
-     * @param commentId 要查询的评论id
+     *  得到视频的评论列表
+     * @param commentId 最后一个评论的id
+     * @param videoId 视频id
+     * @return 评论列表
      */
     @Override
     public ResponseResult getCommentList(Long commentId,Long videoId){
@@ -192,15 +204,10 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
     }
 
 
-
-
-
-
-
-
-
     /**
-     * 得到当前用户的被点赞量,其他微服务调用
+     * 得到用户的获赞数
+     * @param userId1 用户id
+     * @return 点赞数
      */
     @Override
     public ResponseResult<Integer> getUserLikes(Long userId1){
@@ -213,8 +220,12 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
             return ResponseResult.successResult(Integer.parseInt(s));
         }
     }
+
+
     /**
-     * 得到用户发布的视频数
+     * 得到用户作品数
+     * @param userId 用户id
+     * @return 作品数
      */
     @Override
     public ResponseResult<Integer> getUserWorks(Long userId){
@@ -226,16 +237,19 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
 
 
     /**
-     * 返回指定用户发布的所有视频
+     * 得到用户发布的视频
+     * @param currentPage 当前页
+     * @param userId 用户id
+     * @return 收藏数
      */
     @Override
-    public ResponseResult getPublishedVideos(Integer currentPage,Integer userId){
+    public ResponseResult<List<Video>> getPublishedVideos(Integer currentPage,Integer userId){
         //得到对应key
         String key=VideoConstant.USER_VIDEO_LIST+userId.toString();
         //得到用户发布的当前页数的videoId
         List<String> videoIds = stringRedisTemplate.opsForList().range(key, (currentPage-1)* 10L,currentPage*10);
         if(videoIds==null){
-            return ResponseResult.successResult("没有辣");
+            return ResponseResult.successResult(new ArrayList<>());
         }
         List<Video>videos=new ArrayList<>();
         //得到videoId对应的实体类
@@ -251,8 +265,11 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         videoList.setTotal(Objects.requireNonNull(stringRedisTemplate.opsForList().size(key)).intValue());
         return ResponseResult.successResult(videos);
     }
+
     /**
-     * 展示用户收藏过的视频
+     * 得到用户收藏数
+     * @param currentPage 当前页
+     * @return 收藏数
      */
     @Override
     public ResponseResult showCollectsList(Integer currentPage){
@@ -271,16 +288,11 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
                 videos.add(video);
             }
         }
-
         VideoList videoList=new VideoList();
         videoList.setVideoList(videos);
         //得到视频总数
         videoList.setTotal(Objects.requireNonNull(stringRedisTemplate.opsForList().size(key)).intValue());
         return ResponseResult.successResult(videos);
     }
-
-
-
-
 
 }
