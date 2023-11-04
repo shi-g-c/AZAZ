@@ -2,6 +2,8 @@ package com.azaz.service;
 
 import com.azaz.response.ResponseResult;
 import com.azaz.video.pojo.Video;
+import com.azaz.video.vo.VideoDetail;
+import com.azaz.video.vo.VideoInfo;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -19,6 +21,7 @@ public interface VideoDoLikeService {
     ResponseResult getPublishedVideos(Integer currentPage,Integer userId);
     ResponseResult showCollectsList(Integer currentPage);
     ResponseResult getCommentList(Long commentId,Long videoId);
+
 
 
 

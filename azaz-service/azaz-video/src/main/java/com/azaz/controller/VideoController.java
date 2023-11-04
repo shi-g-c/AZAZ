@@ -114,7 +114,7 @@ public class VideoController {
      */
     @GetMapping("/info")
     public ResponseResult<VideoInfo> getVideoInfo(@RequestParam("videoId") Long videoId){
-        return null;
+        return videoUploadService.getVideoInfo(videoId);
     }
 
     // TODO
@@ -125,6 +125,6 @@ public class VideoController {
      */
     @GetMapping("/detailInfo")
     public ResponseResult<VideoDetail> getVideoDetailInfo(@RequestParam("videoId")Long videoId){
-        return null;
+        return videoUploadService.getVideoDetailInfo(videoId);
     }
 }

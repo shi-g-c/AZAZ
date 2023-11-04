@@ -17,6 +17,8 @@ import com.azaz.video.pojo.GetVideoInfo;
 import com.azaz.video.pojo.Video;
 import com.azaz.video.pojo.VideoDetailInfo;
 import com.azaz.video.pojo.VideoLike;
+import com.azaz.video.vo.VideoDetail;
+import com.azaz.video.vo.VideoInfo;
 import com.azaz.video.vo.VideoUploadVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -230,6 +232,33 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         video.setCollects(Long.parseLong(collects));
         video.setComments(Long.parseLong(comments));
         return video;
+    }
+
+    @Override
+    public ResponseResult<VideoInfo> getVideoInfo(Long videoId) {
+        Video video = getVideoById(videoId.intValue());
+        VideoInfo videoInfo=new VideoInfo();
+        BeanUtils.copyProperties(video,videoInfo);
+        return ResponseResult.successResult(videoInfo);
+    }
+
+    @Override
+    public ResponseResult<VideoDetail> getVideoDetailInfo(Long videoId) {
+        VideoDetail videoDetailInfo=new VideoDetail();
+        Video video = getVideoById(videoId.intValue());
+        //如果没视频了，把之前的视频返回
+        BeanUtils.copyProperties(video,videoDetailInfo);
+        //判断是否喜欢与收藏
+        videoDetailInfo.setIsLiked
+                (isDo(videoId,VideoConstant.SET_LIKE_KEY+video.getId().toString()));
+        videoDetailInfo.setIsCollected
+                (isDo(videoId,VideoConstant.SET_LIKE_KEY+video.getId().toString()));
+        //得到作者信息
+        ResponseResult<UserPersonalInfoVo> res = userClient.getUserPersonalInfo(video.getAuthorId());
+        UserPersonalInfoVo user = res.getData();
+        videoDetailInfo.setUserName(user.getUsername());
+        videoDetailInfo.setImage(user.getImage());
+        return ResponseResult.successResult(videoDetailInfo);
     }
 
     /**
