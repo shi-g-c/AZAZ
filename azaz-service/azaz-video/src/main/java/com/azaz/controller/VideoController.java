@@ -46,6 +46,14 @@ public class VideoController {
     public ResponseResult doCollect(Long videoId,Long authorId,int type){
         return videoDoLikeService.doCollect(videoId,authorId,type);
     }
+
+    /**
+     *评论视频
+     */
+    @PostMapping("/doComment")
+    public ResponseResult doComment(Long videoId, Long parentId,String content){
+        return videoDoLikeService.doComment(videoId,parentId,content);
+    }
     //每次获取10个视频
     @GetMapping("/getVideos")
     public ResponseResult getVideo(Integer lastVideoId){return videoUploadService.getVideos(lastVideoId);}
@@ -82,10 +90,21 @@ public class VideoController {
      * 应该是分页
      * @return
      */
-    @GetMapping("/collects")
+    @GetMapping("/showCollectList")
     public ResponseResult collects(Integer currentPage,Integer userId){
         return videoDoLikeService.showCollectsList(currentPage);
     }
+
+    /**
+     * 得到当前评论的子评论
+     * @param commentId 当前评论的id
+     */
+    @GetMapping ("/getCommentList")
+    public ResponseResult doComment(Long commentId,Long videoId)
+    {
+        return videoDoLikeService.getCommentList(commentId,videoId);
+    }
+
 
     // TODO
     /**

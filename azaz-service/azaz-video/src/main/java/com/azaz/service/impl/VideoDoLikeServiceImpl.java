@@ -1,34 +1,28 @@
 package com.azaz.service.impl;
 
-import com.alibaba.nacos.shaded.io.opencensus.internal.DefaultVisibilityForTesting;
+import com.azaz.clients.UserClient;
 import com.azaz.constant.VideoConstant;
+import com.azaz.mapper.CommentMapper;
 import com.azaz.mapper.VideoMapper;
 import com.azaz.response.ResponseResult;
 import com.azaz.service.DbOpsService;
 import com.azaz.service.VideoDoLikeService;
 import com.azaz.service.VideoUploadService;
-import com.azaz.user.pojo.User;
+import com.azaz.user.vo.UserPersonalInfoVo;
 import com.azaz.utils.ThreadLocalUtil;
+import com.azaz.video.pojo.Comment;
 import com.azaz.video.pojo.Video;
-import com.azaz.video.pojo.VideoLike;
 import com.azaz.video.pojo.VideoList;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import lombok.extern.slf4j.Slf4j;
-import org.redisson.client.protocol.convertor.VoidReplayConvertor;
 import org.springframework.data.mongodb.core.MongoTemplate;
-import org.springframework.data.mongodb.core.query.Criteria;
-import org.springframework.data.mongodb.core.query.Query;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.annotation.Resource;
-import java.sql.Wrapper;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
-import java.util.Set;
 
 /**
  * @author c'y'x
@@ -46,6 +40,10 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
     VideoUploadService videoUploadService;
     @Resource
     VideoMapper videoMapper;
+    @Resource
+    CommentMapper commentMapper;
+    @Resource
+    UserClient userClient;
     /**
      * 点赞操作
      * @param videoId 视频id
@@ -150,6 +148,50 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         }
     }
 
+    /**
+     * 评论视频
+     * @param videoId 视频id
+     * @param parentId 上一级评论id，若无上一级，则为null
+     * @param content 评论内容
+     */
+    @Override
+    public ResponseResult doComment(Long videoId, Long parentId,String content){
+        //得到userId
+        Long userId = ThreadLocalUtil.getUserId();
+        //视频的评论总数的key
+        String key=VideoConstant.STRING_COMMENT_KEY+videoId.toString();
+        //redis数据加一
+        dbOpsService.addIntSafely(key,1);
+        //得到当前用户信息
+        ResponseResult<UserPersonalInfoVo> res = userClient.getUserPersonalInfo(userId);
+        UserPersonalInfoVo user = res.getData();
+        //得到评论，插入数据库
+        Comment comment = Comment.builder()
+                .userId(userId)
+                .content(content)
+                .videoId(videoId)
+                .parentId(parentId==null?0L:parentId)
+                .userName(user.getUsername())
+                .image(user.getImage())
+                .status(1)
+                .build();
+        commentMapper.insert(comment);
+        return ResponseResult.successResult();
+    }
+
+    /**
+     * 查询当前评论的子评论
+     * @param commentId 要查询的评论id
+     */
+    @Override
+    public ResponseResult getCommentList(Long commentId,Long videoId){
+        QueryWrapper<Comment> queryWrapper=new QueryWrapper<>();
+        queryWrapper.eq("parent_id",commentId).eq("video_id",videoId);
+        List<Comment> list = commentMapper.selectList(queryWrapper);
+        return ResponseResult.successResult(list);
+    }
+
+
 
 
 
@@ -158,7 +200,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
 
 
     /**
-     * 得到当前用户的点赞量,其他微服务调用
+     * 得到当前用户的被点赞量,其他微服务调用
      */
     @Override
     public ResponseResult<Integer> getUserLikes(Long userId1){
@@ -202,9 +244,6 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
             if(video!=null) {
                 videos.add(video);
             }
-        }
-        if(videos.isEmpty()){
-            return ResponseResult.errorResult("没有辣");
         }
         VideoList videoList=new VideoList();
         videoList.setVideoList(videos);

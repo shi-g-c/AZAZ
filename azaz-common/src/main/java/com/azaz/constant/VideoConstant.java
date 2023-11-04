@@ -20,10 +20,10 @@ public class VideoConstant {
     //与videoId对应的video对象
     public static final String VIDEO_ID="video_id:";
 
-    //记录user总点赞数的key
+    //记录user被总点赞数的key
     public static final String USER_LIKES_SUM="user_likes_sum:";
-    public static final String USER_COLLECT_SUM="user_collect_sum:";
-    public static final String USER_COMMENT_SUM="user_comment_sum:";
+    public static final String USER_COLLECT_SUM="video_collect_sum:";
+    public static final String USER_COMMENT_SUM="video_comment_sum:";
 
     //记录userId下的所有视频id,以list存储
     public static final String USER_VIDEO_LIST="user_video_list:";
