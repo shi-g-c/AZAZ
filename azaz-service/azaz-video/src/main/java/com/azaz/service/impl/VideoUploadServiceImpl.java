@@ -17,6 +17,8 @@ import com.azaz.video.pojo.GetVideoInfo;
 import com.azaz.video.pojo.Video;
 import com.azaz.video.pojo.VideoDetailInfo;
 import com.azaz.video.pojo.VideoLike;
+import com.azaz.video.vo.VideoDetail;
+import com.azaz.video.vo.VideoInfo;
 import com.azaz.video.vo.VideoUploadVo;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.rocketmq.spring.core.RocketMQTemplate;
@@ -149,7 +151,11 @@ public class VideoUploadServiceImpl implements VideoUploadService {
     public ResponseResult getVideos(Integer lastVideoId) {
         GetVideoInfo getVideoInfo=new GetVideoInfo();
         List <VideoDetailInfo>videoList=new ArrayList<>();
-        for (Integer i = lastVideoId+1; i < lastVideoId+11; i++) {
+        if(lastVideoId==0){
+            Video lastVideo = videoMapper.getLastVideo();
+            lastVideoId=lastVideo.getId().intValue();
+        }
+        for (Integer i = lastVideoId; i > lastVideoId-10; i--) {
             VideoDetailInfo videoDetailInfo=new VideoDetailInfo();
             //i就是videoId
             //得到video对象
@@ -166,8 +172,11 @@ public class VideoUploadServiceImpl implements VideoUploadService {
             DateTimeFormatter df = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
             String format = video.getCreateTime().format(df);
             videoDetailInfo.setCreateTime(format);
-            //判断是否喜欢
-            videoDetailInfo.setIslike(isLike(i.longValue()));
+            //判断是否喜欢与收藏
+            videoDetailInfo.setLiked
+                    (isDo(i.longValue(),VideoConstant.SET_LIKE_KEY+video.getId().toString()));
+            videoDetailInfo.setCollected
+                    (isDo(i.longValue(),VideoConstant.SET_LIKE_KEY+video.getId().toString()));
             //得到作者信息
             ResponseResult<UserPersonalInfoVo> res = userClient.getUserPersonalInfo(video.getAuthorId());
             UserPersonalInfoVo user = res.getData();
@@ -177,7 +186,7 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         }
         getVideoInfo.setVideoList(videoList);
         getVideoInfo.setTotal(videoList.size());
-        getVideoInfo.setLastVideoId(lastVideoId+10);
+        getVideoInfo.setLastVideoId(lastVideoId-10);
         return ResponseResult.successResult(getVideoInfo);
     }
 
@@ -225,19 +234,46 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         return video;
     }
 
+    @Override
+    public ResponseResult<VideoInfo> getVideoInfo(Long videoId) {
+        Video video = getVideoById(videoId.intValue());
+        VideoInfo videoInfo=new VideoInfo();
+        BeanUtils.copyProperties(video,videoInfo);
+        return ResponseResult.successResult(videoInfo);
+    }
+
+    @Override
+    public ResponseResult<VideoDetail> getVideoDetailInfo(Long videoId) {
+        VideoDetail videoDetailInfo=new VideoDetail();
+        Video video = getVideoById(videoId.intValue());
+        //如果没视频了，把之前的视频返回
+        BeanUtils.copyProperties(video,videoDetailInfo);
+        //判断是否喜欢与收藏
+        videoDetailInfo.setIsLiked
+                (isDo(videoId,VideoConstant.SET_LIKE_KEY+video.getId().toString()));
+        videoDetailInfo.setIsCollected
+                (isDo(videoId,VideoConstant.SET_LIKE_KEY+video.getId().toString()));
+        //得到作者信息
+        ResponseResult<UserPersonalInfoVo> res = userClient.getUserPersonalInfo(video.getAuthorId());
+        UserPersonalInfoVo user = res.getData();
+        videoDetailInfo.setUserName(user.getUsername());
+        videoDetailInfo.setImage(user.getImage());
+        return ResponseResult.successResult(videoDetailInfo);
+    }
+
     /**
-     * 判断当前用户是否对当前视频进行点赞
+     * 判断当前用户是否对当前视频进行点赞或收藏
      * @param videoId 视频id
      * @return
      */
-    public boolean isLike(Long videoId){
+    public boolean isDo(Long videoId,String setLikeKey){
         Long userId = ThreadLocalUtil.getUserId();
-        //获取key
-        String setLikeKey = VideoConstant.SET_LIKE_KEY+videoId.toString();
+//        //获取key
+//        String setLikeKey = VideoConstant.SET_LIKE_KEY+videoId.toString();
         //判断key是否存在
         if(Boolean.TRUE.equals(stringRedisTemplate.hasKey(setLikeKey))){
             //如果userId在set里，说明已经点赞
-            if(stringRedisTemplate.opsForSet().isMember(setLikeKey,userId.toString())){
+            if(Boolean.TRUE.equals(stringRedisTemplate.opsForSet().isMember(setLikeKey, userId.toString()))){
                 return true;
             }
             else {
@@ -252,12 +288,7 @@ public class VideoUploadServiceImpl implements VideoUploadService {
                             and("videoId").is(videoId.toString()));
             VideoLike videoLike = mongoTemplate.findOne(query, VideoLike.class);
             //如果此字段不存在，直接返回0
-            if(videoLike==null||videoLike.getIsLike()==0){
-                return false;
-            }
-            else {
-                return true;
-            }
+            return videoLike != null && videoLike.getIsLike() != 0;
 
         }
     }

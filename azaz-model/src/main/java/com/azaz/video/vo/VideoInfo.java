@@ -8,7 +8,6 @@ import lombok.Data;
  * @author shigc
  */
 @Data
-@Builder
 public class VideoInfo {
 
     /**
@@ -25,7 +24,6 @@ public class VideoInfo {
      * 封面url
      */
     private String coverUrl;
-
     /**
      * 视频url
      */

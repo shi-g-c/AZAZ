@@ -1,4 +1,0 @@
-com\azaz\SearchApplication.class
-com\azaz\config\MybatisConfig.class
-com\azaz\interceptor\TokenInterceptor.class
-com\azaz\config\WebMvcConfiguration.class

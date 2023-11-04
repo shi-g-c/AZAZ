@@ -3,6 +3,8 @@ package com.azaz.service;
 import com.azaz.response.ResponseResult;
 import com.azaz.video.dto.VideoPublishDto;
 import com.azaz.video.pojo.Video;
+import com.azaz.video.vo.VideoDetail;
+import com.azaz.video.vo.VideoInfo;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -20,5 +22,7 @@ public interface VideoUploadService {
 
       ResponseResult getVideos(Integer lastVideoId);
       Video getVideoById(Integer videoId);
+      ResponseResult<VideoInfo> getVideoInfo(Long videoId);
+      ResponseResult<VideoDetail> getVideoDetailInfo(Long videoId);
 
 }
