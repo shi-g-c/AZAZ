@@ -2,19 +2,21 @@
 
 ## 项目介绍
 
-本项目是西南联大队参加七牛云1024创作节的作品，项目名为AZAZ，是一个基于七牛云的对象存储服务制作的音视频软件，实现了基本的视频观看、视频互动、用户交互等功能。
+本项目是西南联大队参加七牛云1024创作节的作品，项目名为AZAZ，是一个基于七牛云的对象存储服务开发的音视频软件，实现了视频观看、视频互动、用户交互等功能，并且在项目开发过程中考虑到了并发与高流量问题，构建高并发、大数据量下仍然能提供高效可靠的视频服务。
 
 ## 项目架构
 
 ### 总览：
 
-本项目采用前后端分离的架构，前端使用Vue框架，后端使用SpringBoot+SpringCloudAlibaba框架。使用到的中间件有MySQL，MongoDB，Redis，ElasticSearch，Nacos，RocketMQ，具体版本与初始化语句见 [后端启动](#后端启动)。
+本项目采用前后端分离的架构，前端使用Vue框架，后端使用SpringBoot+SpringCloudAlibaba框架。使用到的中间件有MySQL，MongoDB，Redis，ElasticSearch，Nacos，RocketMQ等，具体版本与初始化语句见 [后端启动](#后端启动)。
 
 ### 框架
 
 本项目使用的后端框架为spring全家桶，框架版本对应为 jdk17 - springboot2.6.11 - springcloud2021.0.4 - springcloudalibaba2021.0.4.0 。
 
 ### 中间件
+
+本项目使用到的中间件及其版本如图所示:
 
 | 中间件        | 版本   |
 | ------------- | ------ |
@@ -32,11 +34,7 @@
 
 ### AZAZ音视频项目架构
 
-
-
-### AZAZ音视频服务梳理
-
-
+![AZAZ音视频项目架构](resource/imgs/AZAZ系统架构图.jpg)
 
 ## 功能描述
 
@@ -46,7 +44,7 @@
 
 ### 全部功能点及其描述
 
-全部功能点及其描述：[AZAZ音视频全部功能点描述](https://sqrmcnsjwo8.feishu.cn/docx/GhhLdO2q8o8wm8xvGwzchtyPnqb?from=from_copylink)
+全部功能点及其描述：[AZAZ音视频全部功能点描述](https://sqrmcnsjwo8.feishu.cn/docx/J6KMdqVN5opT0OxT5Z9cEg9OnFd?from=from_copylink)
 
 ### 亮点功能架构概述
 

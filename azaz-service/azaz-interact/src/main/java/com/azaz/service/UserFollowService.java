@@ -53,4 +53,12 @@ public interface UserFollowService {
      * @return 粉丝列表
      */
     ResponseResult<Integer> getFansNum(Long userId);
+
+    /**
+     * 判断是否互相关注
+     * @param firstUser 第一个用户
+     * @param secondUser 第二个用户
+     * @return 是否互相关注
+     */
+    ResponseResult<Boolean> ifFollowEachOther(Long firstUser, Long secondUser);
 }

@@ -46,6 +46,18 @@ public class UserFollowController {
     }
 
     /**
+     * 判断是否互关
+     * @param firstUser  第一个用户
+     * @param secondUser  第二个用户
+     * @return 是否互关
+     */
+    @GetMapping("/ifFollowEachOther")
+    public ResponseResult<Boolean> ifFollowEachOther(@RequestParam("firstUser") Long firstUser,
+                                                     @RequestParam("secondUser") Long secondUser) {
+        return userFollowService.ifFollowEachOther(firstUser, secondUser);
+    }
+
+    /**
      * 获取互关朋友列表
      * @return 互关朋友列表
      */
