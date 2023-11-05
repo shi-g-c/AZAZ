@@ -30,6 +30,7 @@
             <groupId>io.github.openfeign</groupId>
             <artifactId>feign-httpclient</artifactId>
         </dependency>
+        <!--azaz-model模块依赖-->
         <dependency>
             <groupId>com.azaz</groupId>
             <artifactId>azaz-model</artifactId>

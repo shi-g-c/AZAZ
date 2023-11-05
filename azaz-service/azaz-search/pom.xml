@@ -18,10 +18,21 @@
     </properties>
 
     <dependencies>
+        <!--azaz-model模块依赖-->
         <dependency>
             <groupId>com.azaz</groupId>
             <artifactId>azaz-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-mongodb</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <!--azaz-common模块依赖-->
         <dependency>

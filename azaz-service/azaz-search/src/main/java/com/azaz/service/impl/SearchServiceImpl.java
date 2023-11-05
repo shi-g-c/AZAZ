@@ -3,6 +3,7 @@ package com.azaz.service.impl;
 
 import com.alibaba.fastjson2.JSON;
 import com.azaz.clients.VideoClient;
+import com.azaz.exception.NullParamException;
 import com.azaz.interact.vo.UserListVo;
 import com.azaz.interact.vo.VideoListVo;
 import com.azaz.response.ResponseResult;
@@ -51,6 +52,9 @@ public class SearchServiceImpl implements com.azaz.service.SearchService{
      */
     @Override
     public ResponseResult<UserListVo> searchUser(String keyword, Integer page, Integer pageSize) {
+        if (keyword == null || keyword.length() < 2) {
+            throw new NullParamException("搜索关键词长度需大于2个！");
+        }
         log.info("搜索用户，关键字：{}，页码：{}，页大小：{}", keyword, page, pageSize);
         // 根据keyword搜索tb_user表，返回用户列表
         // 设置查询条件
@@ -106,6 +110,9 @@ public class SearchServiceImpl implements com.azaz.service.SearchService{
      */
     @Override
     public ResponseResult<VideoListVo> searchVideo(String keyword, Integer page, Integer pageSize) {
+        if (keyword == null || keyword.length() < 2) {
+            throw new NullParamException("搜索关键词长度需大于2个！");
+        }
         log.info("搜索视频，关键字：{}，页码：{}，页大小：{}", keyword, page, pageSize);
         log.info("当前用户：{}", ThreadLocalUtil.getUserId());
         // 根据keyword搜索tb_user表，返回用户列表

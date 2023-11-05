@@ -22,6 +22,12 @@
             <groupId>com.azaz</groupId>
             <artifactId>azaz-model</artifactId>
             <version>0.0.1-SNAPSHOT</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-data-mongodb</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
         <!--azaz-common模块依赖-->
         <dependency>
@@ -92,10 +98,9 @@
             <artifactId>junit</artifactId>
             <scope>test</scope>
         </dependency>
-        <!-- rocketmq -->
         <dependency>
-            <groupId>org.apache.rocketmq</groupId>
-            <artifactId>rocketmq-spring-boot-starter</artifactId>
+            <groupId>com.alibaba.cloud</groupId>
+            <artifactId>spring-cloud-starter-alibaba-nacos-config</artifactId>
         </dependency>
         <dependency>
             <groupId>com.azaz</groupId>
@@ -103,5 +108,4 @@
             <version>0.0.1-SNAPSHOT</version>
         </dependency>
     </dependencies>
-
 </project>

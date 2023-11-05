@@ -1,9 +1,4 @@
 spring:
-  redis:
-    host: 124.221.176.164
-    password: sgc123456
-    port: 6380
-    database: 0
   cloud:
     gateway:
       globalcors: # 全局的跨域处理
