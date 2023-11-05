@@ -5,6 +5,7 @@ import com.azaz.service.VideoDoLikeService;
 import com.azaz.service.VideoUploadService;
 import com.azaz.video.dto.VideoPublishDto;
 import com.azaz.video.pojo.Video;
+import com.azaz.video.pojo.VideoList;
 import com.azaz.video.vo.VideoDetail;
 import com.azaz.video.vo.VideoInfo;
 import org.springframework.web.bind.annotation.*;
@@ -111,30 +112,30 @@ public class VideoController {
 
 
     /**
-     * 得到用户收藏过的视频列表
+     * 得到用户发布过的视频列表
      * @param currentPage 当前页
      * @param userId 用户id
      * @return 视频列表
      */
     @GetMapping("/getPublishedVideos")
-    public ResponseResult<List<Video>> getAllVideos(Integer currentPage,Integer userId){
+    public ResponseResult<VideoList> getAllVideos(Integer currentPage, Integer userId){
         return videoDoLikeService.getPublishedVideos(currentPage,userId);
     }
 
 
     /**
-     * 得到用户收藏过的视频列表
+     * 得到当前用户收藏过的视频列表
      * @param currentPage 当前页
      * @param userId 用户id
      * @return 视频列表
      */
     @GetMapping("/showCollectList")
     public ResponseResult collects(Integer currentPage,Integer userId){
-        return videoDoLikeService.showCollectsList(currentPage);
+        return videoDoLikeService.showCollectsList(currentPage,userId);
     }
 
     /**
-     * 得到用户收藏过的视频列表
+     * 得到评论列表
      * @param commentId 评论id
      * @param videoId 视频id
      * @return 视频列表
