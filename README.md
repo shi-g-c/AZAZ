@@ -2,39 +2,53 @@
 
 ## 项目介绍
 
-本项目是西南联大队参加七牛云1024创作节的作品，项目名为AZAZ，是一个基于七牛云的对象存储服务开发的音视频软件，实现了视频观看、视频互动、用户交互等功能，并且在项目开发过程中考虑到了并发与高流量问题，构建高并发、大数据量下仍然能提供高效可靠的视频服务。
+本项目是**西南联大队**参加**七牛云1024创作节**的作品，项目名为AZAZ音视频，是一个基于七牛云的对象存储服务开发的分布式音视频网页软件项目，实现了视频观看、视频互动、用户社交等功能，并且在项目开发过程中考虑到了分布式、并发与高流量问题，大数据量下仍然能提供高效可靠的音视频服务。
 
 ## 项目架构
 
 ### 总览：
 
-本项目采用前后端分离的架构，前端使用Vue框架，后端使用SpringBoot+SpringCloudAlibaba框架。使用到的中间件有MySQL，MongoDB，Redis，ElasticSearch，Nacos，RocketMQ等，具体版本与初始化语句见 [后端启动](#后端启动)。
+本项目采用前后端分离的架构，前端使用Vue框架，后端使用SpringBoot+SpringCloudAlibaba框架。使用到的中间件有MySQL，MongoDB，Redis，ElasticSearch，Nacos，RocketMQ等。
 
 ### 框架
 
 本项目使用的后端框架为spring全家桶，框架版本对应为 jdk17 - springboot2.6.11 - springcloud2021.0.4 - springcloudalibaba2021.0.4.0 。
 
-### 中间件
+### 技术选型
 
-本项目使用到的中间件及其版本如图所示:
+#### 前端技术选型
 
-| 中间件        | 版本   |
-| ------------- | ------ |
-| Qiniu对象存储 | 7.2.7  |
-| MySQL         | 8.0.27 |
-| Redis         | 6.2.6  |
-| Nacos         | 2.03   |
-| ElasticSearch | 7.12.1 |
-| RocketMQ      | 4.5.1  |
-| MongoDB       | 5.0.5  |
 
-### AZAZ音视频顶层模块设计
+
+#### 后端技术选型：
+
+**控制层与服务层框架选择：**jdk17 - springboot2.6.11 - springcloud2021.0.4 - springcloudalibaba2021.0.4.0 
+
+**持久层数据库选择：**Qiniu对象存储，关系型数据库MySQL，非关系数据库Redis，文档型数据库MongoDB，消息通信中间件RocketMQ，搜索索引库ElasticSearch，注册中心Nacos。
+
+### AZAZ音视频顶层技术选型设计
 
 ![顶层模块](resource/imgs/azaz系统顶层模块设计图.png)
 
 ### AZAZ音视频项目架构
 
 ![AZAZ音视频项目架构](resource/imgs/AZAZ系统架构图.jpg)
+
+### AZAZ数据库表结构设计
+
+#### 1. 项目数据库表一览
+
+| 表名               | 表含义     | 备注                         |
+| ------------------ | ---------- | ---------------------------- |
+| tb_user            | 用户表     | 保存系统用户信息             |
+| tb_video           | 视频表     | 保存视频信息                 |
+| tb_like            | 点赞关系表 | 保存用户和视频的点赞关系对应 |
+| tb_collect         | 收藏关系表 | 保存用户和视频的收藏关系对应 |
+| tb_follow          | 关注关系表 | 保存用户和用户的关注关系对应 |
+| tb_comment         | 评论表     | 保存用户对视频或者评论的回复 |
+| tb_private_message | 私信信息表 | 保存用户与用户之间的私信     |
+
+
 
 ## 功能描述
 
@@ -96,15 +110,182 @@
 1. **用户搜索**：用户可以通过搜索框按照用户名的关键词检索用户
 2. **视频搜索**：用户可以通过搜索框按照视频的标题的关键词检索视频
 
-## 分模块介绍
+## 模块介绍
+
+### 概览
+
+项目的基本层级结构如下：
+
+```shell
+├── .idea
+├── azaz-common # 通用包，包括常量类、通用工具、异常模型等
+├── azaz-feign-api # OpenFeign远程调用
+├── azaz-gateway # SpringCloud Gateway
+├── azaz-model # 模型，包括dto，vo，pojo等
+├── azaz-page # 前端页面
+├── azaz-service # 实际的业务服务包
+│   ├── azaz-interact # 社交服务
+│   ├── azaz-search # 搜索服务
+│   ├── azaz-user # 用户服务
+│   └── azaz-video # 视频服务
+├── pom.xml # pom依赖文件
+├── project-log # logback日志
+└── resource # 项目资源，包括启动sql等
+```
+
+本项目的服务基于业务逻辑进行纵向拆分，考虑到业务的关联程度我们将服务拆分成四个部分：**用户服务、视频服务、社交服务、搜索服务**。这种拆分方法充分考虑到了自洽性与扩展性，各自与数据库表对应，实现高内聚低耦合以及代码复用，也利用后期进行扩展。
 
 ### 用户模块
 
+#### 1. 项目层级结构
+
+```shell
+├── pom.xml # pom依赖文件
+└── src # 项目源文件
+    └── main
+        ├── java
+        │   └── com
+        │       └── azaz
+        │           ├── UserApplication.java # 用户服务启动类
+        │           ├── config # 配置包
+        │           │   ├── MybatisConfig.java # MybatisPlus配置
+        │           │   ├── RedissonConfig.java # Redisson配置
+        │           │   └── WebMvcConfiguration.java # SpringMVC配置
+        │           ├── controller # 控制包
+        │           │   ├── UserInfoController.java # 用户信息控制
+        │           │   └── UserLoginController.java # 用户登录注册控制
+        │           ├── interceptor # 拦截器
+        │           │   └── TokenInterceptor.java # token拦截器
+        │           ├── mapper # 持久层
+        │           │   ├── UserLoginMapper.java
+        │           │   └── UserMapper.java
+        │           └── service # 服务层
+        │               ├── UserInfoService.java  # 用户信息服务接口
+        │               ├── UserLoginService.java # 用户登录注册服务接口
+        │               └── impl
+        │                   ├── UserInfoServiceImpl.java # 用户信息服务接口实现类
+        │                   └── UserLoginServiceImpl.java # 用户登录注册服务接口实现类
+        └── resources
+            ├── application.yml # 中间件日志等配置
+            ├── bootstrap.yaml # nacos配置
+            ├── logback.xml # 日志配置
+            └── mapper # Mybatis的xml文件
+```
+
 ### 视频模块
+
+#### 1.项目层级结构
+
+```shell
+├── pom.xml # pom依赖文件
+└── src # 项目源文件
+    └── main
+        ├── java
+        │   └── com
+        │       └── azaz
+        │           ├── VideoApplication.java # 视频服务启动类
+        │           ├── config # 配置包
+        │           │   ├── MybatisConfig.java #  
+        │           │   ├── RedissonConfig.java
+        │           │   └── WebMvcConfiguration.java
+        │           ├── controller # 控制包
+        │           │   └── VideoController.java # 视频控制
+        │           ├── interceptor # 拦截器包
+        │           │   └── TokenInterceptor.java # token拦截器
+        │           ├── mapper # 持久层
+        │           │   ├── CommentMapper.java
+        │           │   └── VideoMapper.java
+        │           └── service # 服务包
+        │               ├── DbOpsService.java # mongoDB操作服务
+        │               ├── VideoDoLikeService.java # 点赞收藏服务
+        │               ├── VideoUploadService.java # 视频发布服务
+        │               └── impl
+        │                   ├── DbOpsServiceImpl.java # mongoDB操作服务实现类
+        │                   ├── VideoDoLikeServiceImpl.java # 点赞收藏服务实现类
+        │                   └── VideoUploadServiceImpl.java # 视频发布服务实现类
+        └── resources
+            ├── application.yml # 中间件日志等配置
+            ├── bootstrap.yaml # nacos配置
+            ├── logback.xml # 日志配置
+            └── mapper # Mybatis的xml文件
+```
+
+
 
 ### 社交模块
 
+#### 1.项目层级结构
+
+```shell
+├── pom.xml # pom依赖文件
+└── src # 项目源文件
+    └── main
+        ├── java
+        │   └── com
+        │       └── azaz
+        │           ├── InteractApplication.java # 社交服务启动类
+        │           ├── config # 配置包
+        │           │   ├── MybatisConfig.java # MybatisPlus配置
+        │           │   ├── RedissonConfig.java # Redisson配置
+        │           │   └── WebMvcConfiguration.java # SpringMVC配置
+        │           ├── controller # 控制包
+        │           │   ├── PrivateMessageController.java # 私信控制
+        │           │   └── UserFollowController.java # 关注控制
+        │           ├── interceptor # 拦截器包
+        │           │   └── TokenInterceptor.java # token拦截器
+        │           ├── mapper # 持久层包
+        │           │   ├── FollowMapper.java
+        │           │   └── PrivateMessageMapper.java
+        │           ├── mq # RocketMQ消息队列
+        │           │   └── PrivateMessageListener.java # 监听消息发送
+        │           └── service # 服务包
+        │               ├── PrivateMessageService.java # 私信服务
+        │               ├── UserFollowService.java # 关注服务
+        │               └── impl 
+        │                   ├── PrivateMessageServiceImpl.java # 私信服务实现类
+        │                   └── UserFollowServiceImpl.java # 关注服务实现类
+        └── resources
+            ├── application.yml # 中间件日志等配置
+            ├── bootstrap.yaml # nacos配置
+            ├── logback.xml # 日志配置
+            └── mapper # Mybatis的xml文件
+```
+
+
+
 ### 搜索模块
+
+#### 1.项目层级结构
+
+```shell
+├── pom.xml # pom依赖文件
+└── src # 项目源文件
+    └── main
+        ├── java
+        │   └── com
+        │       └── azaz
+        │           ├── SearchApplication.java # 搜索服务启动类
+        │           ├── config # 配置包
+        │           │   ├── ElasticSearchConfig.java # ElasticSearch配置
+        │           │   ├── MybatisConfig.java # MybatisPlus配置
+        │           │   └── WebMvcConfiguration.java # SpringMVC配置
+        │           ├── controller # 控制包
+        │           │   └── SearchController.java # 搜索控制
+        │           ├── interceptor # 过滤器
+        │           │   └── TokenInterceptor.java #token过滤器
+        │           ├── mq # RocketMQ消费者
+        │           │   ├── UserInfoListener.java # 监听用户信息的增删改
+        │           │   └── VideoPublishListener.java # 监听视频信息的增删改
+        │           └── service # 服务包
+        │               ├── SearchService.java # 搜索服务接口
+        │               └── impl
+        │                   └── SearchServiceImpl.java # 搜索服务接口实现类
+        └── resources
+            ├── application.yml # 中间件日志等配置
+            ├── bootstrap.yaml # nacos配置
+            ├── logback.xml # 日志配置
+            └── mapper # Mybatis的xml文件
+```
 
 ## 项目快速启动
 
@@ -126,18 +307,34 @@
 
 向ElasticSearch索引库添加Mapping映射的json语句在 *resource/ES* 路径下， 有*esmapping-user.json*与*esmapping-video.json*两个json文件, 分别用来建立用户与视频的索引映射。
 
-#### 3.按照上述中间件的版本部署中间件
+#### 3. 克隆项目到本地
 
-#### 4.配置中间件的地址端口用户名密码等
+#### 4.部署项目中用到的中间件
 
-#### 5.依次启动各个服务
+本项目使用到的中间件及其版本如图所示:
+
+| 中间件        | 版本   |
+| ------------- | ------ |
+| Qiniu对象存储 | 7.2.7  |
+| MySQL         | 8.0.27 |
+| Redis         | 6.2.6  |
+| Nacos         | 2.03   |
+| ElasticSearch | 7.12.1 |
+| RocketMQ      | 4.5.1  |
+| MongoDB       | 5.0.5  |
+
+#### 5.配置中间件的地址端口用户名密码等
+
+#### 6.依次启动各个服务
+
+## Demo视频展示
 
 
 ## 项目成员及分工
 
 | 姓名   | 职责 | 分工                                                         |
 | ------ | ---- | ------------------------------------------------------------ |
-| 石功创 | 队长 | 分析整体架构；编写需求文档；设计数据库表结构；用户模块、社交模块、搜索模块的后端开发；文档编写；测试 |
-| 陈彦希 | 队员 | 分析整体架构；辅助设计数据库表结构；视频模块的后端开发；文档编写；测试 |
-| 杨博涵 | 队员 | 分析整体架构；整个项目的前端开发；测试                       |
+| 石功创 | 队长 | 分析整体架构；编写需求文档；设计数据库表结构；后端技术选型；编写接口文档；用户模块、社交模块、搜索模块的后端开发；说明文档编写；测试 |
+| 陈彦希 | 队员 | 分析整体架构；辅助设计数据库表结构；后端技术选型；编写接口文档；视频模块的后端开发；说明文档编写；测试 |
+| 杨博涵 | 队员 | 参与分析整体架构；前端技术选型；项目的前端开发；接口文档编写；辅助编写说明文档；测试 |
 

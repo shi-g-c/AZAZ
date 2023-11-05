@@ -3,9 +3,7 @@ package com.azaz.service.impl;
 import com.alibaba.fastjson2.JSON;
 import com.azaz.clients.UserClient;
 import com.azaz.constant.VideoConstant;
-import com.azaz.exception.DbOperationException;
-import com.azaz.exception.ErrorParamException;
-import com.azaz.exception.QiniuException;
+import com.azaz.exception.*;
 import com.azaz.mapper.VideoMapper;
 import com.azaz.response.ResponseResult;
 import com.azaz.service.DbOpsService;
@@ -33,7 +31,6 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
-import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -66,17 +63,17 @@ public class VideoUploadServiceImpl implements VideoUploadService {
      * @param videoPublishDto 视频信息
      * @return 是否成功
      */
-    @Transactional
+    @Transactional(rollbackFor = Exception.class)
     @Override
-    public ResponseResult publish(VideoPublishDto videoPublishDto){
+    public ResponseResult<VideoUploadVo> publish(VideoPublishDto videoPublishDto){
         //得到userId
         Long userId = ThreadLocalUtil.getUserId();
         //参数校验
-        if(userId==null){
-            return ResponseResult.errorResult("未登录");
+        if(userId == null){
+            throw new UserNotLoginException();
         }
         if(videoPublishDto.getVideoUrl() == null || videoPublishDto.getVideoUrl().isEmpty()){
-            return ResponseResult.errorResult("视频路径为空");
+            throw new NullParamException();
         }
         //分区大于9不合规范，设为默认0
         if(videoPublishDto.getSection()>9){
@@ -86,9 +83,6 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         if(videoPublishDto.getCoverUrl()==null||videoPublishDto.getCoverUrl().isEmpty()){
             videoPublishDto.setCoverUrl(videoPublishDto.getVideoUrl()+"?vframe/jpg/offset/0");
         }
-        //获取当前时间并格式化
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd:HH:mm:ss");
-        String format = simpleDateFormat.format(System.currentTimeMillis());
         //保存视频到数据库
         Video video= Video.builder().
                 videoUrl(videoPublishDto.getVideoUrl()).
@@ -117,10 +111,8 @@ public class VideoUploadServiceImpl implements VideoUploadService {
             log.error("保存视频信息失败{}",e.getMessage());
             throw new DbOperationException("保存视频信息失败！");
         }
-
         VideoUploadVo videoUploadVo=new VideoUploadVo();
         BeanUtils.copyProperties(video,videoUploadVo);
-
         return ResponseResult.successResult(videoUploadVo);
 
     }
@@ -131,19 +123,18 @@ public class VideoUploadServiceImpl implements VideoUploadService {
      * @return 是否成功
      */
     @Override
-    public ResponseResult upload(MultipartFile file){
+    public ResponseResult<String> upload(MultipartFile file){
         log.info("文件上传 ：{}",file);
-        String filePath="";
+        String filePath;
         //参数校验
-        if(file==null){
+        if(file == null){
             log.error("文件为空");
-            return ResponseResult.errorResult("文件为空" );
-        }
-        else{
+            throw new NullParamException("文件为空");
+        } else {
             //生成文件名并上传文件
             try {
-                filePath=QiniuOssUtil.upload(file.getBytes(),dealFileName(file));
-            }catch (Exception e){
+                filePath = QiniuOssUtil.upload(file.getBytes(),dealFileName(file));
+            } catch (Exception e){
                 log.error("文件上传失败{}",e.getMessage());
                 throw new QiniuException();
             }
@@ -159,14 +150,14 @@ public class VideoUploadServiceImpl implements VideoUploadService {
      * @return 返回response
      */
     @Override
-    public ResponseResult getVideos(Integer lastVideoId,Integer section) {
-        GetVideoInfo getVideoInfo=new GetVideoInfo();
-        List <VideoDetailInfo>videoList=new ArrayList<>();
+    public ResponseResult<GetVideoInfo> getVideos(Integer lastVideoId,Integer section) {
+        GetVideoInfo getVideoInfo = new GetVideoInfo();
+        List<VideoDetailInfo>videoList = new ArrayList<>();
         if(lastVideoId==0){
             Video lastVideo = videoMapper.getLastVideo();
             lastVideoId=lastVideo.getId().intValue();
         }
-        for (Integer i = lastVideoId; i > lastVideoId-10; i--) {
+        for (Integer i = lastVideoId; i > lastVideoId - 10; i--) {
             VideoDetailInfo videoDetailInfo=new VideoDetailInfo();
             //i就是videoId
             //得到video对象
@@ -217,7 +208,7 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         }
         //截取原始文件名后缀
         String extension = originalFilename.substring(originalFilename.lastIndexOf("."));
-        return UUID.randomUUID().toString()+ extension;
+        return UUID.randomUUID() + extension;
     }
 
     /**
@@ -243,10 +234,9 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         }
         String collects = stringRedisTemplate.opsForValue().get(VideoConstant.STRING_COLLECT_KEY + videoId);
         String comments = stringRedisTemplate.opsForValue().get(VideoConstant.STRING_COMMENT_KEY + videoId);
-        //如果当前key为空，直接从数据库中取
         video.setLikes(Long.parseLong(likes));
-        video.setCollects(Long.parseLong(collects));
-        video.setComments(Long.parseLong(comments));
+        video.setCollects(collects == null ? 0 : Long.parseLong(collects));
+        video.setComments(comments == null ? 0 : Long.parseLong(comments));
         return video;
     }
 
@@ -301,8 +291,6 @@ public class VideoUploadServiceImpl implements VideoUploadService {
      */
     public boolean isDo(Long videoId,String setLikeKey){
         Long userId = ThreadLocalUtil.getUserId();
-        //获取key
-//        String setLikeKey = VideoConstant.SET_LIKE_KEY+videoId.toString();
         //判断key是否存在
         if(Boolean.TRUE.equals(stringRedisTemplate.hasKey(setLikeKey))){
             //如果userId在set里，说明已经点赞

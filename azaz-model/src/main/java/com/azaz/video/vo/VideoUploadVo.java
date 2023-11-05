@@ -1,15 +1,19 @@
 package com.azaz.video.vo;
 
 import lombok.Data;
-import org.apache.ibatis.annotations.Param;
-
-import java.time.LocalDateTime;
 
 /**
  * @author c'y'x
  */
 @Data
 public class VideoUploadVo {
+    /**
+     * 视频名称
+     */
     private String videoUrl;
+
+    /**
+     * 视频封面
+     */
     private String coverUrl;
 }

@@ -10,11 +10,11 @@ import org.springframework.stereotype.Service;
 public interface DbOpsService {
     /**
      * 安全的增加一个int类型的值
+     *
      * @param key 视频id
      * @param num 点赞数
-     * @return 是否成功
      */
-    boolean addIntSafely(String key,int num);
+    void addIntSafely(String key, int num);
 
     /**
      *  向mongo中插入一条数据

@@ -156,7 +156,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
                 return ResponseResult.errorResult("重复取消");
             }
         }
-        }
+    }
 
     /**
      * 评论视频
@@ -196,7 +196,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
      * @return 评论列表
      */
     @Override
-    public ResponseResult getCommentList(Long commentId,Long videoId){
+    public ResponseResult<List<Comment>> getCommentList(Long commentId,Long videoId){
         QueryWrapper<Comment> queryWrapper=new QueryWrapper<>();
         queryWrapper.eq("parent_id",commentId).eq("video_id",videoId);
         List<Comment> list = commentMapper.selectList(queryWrapper);
@@ -272,26 +272,25 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
      * @return 收藏数
      */
     @Override
-    public ResponseResult showCollectsList(Integer currentPage,Integer userId){
-        String key=VideoConstant.USER_LIST_COLLECT_KEY+userId.toString();
+    public ResponseResult<List<Video>> showCollectsList(Integer currentPage,Integer userId){
+        String key = VideoConstant.USER_LIST_COLLECT_KEY + userId.toString();
         //得到用户发布的当前页数的videoId
-        List<String> videoIds = stringRedisTemplate.opsForList().range(key, (currentPage-1)* 10L,currentPage*10);
-        if(videoIds==null){
-            return ResponseResult.successResult("没有辣");
+        List<String> videoIds = stringRedisTemplate.opsForList().range(key, (currentPage-1) * 10L,currentPage*10);
+        if(videoIds == null){
+            return ResponseResult.successResult(new ArrayList<>());
         }
-        List<Video>videos=new ArrayList<>();
+        List<Video> videos = new ArrayList<>();
         //得到videoId对应的实体类
         for (String videoId : videoIds) {
             Video video = videoUploadService.getVideoById(Integer.parseInt(videoId));
-            if(video!=null) {
+            if(video != null) {
                 videos.add(video);
             }
         }
-        VideoList videoList=new VideoList();
+        VideoList videoList = new VideoList();
         videoList.setVideoList(videos);
         //得到视频总数
         videoList.setTotal(Objects.requireNonNull(stringRedisTemplate.opsForList().size(key)).intValue());
         return ResponseResult.successResult(videos);
     }
-
 }

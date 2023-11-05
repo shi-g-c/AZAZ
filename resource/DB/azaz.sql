@@ -27,16 +27,6 @@ create table if not exists tb_comment
     comment '评论表' collate = utf8mb4_unicode_ci
                      row_format = DYNAMIC;
 
-create table if not exists tb_comment_like
-(
-    id          bigint unsigned auto_increment comment '主键'
-        primary key,
-    comment_id  bigint unsigned                     not null comment '被点赞的评论',
-    user_id     int unsigned                        not null comment '点赞的用户',
-    create_time timestamp default CURRENT_TIMESTAMP not null comment '创建时间'
-)
-    comment '评论点赞表' collate = utf8mb4_unicode_ci
-                         row_format = DYNAMIC;
 
 create table if not exists tb_follow
 (
