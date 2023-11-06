@@ -37,7 +37,7 @@ public class PrivateMessageListener implements RocketMQListener<PrivateMessage> 
         //将私信转换为vo缓存在redis中
         // 向redis中添加私信,key为小id-大id
         String messageKey = InteractConstant.REDIS_PRIVATE_MESSAGE_KEY + Math.min(senderId, receiverId)
-                + "-" + Math.max(senderId, receiverId) + ":";
+                + "-" + Math.max(senderId, receiverId);
         //封装私信vo
         MessageVo messageVo = MessageVo.builder()
                 .senderId(senderId.toString())

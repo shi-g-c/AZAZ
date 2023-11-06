@@ -29,8 +29,6 @@ public interface PrivateMessageMapper extends com.baomidou.mybatisplus.core.mapp
      * @param lastMessageId 最后一条私信id
      * @return 私信列表
      */
-    @Select("select * from azaz.tb_private_message where (sender_id = #{userId} and receiver_id = #{friendId}) " +
-            "or (sender_id = #{friendId} and receiver_id = #{userId}) and id > #{lastMessageId} order by id desc")
     List<PrivateMessage> selectByUserIdAndFriendId(@Param("userId") Long userId, @Param("friendId")Long friendId,
                                                    @Param("lastMessageId") Long lastMessageId);
 }

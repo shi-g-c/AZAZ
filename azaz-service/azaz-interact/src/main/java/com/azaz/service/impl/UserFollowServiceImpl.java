@@ -243,7 +243,8 @@ public class UserFollowServiceImpl implements com.azaz.service.UserFollowService
         }
         // 2.判断是否互相关注
         Boolean isFollow = stringRedisTemplate.opsForSet().isMember(InteractConstant.REDIS_FOLLOW_KEY + firstUser, secondUser.toString());
-        if (Boolean.TRUE.equals(isFollow)) {
+        Boolean isFriend = stringRedisTemplate.opsForSet().isMember(InteractConstant.REDIS_FOLLOW_KEY + secondUser, firstUser.toString());
+        if (Boolean.TRUE.equals(isFollow) && Boolean.TRUE.equals(isFriend)) {
             return ResponseResult.successResult(Boolean.TRUE);
         }
         return ResponseResult.successResult(Boolean.FALSE);

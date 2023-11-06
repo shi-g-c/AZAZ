@@ -247,19 +247,19 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         //得到对应key
         String key=VideoConstant.USER_VIDEO_LIST+userId.toString();
         //得到用户发布的当前页数的videoId
-        List<String> videoIds = stringRedisTemplate.opsForList().range(key, (currentPage-1)* 10L,currentPage*10);
-        if(videoIds==null){
+        List<String> videoIds = stringRedisTemplate.opsForList().range(key, (currentPage - 1) * 10L,currentPage * 10 - 1);
+        if(videoIds == null){
             return ResponseResult.successResult(new VideoList());
         }
-        List<Video>videos=new ArrayList<>();
+        List<Video>videos = new ArrayList<>();
         //得到videoId对应的实体类
         for (String videoId : videoIds) {
             Video video = videoUploadService.getVideoById(Integer.parseInt(videoId));
-            if(video!=null) {
+            if(video != null) {
                 videos.add(video);
             }
         }
-        VideoList videoList=new VideoList();
+        VideoList videoList = new VideoList();
         videoList.setVideoList(videos);
         //得到视频总数
         videoList.setTotal(Objects.requireNonNull(stringRedisTemplate.opsForList().size(key)).intValue());

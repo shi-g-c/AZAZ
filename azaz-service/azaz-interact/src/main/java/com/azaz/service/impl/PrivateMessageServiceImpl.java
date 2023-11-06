@@ -93,7 +93,7 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
         }
         try {
             //2.检查是否互关
-            ResponseResult<Boolean> ifFollow = userFollowService.ifFollow(userId, messageSendDto.getReceiverId());
+            ResponseResult<Boolean> ifFollow = userFollowService.ifFollowEachOther(userId, messageSendDto.getReceiverId());
             boolean ifFollowEachOther = ifFollow.getData();
             if (!ifFollowEachOther && messageSendDto.getStatus() == 1) {
                 //2.1 未互关，不能分享视频
@@ -101,7 +101,7 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
             }
             // 向redis中添加私信,key为小id-大id
             String messageKey = InteractConstant.REDIS_PRIVATE_MESSAGE_KEY + Math.min(userId, messageSendDto.getReceiverId())
-                    + "-" + Math.max(userId, messageSendDto.getReceiverId()) + ":";
+                    + "-" + Math.max(userId, messageSendDto.getReceiverId());
             if (!ifFollowEachOther && messageSendDto.getStatus() == 0) {
                 //2.3 未互关，检查是否已发送三条私信
                 Long count = stringRedisTemplate.opsForList().size(messageKey);
@@ -148,10 +148,10 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
         }
         //3. 查询redis中是否包含私信key
         String messageKey = InteractConstant.REDIS_PRIVATE_MESSAGE_KEY + Math.min(userId, friendId)
-                + "-" + Math.max(userId, friendId) + ":";
+                + "-" + Math.max(userId, friendId);
         //3.1 查询redis中是否包含私信key
         Boolean hasKey = stringRedisTemplate.hasKey(messageKey);
-        if (hasKey == null || !hasKey) {
+        if (hasKey == null || !hasKey || lastMessageId != 0) {
             //3.1.1 redis中没有私信key，从数据库中查询
             return getMessagesInDb(userId, friendId, lastMessageId);
         }
@@ -234,6 +234,9 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
         List<PrivateMessage> privateMessageList = privateMessageMapper.selectByUserIdAndFriendId(userId, friendId, lastMessageId);
         // 2. 将私信转换为vo
         List<MessageVo> messageVoList = new ArrayList<>();
+        if (privateMessageList == null || privateMessageList.isEmpty()) {
+            return ResponseResult.successResult(MessageListVo.builder().messages(messageVoList).build());
+        }
         for (PrivateMessage privateMessage : privateMessageList) {
             // 2.3 封装私信vo
             MessageVo messageVo = MessageVo.builder()
