@@ -335,7 +335,6 @@ public class User {
 视频实体设计如下：
 
 ```java
-@TableName("tb_video")
 public class Video  {
     /**
      * 视频id
@@ -411,7 +410,7 @@ public class Video  {
     @TableField("comments")
     private Long comments;
 }
-
+```java
 
 评论实体设计如下：
 
@@ -480,11 +479,31 @@ public class Comment {
     private LocalDateTime updateTime;
 
 }
-
+```java
 
 #### 3. 重点功能设计
+视频模块主要负责以视频为中心的功能部分，包括上传，发布视频，对视频进行点赞，评论，收藏等操作，展示用户收藏的视频等。
 
-
+**视频点赞设计**
+此功能考虑高并发和高存储情况下并发点赞和大量点赞的需求
+考虑到此项目需要用到
+   获得当前视频点赞的总数，
+   获得用户的点赞列表，
+   判断当前用户是否对此视频点赞
+这三个相关功能
+故通过以下设计完成点赞功能
+  1.存储
+     1.接到点赞请求时，前端传来videoId，用threadlocal获得当前用户的userId
+     2.将视频的点赞集合以set形式存入redis中，其中set的key为前缀+videoId,value为以userId组成的set集合(集合元素的唯一性避免了重复点赞的操作)
+     3.将集合数据异步传递到mongodb上进行持久化
+     4.将视频的点赞总数以kv形式存入redis中，其中set的key为前缀+videoId,value为点赞总数+1(此操作用redisson加了分布式锁)
+     5.将点赞总数数据通过RocketMq异步传输到mysql数据库中进行持久化。
+     6.将用户和对应点赞视频存入用户点赞关系表中(mysql),方便以后查询用户的喜欢列表
+  2.查询
+      1.查询视频的总点赞量，直接从redis中取(key若失效，从mysql里面拉取)
+      2.查询用户的点赞列表，在mysql用户视频点赞关系表中查询
+      3.查询当前用户是否对视频点赞(查用户id在不在redis中的set)，先从redis中获取该视频的点赞用户set，再判断当前用户id是否在此集合中。若redis失效，从mongodb中拉取 
+        数据，并刷新到redis中。
 
 ### 社交模块
 
