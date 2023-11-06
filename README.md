@@ -327,13 +327,230 @@ public class User {
 
 #### 2. 实体设计
 
-视频实体
+视频实体设计如下：
 
-评论实体
+```java
+public class Video  {
+    /**
+     * 视频id
+     */
+    @TableId(type = IdType.AUTO)
+    private Long id;
+
+    /**
+     * 视频作者id
+     */
+    @TableField("author_id")
+    private Long authorId;
+
+    /**
+     * 视频作者名
+     */
+    @TableField("title")
+    private String title;
+
+    /**
+     * 分区，0为热门，其他待定
+     */
+    @TableField("section")
+    private Integer section;
+
+    /**
+     * 视频封面url
+     */
+    @TableField("cover_url")
+    private String coverUrl;
+
+    /**
+     * 视频url
+     */
+    @TableField("video_url")
+    private String videoUrl;
+
+    /**
+     * 视频状态。0正常    1删除
+     */
+    @TableField("status")
+    private Integer status;
+
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
+
+    /**
+     * 点赞数
+     */
+    @TableField("likes")
+    private Long likes;
+
+    /**
+     * 收藏数
+     */
+    @TableField("collects")
+    private Long collects;
+
+    /**
+     * 评论数
+     */
+    @TableField("comments")
+    private Long comments;
+}
+```
+
+评论实体设计如下：
+
+```java
+public class Comment {
+    /**
+     * 评论id
+     */
+    @TableId(type = IdType.AUTO)
+    private Long id;
+
+    /**
+     * 视频id
+     */
+    @TableField("video_id")
+    private Long videoId;
+
+    /**
+     * 用户id
+     */
+    @TableField("user_id")
+    private Long userId;
+
+    /**
+     * 用户名
+     */
+    @TableField("user_name")
+    private String userName;
+
+    /**
+     * 用户头像
+     */
+    @TableField("image")
+    private String image;
+
+    /**
+     * 父评论id
+     */
+    @TableField("parent_id")
+    private Long parentId;
+
+    /**
+     * 评论内容
+     */
+    @TableField("content")
+    private String content;
+
+    /**
+     * 点赞数
+     */
+    @TableField("status")
+    private Integer status;
+
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
+
+}
+```
 
 #### 3. 重点功能设计
 
+视频模块主要负责以视频为中心的功能部分，包括上传，发布视频，对视频进行点赞，评论，收藏等操作，展示用户收藏的视频等。
 
+**视频点赞设计**
+
+此功能考虑高并发和高存储情况下并发点赞和大量点赞的需求
+
+考虑到此项目需要用到:
+
+    (1)获得当前视频点赞的总数，
+    (2)获得用户的点赞列表，
+    (3)判断当前用户是否对此视频点赞
+
+这三个相关功能
+
+故通过以下设计完成点赞功能
+
+  1.存储
+
+     1.接到点赞请求时，前端传来videoId，用threadlocal获得当前用户的userId
+
+     2.将视频的点赞集合以set形式存入redis中，其中set的key为前缀+videoId,value为以userId组成的set集合(集合元素的唯一性避免了重复点赞的操作)
+
+     3.将集合数据异步传递到mongodb上进行持久化
+
+     4.将视频的点赞总数以kv形式存入redis中，其中set的key为前缀+videoId,value为点赞总数+1(此操作用redisson加了分布式锁)
+
+     5.将点赞总数数据通过RocketMq异步传输到mysql数据库中进行持久化。
+
+     6.将用户和对应点赞视频存入用户点赞关系表中(mysql),方便以后查询用户的喜欢列表
+
+  2.查询
+
+      1.查询视频的总点赞量，直接从redis中取(key若失效，从mysql里面拉取)
+
+      2.查询用户的点赞列表，在mysql用户视频点赞关系表中查询
+
+      3.查询当前用户是否对视频点赞(查用户id在不在redis中的set)，先从redis中获取该视频的点赞用户set，再判断当前用户id是否在此集合中。若redis失效，从mongodb中拉取 
+        数据，并刷新到redis中。
+
+**使用MongoDB**
+
+在存储每个视频的点赞用户ID操作中，选择了使用MongoDB存储而非传统的MYSQL，主要有下述原因
+
+    1.面向集合存储，易存储对象类型的数据。在存放用户点赞ID集合时，传统的MYSQL数据结构单一，显得力不从心，而MongoDB自由的存储形式提供了一个完美的解决方案
+
+    2.与生俱来的高可用、高水平扩展能力使得它在处理海量、高并发的数据应用时颇具优势。对于热点视频来说，点赞用户上百万甚至千万，如此大的存储量正好匹配了MongoDB的高性能
+
+    3.JSON 结构和对象模型接近，开发代码量低，JSON的动态模型意味着更容易响应新的业务需求。
+
+    4.点赞的用户ID并不是一个保证需要安全性的数据，即使丢失也无伤大雅。
+  
+**视频评论设计**
+
+视频的评功能需要考虑到评论还会有评论的情况。
+
+  1.存储时表的主要字段
+
+    父评论ID:记录此条评论是对于哪条评论的回复,若是对视频的直接评论,此字段值为0
+
+    视频ID:记录此条评论是哪个视频的评论
+
+    对于父评论ID和视频ID加联合索引，方便查询
+
+  2.查询操作
+
+    在查询时,根据此条评论ID和对应视频ID即可快速查处此条评论的回复。
+
+**视频流获取设计**
+在视频获取时，需要对视频信息进行一定处理
+    1.通过sql倒序查询id查到最后一次上传的videoId
+    2.根据前端传过来的lastVideoId到redis中取出10个视频并反序列化为视频类并进行分区筛选
+    3.以用户ID为key将视频ID存入redis对应的集合中，便于以后查询用户的发布列表
+   
 
 ### 社交模块
 
