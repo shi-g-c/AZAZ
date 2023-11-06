@@ -332,9 +332,155 @@ public class User {
 
 #### 2. 实体设计
 
-视频实体
+视频实体设计如下：
 
-评论实体
+```java
+@TableName("tb_video")
+public class Video  {
+    /**
+     * 视频id
+     */
+    @TableId(type = IdType.AUTO)
+    private Long id;
+
+    /**
+     * 视频作者id
+     */
+    @TableField("author_id")
+    private Long authorId;
+
+    /**
+     * 视频作者名
+     */
+    @TableField("title")
+    private String title;
+
+    /**
+     * 分区，0为热门，其他待定
+     */
+    @TableField("section")
+    private Integer section;
+
+    /**
+     * 视频封面url
+     */
+    @TableField("cover_url")
+    private String coverUrl;
+
+    /**
+     * 视频url
+     */
+    @TableField("video_url")
+    private String videoUrl;
+
+    /**
+     * 视频状态。0正常    1删除
+     */
+    @TableField("status")
+    private Integer status;
+
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
+
+    /**
+     * 点赞数
+     */
+    @TableField("likes")
+    private Long likes;
+
+    /**
+     * 收藏数
+     */
+    @TableField("collects")
+    private Long collects;
+
+    /**
+     * 评论数
+     */
+    @TableField("comments")
+    private Long comments;
+}
+
+
+评论实体设计如下：
+
+```java
+public class Comment {
+    /**
+     * 评论id
+     */
+    @TableId(type = IdType.AUTO)
+    private Long id;
+
+    /**
+     * 视频id
+     */
+    @TableField("video_id")
+    private Long videoId;
+
+    /**
+     * 用户id
+     */
+    @TableField("user_id")
+    private Long userId;
+
+    /**
+     * 用户名
+     */
+    @TableField("user_name")
+    private String userName;
+
+    /**
+     * 用户头像
+     */
+    @TableField("image")
+    private String image;
+
+    /**
+     * 父评论id
+     */
+    @TableField("parent_id")
+    private Long parentId;
+
+    /**
+     * 评论内容
+     */
+    @TableField("content")
+    private String content;
+
+    /**
+     * 点赞数
+     */
+    @TableField("status")
+    private Integer status;
+
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    @JsonFormat(shape= JsonFormat.Shape.STRING, pattern="yyyy-MM-dd HH:mm:ss")
+    private LocalDateTime updateTime;
+
+}
+
 
 #### 3. 重点功能设计
 
