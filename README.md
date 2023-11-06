@@ -410,7 +410,7 @@ public class Video  {
     @TableField("comments")
     private Long comments;
 }
-```java
+```
 
 评论实体设计如下：
 
@@ -479,7 +479,7 @@ public class Comment {
     private LocalDateTime updateTime;
 
 }
-```java
+```
 
 #### 3. 重点功能设计
 视频模块主要负责以视频为中心的功能部分，包括上传，发布视频，对视频进行点赞，评论，收藏等操作，展示用户收藏的视频等。
@@ -505,6 +505,17 @@ public class Comment {
       3.查询当前用户是否对视频点赞(查用户id在不在redis中的set)，先从redis中获取该视频的点赞用户set，再判断当前用户id是否在此集合中。若redis失效，从mongodb中拉取 
         数据，并刷新到redis中。
 
+**使用MongoDB的原因**
+在存储每个视频的点赞用户ID操作中，选择了使用MongoDB存储而非传统的MYSQL，主要有下述原因
+   
+**视频评论设计**
+视频的评功能需要考虑到评论还会有评论的情况。
+  1.存储时表的主要字段
+    父评论ID:记录此条评论是对于哪条评论的回复,若是对视频的直接评论,此字段值为0
+    视频ID:记录此条评论是哪个视频的评论
+    对于父评论ID和视频ID加联合索引，方便查询
+  2.查询操作
+    在查询时,根据此条评论ID和对应视频ID即可快速查处此条评论的回复。
 ### 社交模块
 
 #### 1.项目层级结构
