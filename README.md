@@ -48,6 +48,10 @@
 | tb_comment         | 评论表     | 保存用户对视频或者评论的回复 |
 | tb_private_message | 私信信息表 | 保存用户与用户之间的私信     |
 
+#### 2. 数据库ER图
+
+
+
 ## 功能描述
 
 ### 接口文档地址
@@ -170,7 +174,97 @@
             └── mapper # Mybatis的xml文件
 ```
 
-#### 2. 重点功能设计
+#### 2. 实体设计
+
+用户实体设计如下：
+
+```java
+@TableName("tb_user")
+public class User {
+    /**
+     * 用户id,采用数据库自增
+     */
+    @TableId(type = IdType.AUTO)
+    private Long id;
+    /**
+     * 手机号，唯一
+     */
+    @TableField("phone")
+    private String phone;
+    /**
+     * 用户名
+     */
+    @TableField("username")
+    private String username;
+
+    /**
+     * 密码
+     */
+    @TableField("password")
+    private String password;
+    /**
+     * 盐
+     */
+    @TableField("salt")
+    private String salt;
+
+    /**
+     * 用户头像url
+     */
+    @TableField("image")
+    private String image;
+
+    /**
+     * 用户个性签名
+     */
+    @TableField("signature")
+    private String signature;
+
+    /**
+     * 用户状态，0 正常，1 禁用
+     */
+    @TableField("status")
+    private Integer status;
+
+    /**
+     * 用户关注数
+     */
+    @TableField("attention")
+    private Integer attention;
+
+    /**
+     * 用户粉丝数
+     */
+    @TableField("followers")
+    private Integer followers;
+
+    /**
+     * 用户作品数
+     */
+    @TableField("works")
+    private Integer works;
+
+    /**
+     * 用户获赞数
+     */
+    @TableField("likes")
+    private Integer likes;
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private LocalDateTime createTime;
+
+    /**
+     * 更新时间
+     */
+    @TableField("update_time")
+    private LocalDateTime updateTime;
+
+}
+```
+
+#### 3. 重点功能设计
 
 用户模块主要负责以用户为中心的功能部分，包括用户注册、用户登录、用户信息查询等。
 
@@ -236,6 +330,14 @@
             └── mapper # Mybatis的xml文件
 ```
 
+#### 2. 实体设计
+
+视频实体
+
+评论实体
+
+#### 3. 重点功能设计
+
 
 
 ### 社交模块
@@ -277,7 +379,63 @@
             └── mapper # Mybatis的xml文件
 ```
 
+#### 2. 实体设计
 
+私信实体设计如下：
+
+```java
+@TableName("tb_private_message")
+public class PrivateMessage {
+    /**
+     * 私信id
+     */
+    @TableId(type = IdType.AUTO)
+    private Long id;
+
+    /**
+     * 发送者id
+     */
+    @TableField("sender_id")
+    private Long senderId;
+
+    /**
+     * 接收者id
+     */
+    @TableField("receiver_id")
+    private Long receiverId;
+    /**
+     * 私信类型，0-默认 1-朋友分享的视频 2-系统消息
+     */
+    @TableField("message_type")
+    private Integer messageType;
+
+    /**
+     * 私信内容
+     */
+    @TableField("message_content")
+    private String messageContent;
+
+    /**
+     * 私信状态，0-正常 1-删除
+     */
+    @TableField("status")
+    private Integer status;
+
+    /**
+     * 创建时间
+     */
+    @TableField("create_time")
+    private LocalDateTime createTime;
+}
+```
+
+#### 3. 重点功能设计
+
+**用户搜索**
+
+
+
+**视频搜索**
 
 ### 搜索模块
 
@@ -312,6 +470,16 @@
             ├── logback.xml # 日志配置
             └── mapper # Mybatis的xml文件
 ```
+
+#### 2. 重点功能设计
+
+搜索功能使用ElasticSearch倒排索引数据库
+
+**用户搜索**
+
+
+
+**视频搜索**
 
 ## 项目快速启动
 

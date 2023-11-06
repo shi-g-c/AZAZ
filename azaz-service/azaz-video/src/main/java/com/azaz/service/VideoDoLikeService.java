@@ -2,7 +2,6 @@ package com.azaz.service;
 
 import com.azaz.response.ResponseResult;
 import com.azaz.video.pojo.Comment;
-import com.azaz.video.pojo.Video;
 import com.azaz.video.pojo.VideoList;
 import org.springframework.stereotype.Service;
 
@@ -67,7 +66,7 @@ public interface VideoDoLikeService {
      * @param currentPage 当前页
      * @return 收藏数
      */
-    ResponseResult<List<Video>> showCollectsList(Integer currentPage, Integer userId);
+    ResponseResult<VideoList> showCollectsList(Integer currentPage, Integer userId);
 
     /**
      * 得到视频列表

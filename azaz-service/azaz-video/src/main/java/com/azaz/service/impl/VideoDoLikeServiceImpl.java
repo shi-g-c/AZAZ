@@ -240,7 +240,7 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
      * 得到用户发布的视频
      * @param currentPage 当前页
      * @param userId 用户id
-     * @return 收藏数
+     * @return 发布列表
      */
     @Override
     public ResponseResult<VideoList> getPublishedVideos(Integer currentPage,Integer userId){
@@ -267,17 +267,17 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
     }
 
     /**
-     * 得到用户收藏数
+     * 得到用户收藏列表
      * @param currentPage 当前页
      * @return 收藏数
      */
     @Override
-    public ResponseResult<List<Video>> showCollectsList(Integer currentPage,Integer userId){
+    public ResponseResult<VideoList> showCollectsList(Integer currentPage,Integer userId){
         String key = VideoConstant.USER_LIST_COLLECT_KEY + userId.toString();
         //得到用户发布的当前页数的videoId
         List<String> videoIds = stringRedisTemplate.opsForList().range(key, (currentPage-1) * 10L,currentPage*10);
         if(videoIds == null){
-            return ResponseResult.successResult(new ArrayList<>());
+            return ResponseResult.successResult(new VideoList());
         }
         List<Video> videos = new ArrayList<>();
         //得到videoId对应的实体类
@@ -291,6 +291,6 @@ public class VideoDoLikeServiceImpl implements VideoDoLikeService {
         videoList.setVideoList(videos);
         //得到视频总数
         videoList.setTotal(Objects.requireNonNull(stringRedisTemplate.opsForList().size(key)).intValue());
-        return ResponseResult.successResult(videos);
+        return ResponseResult.successResult(videoList);
     }
 }

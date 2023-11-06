@@ -6,7 +6,6 @@ import com.azaz.service.VideoUploadService;
 import com.azaz.video.dto.VideoPublishDto;
 import com.azaz.video.pojo.Comment;
 import com.azaz.video.pojo.GetVideoInfo;
-import com.azaz.video.pojo.Video;
 import com.azaz.video.pojo.VideoList;
 import com.azaz.video.vo.VideoDetail;
 import com.azaz.video.vo.VideoInfo;
@@ -135,7 +134,7 @@ public class VideoController {
      * @return 视频列表
      */
     @GetMapping("/showCollectList")
-    public ResponseResult<List<Video>> showCollectList(Integer currentPage, Integer userId){
+    public ResponseResult<VideoList> showCollectList(Integer currentPage, Integer userId){
         return videoDoLikeService.showCollectsList(currentPage,userId);
     }
 
