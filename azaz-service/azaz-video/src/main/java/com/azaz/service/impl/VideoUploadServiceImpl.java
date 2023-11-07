@@ -37,6 +37,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.UUID;
+import java.util.concurrent.ArrayBlockingQueue;
+import java.util.concurrent.ThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * @author c'y'x
@@ -57,7 +60,22 @@ public class VideoUploadServiceImpl implements VideoUploadService {
     @Resource
     RocketMQTemplate rocketMQTemplate;
 
+    private static final int CORE_POOL_SIZE = 5;
+    private static final int MAX_POOL_SIZE = 10;
+    private static final int QUEUE_CAPACITY = 100;
+    private static final Long KEEP_ALIVE_TIME = 1L;
 
+    /**
+     * 线程池
+     */
+    private final ThreadPoolExecutor executor = new ThreadPoolExecutor(
+            CORE_POOL_SIZE,
+            MAX_POOL_SIZE,
+            KEEP_ALIVE_TIME,
+            TimeUnit.SECONDS,
+            new ArrayBlockingQueue<>(QUEUE_CAPACITY),
+            new ThreadPoolExecutor.CallerRunsPolicy()
+    );
     /**
      * 发布视频
      * @param videoPublishDto 视频信息
@@ -105,6 +123,7 @@ public class VideoUploadServiceImpl implements VideoUploadService {
             //将视频存储在对应videoId下
             String videoKey=VideoConstant.VIDEO_ID+video.getId().toString();
             stringRedisTemplate.opsForValue().set(videoKey, JSON.toJSONString(video));
+            stringRedisTemplate.opsForValue().set(VideoConstant.LAST_VIDEO_ID,video.getId().toString());
             //存储userId下的video类
             stringRedisTemplate.opsForList().leftPush(VideoConstant.USER_VIDEO_LIST+userId,video.getId().toString());
         }catch (Exception e){
@@ -154,8 +173,7 @@ public class VideoUploadServiceImpl implements VideoUploadService {
         GetVideoInfo getVideoInfo = new GetVideoInfo();
         List<VideoDetailInfo>videoList = new ArrayList<>();
         if(lastVideoId==0){
-            Video lastVideo = videoMapper.getLastVideo();
-            lastVideoId=lastVideo.getId().intValue();
+            lastVideoId=Integer.parseInt(Objects.requireNonNull(stringRedisTemplate.opsForValue().get(VideoConstant.LAST_VIDEO_ID)));
         }
         for (Integer i = lastVideoId; i > lastVideoId - 10; i--) {
             VideoDetailInfo videoDetailInfo=new VideoDetailInfo();

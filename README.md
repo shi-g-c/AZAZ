@@ -27,7 +27,6 @@ cd /azaz/azaz-page
 #### 2. 安装依赖，需要有node.js环境
 
 ```shell
-<<<<<<< HEAD
 npm install package-lock.json
 ```
 
@@ -48,13 +47,13 @@ npm run dev
 ```
 
 #### 6. 访问页面
-在浏览器中输入 http://ip:port/AZAZ/#/即可访问到主页面
+在浏览器中输入 http://ip:port/AZAZ/#/  即可访问到主页面
 
 ### 后端启动
 
 #### 1. 初始化MySQL数据库表结构
 
-本项目的MySQL数据库表结构设计文档地址：[AZAZ数据库表结构设计](https://sqrmcnsjwo8.feishu.cn/docx/HOVZdtwVDorY2TxNSL1cYBlynLb?from=from_copylink)
+本项目的MySQL数据库表结构设计文档：[AZAZ数据库表结构设计](docs/AZAZ音视频数据库表结构设计文档.md)
 
 可以使用路径 *resource/DB/azaz.sql* 的sql脚本快速生成表结构。
 

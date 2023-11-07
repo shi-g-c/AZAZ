@@ -597,11 +597,11 @@
         "x-run-in-apifox": "https://apifox.com/web/project/3472416/apis/api-120069821-run"
       }
     },
-    "/azaz/video/list/showCollectList": {
+    "/azaz/video/showCollectList": {
       "get": {
         "summary": "收藏列表查询",
         "x-apifox-folder": "视频模块",
-        "x-apifox-status": "developing",
+        "x-apifox-status": "testing",
         "deprecated": false,
         "description": "查询用户的收藏列表，收藏列表只能自己查看",
         "tags": [
@@ -619,13 +619,22 @@
             }
           },
           {
-            "name": "total",
+            "name": "userId",
             "in": "query",
-            "description": "总记录数，展示给用户",
+            "description": "用户id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "登录凭证",
             "required": true,
             "example": "",
             "schema": {
-              "type": "integer"
+              "type": "string"
             }
           }
         ],
@@ -706,7 +715,7 @@
       "get": {
         "summary": "查询发布列表",
         "x-apifox-folder": "视频模块",
-        "x-apifox-status": "developing",
+        "x-apifox-status": "testing",
         "deprecated": false,
         "description": "查询用户发布的视频列表",
         "tags": [
@@ -932,7 +941,7 @@
       "get": {
         "summary": "视频流获取",
         "x-apifox-folder": "视频模块",
-        "x-apifox-status": "developing",
+        "x-apifox-status": "testing",
         "deprecated": false,
         "description": "获取视频流，按照时间顺序",
         "tags": [
@@ -1501,7 +1510,7 @@
     },
     "/azaz/interact/message/send": {
       "post": {
-        "summary": "发送私信或视频分享",
+        "summary": "发送私信",
         "x-apifox-folder": "社交模块",
         "x-apifox-status": "testing",
         "deprecated": false,
@@ -1533,7 +1542,7 @@
           {
             "name": "status",
             "in": "query",
-            "description": "类型，0-普通私信 1-分享视频",
+            "description": "类型，0-普通私信 ",
             "required": true,
             "example": "0",
             "schema": {
@@ -1771,7 +1780,7 @@
       "get": {
         "summary": "查询视频简略信息",
         "x-apifox-folder": "视频模块",
-        "x-apifox-status": "developing",
+        "x-apifox-status": "testing",
         "deprecated": false,
         "description": "查询视频简略信息，用于朋友分享的展示以及点赞列表收藏列表等信息展示",
         "tags": [
@@ -1861,7 +1870,7 @@
       "get": {
         "summary": "查询视频详细信息",
         "x-apifox-folder": "视频模块",
-        "x-apifox-status": "developing",
+        "x-apifox-status": "testing",
         "deprecated": false,
         "description": "查询视频详细信息，包括各种数据",
         "tags": [
@@ -2110,88 +2119,11 @@
         "x-run-in-apifox": "https://apifox.com/web/project/3472416/apis/api-120827684-run"
       }
     },
-    "/azaz/video/doCollect": {
-      "post": {
-        "summary": "视频收藏和取消收藏",
-        "x-apifox-folder": "视频模块",
-        "x-apifox-status": "testing",
-        "deprecated": false,
-        "description": "收藏视频或者取消收藏",
-        "tags": [
-          "视频模块"
-        ],
-        "parameters": [
-          {
-            "name": "videoId",
-            "in": "query",
-            "description": "视频id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "type",
-            "in": "query",
-            "description": "1为收藏,0为取消收藏",
-            "required": true,
-            "schema": {
-              "type": "integer"
-            }
-          },
-          {
-            "name": "authorId",
-            "in": "query",
-            "description": "视频作者Id",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "成功",
-            "content": {
-              "application/json": {
-                "schema": {
-                  "type": "object",
-                  "properties": {
-                    "code": {
-                      "type": "integer"
-                    },
-                    "message": {
-                      "type": "string"
-                    },
-                    "data": {
-                      "type": "object",
-                      "properties": {},
-                      "x-apifox-orders": [],
-                      "x-apifox-ignore-properties": []
-                    }
-                  },
-                  "x-apifox-orders": [
-                    "code",
-                    "message",
-                    "data"
-                  ],
-                  "required": [
-                    "code"
-                  ],
-                  "x-apifox-ignore-properties": []
-                }
-              }
-            }
-          }
-        },
-        "x-run-in-apifox": "https://apifox.com/web/project/3472416/apis/api-121013244-run"
-      }
-    },
     "/azaz/video/userLikes": {
       "get": {
         "summary": "用户获赞总数查询",
         "x-apifox-folder": "视频模块",
-        "x-apifox-status": "developing",
+        "x-apifox-status": "testing",
         "deprecated": false,
         "description": "查询用户获赞总数，用于首页展示",
         "tags": [
@@ -2202,6 +2134,16 @@
             "name": "userId",
             "in": "query",
             "description": "要查询的用户id",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "登录凭证",
             "required": true,
             "example": "",
             "schema": {
@@ -2370,7 +2312,7 @@
             "in": "header",
             "description": "",
             "required": true,
-            "example": "9ltymj9qs1osjhlf4kjrqfu1g7ib5b1n",
+            "example": "enai7m4zbvdo7jrl4y4emxianqk0hk77",
             "schema": {
               "type": "string"
             }
@@ -2997,7 +2939,7 @@
       "post": {
         "summary": "评论视频",
         "x-apifox-folder": "视频模块",
-        "x-apifox-status": "developing",
+        "x-apifox-status": "testing",
         "deprecated": false,
         "description": "对视频或者评论进行评论",
         "tags": [
@@ -3030,6 +2972,16 @@
             "schema": {
               "type": "string"
             }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "登录凭证",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
           }
         ],
         "responses": {
@@ -3054,7 +3006,7 @@
       "get": {
         "summary": "获取评论列表",
         "x-apifox-folder": "视频模块",
-        "x-apifox-status": "developing",
+        "x-apifox-status": "testing",
         "deprecated": false,
         "description": "获取评论列表",
         "tags": [
@@ -3072,7 +3024,7 @@
             }
           },
           {
-            "name": "parentId",
+            "name": "commentId",
             "in": "query",
             "description": "想要查看的评论回复的评论id，一级评论填0",
             "required": false,
@@ -3266,6 +3218,141 @@
           }
         },
         "x-run-in-apifox": "https://apifox.com/web/project/3472416/apis/api-122247336-run"
+      }
+    },
+    "/azaz/user/login/logout": {
+      "delete": {
+        "summary": "退出登录",
+        "x-apifox-folder": "用户模块",
+        "x-apifox-status": "testing",
+        "deprecated": false,
+        "description": "退出登录，消除token，没有返回值",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [
+          {
+            "name": "token",
+            "in": "header",
+            "description": "登录凭证",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "x-apifox-refs": {},
+                  "x-apifox-orders": [],
+                  "properties": {},
+                  "x-apifox-ignore-properties": []
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3472416/apis/api-122748617-run"
+      }
+    },
+    "/azaz/user/personal/ackPassword": {
+      "get": {
+        "summary": "确认密码",
+        "x-apifox-folder": "用户模块",
+        "x-apifox-status": "testing",
+        "deprecated": false,
+        "description": "确认密码，在需要确认权限的地方进行操作",
+        "tags": [
+          "用户模块"
+        ],
+        "parameters": [
+          {
+            "name": "userId",
+            "in": "query",
+            "description": "用户id",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "password",
+            "in": "query",
+            "description": "密码",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          },
+          {
+            "name": "token",
+            "in": "header",
+            "description": "登录凭证",
+            "required": true,
+            "example": "",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "成功",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "x-apifox-refs": {
+                    "01HEKXGMSPFRNVA9DXJ6M731NQ": {
+                      "$ref": "#/components/schemas/Response"
+                    }
+                  },
+                  "x-apifox-orders": [
+                    "01HEKXGMSPFRNVA9DXJ6M731NQ"
+                  ],
+                  "properties": {
+                    "code": {
+                      "type": "integer",
+                      "title": "返回码",
+                      "description": "2操作成功，其他错误"
+                    },
+                    "message": {
+                      "type": "string",
+                      "title": "错误信息",
+                      "description": "返回错误的情况向用户展示该错误信息",
+                      "nullable": true
+                    },
+                    "data": {
+                      "type": "boolean",
+                      "title": "通用返回对象",
+                      "description": "密码是否正确",
+                      "nullable": true
+                    }
+                  },
+                  "required": [
+                    "code",
+                    "message",
+                    "data"
+                  ],
+                  "x-apifox-ignore-properties": [
+                    "code",
+                    "message",
+                    "data"
+                  ]
+                }
+              }
+            }
+          }
+        },
+        "x-run-in-apifox": "https://apifox.com/web/project/3472416/apis/api-122753804-run"
       }
     }
   },
@@ -3586,10 +3673,5 @@
       }
     }
   },
-  "servers": [
-    {
-      "url": "http://10.134.49.88:8080",
-      "description": "开发环境"
-    }
-  ]
+  "servers": []
 }
