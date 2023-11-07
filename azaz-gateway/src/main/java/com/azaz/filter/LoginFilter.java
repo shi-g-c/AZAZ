@@ -40,6 +40,13 @@ public class LoginFilter implements GlobalFilter {
         //1.获取request和response对象
         ServerHttpRequest request = exchange.getRequest();
         ServerHttpResponse response = exchange.getResponse();
+        // 判断是否是退出登录
+        if (request.getURI().getPath().contains("/logout")) {
+            String token = request.getHeaders().getFirst("token");
+            //删除redis中的token
+            stringRedisTemplate.delete(UserConstant.REDIS_LOGIN_TOKEN + token);
+            return exchange.getResponse().setComplete();
+        }
         //2.判断是否是登录
         if (request.getURI().getPath().contains("/login")) {
             //放行

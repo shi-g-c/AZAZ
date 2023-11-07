@@ -182,6 +182,7 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
      */
     @Override
     public ResponseResult<ChatListVo> chatList() {
+
         // 获取redis中的list
         Long userId = ThreadLocalUtil.getUserId();
         String chatListKey = InteractConstant.REDIS_USER_CHAT_LIST + userId;
@@ -197,7 +198,7 @@ public class PrivateMessageServiceImpl implements PrivateMessageService {
                 continue;
             }
             String messageKey = InteractConstant.REDIS_PRIVATE_MESSAGE_KEY + Math.min(userId, otherId)
-                    + "-" + Math.max(userId, otherId) + ":";
+                    + "-" + Math.max(userId, otherId);
             // 获取私信列表的第一条私信
             String message = stringRedisTemplate.opsForList().index(messageKey, 0);
             if (StringUtils.isBlank(message)) {

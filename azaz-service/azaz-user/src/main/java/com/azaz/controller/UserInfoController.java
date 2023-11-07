@@ -2,6 +2,7 @@ package com.azaz.controller;
 
 import com.azaz.response.ResponseResult;
 import com.azaz.service.UserInfoService;
+import com.azaz.user.dto.AckPasswordDto;
 import com.azaz.user.dto.UserPersonInfoDto;
 import com.azaz.user.vo.UserHomePageVo;
 import com.azaz.user.vo.UserPersonalInfoVo;
@@ -59,5 +60,15 @@ public class UserInfoController {
     @GetMapping("/homePage")
     public ResponseResult<UserHomePageVo> getUserHomePage(Long userId){
         return userInfoService.getUserHomePage(userId);
+    }
+
+    /**
+     * 校验密码
+     * @param ackPasswordDto 密码
+     * @return ResponseResult<Boolean> 校验结果
+     */
+    @GetMapping("/ackPassword")
+    public ResponseResult<Boolean> ackPassword(AckPasswordDto ackPasswordDto){
+        return userInfoService.ackPassword(ackPasswordDto);
     }
 }

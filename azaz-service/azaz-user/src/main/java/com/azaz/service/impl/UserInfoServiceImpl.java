@@ -9,6 +9,7 @@ import com.azaz.exception.UserNotExitedException;
 import com.azaz.exception.UserNotLoginException;
 import com.azaz.mapper.UserMapper;
 import com.azaz.response.ResponseResult;
+import com.azaz.user.dto.AckPasswordDto;
 import com.azaz.user.dto.UserPersonInfoDto;
 import com.azaz.user.pojo.User;
 import com.azaz.user.vo.UserHomePageVo;
@@ -21,6 +22,7 @@ import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.BeanUtils;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.stereotype.Service;
+import org.springframework.util.DigestUtils;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.annotation.Resource;
@@ -200,5 +202,29 @@ public class UserInfoServiceImpl implements com.azaz.service.UserInfoService{
                 .isFollow(isFollow)
                 .build();
         return ResponseResult.successResult(userHomePageVo);
+    }
+
+    /**
+     * 用户密码确认
+     * @param ackPasswordDto 用户密码传输对象
+     * @return ResponseResult<Boolean> 确认结果
+     */
+    @Override
+    public ResponseResult<Boolean> ackPassword(AckPasswordDto ackPasswordDto) {
+        // 校验参数
+        if (ackPasswordDto == null || ackPasswordDto.getPassword() == null || ackPasswordDto.getUserId() == null){
+            throw new ErrorParamException("参数不能为空！");
+        }
+        // 从数据库获取用户信息
+        User user = userMapper.selectById(ackPasswordDto.getUserId());
+        if (user == null){
+            throw new UserNotExitedException();
+        }
+        // 校验密码是否正确
+        String passwordWithMd5 = DigestUtils.md5DigestAsHex((ackPasswordDto.getPassword() + user.getSalt()).getBytes());
+        if (!passwordWithMd5.equals(user.getPassword())){
+            throw new ErrorParamException("密码错误！");
+        }
+        return ResponseResult.successResult(true);
     }
 }

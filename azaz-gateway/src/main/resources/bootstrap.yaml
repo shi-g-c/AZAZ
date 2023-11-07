@@ -1,6 +1,6 @@
 server:
   port:  8080   # 服务端口
-  address: 0.0.0.0   # 允许局域网访问
+  address: 127.0.0.1   # 允许局域网访问
 spring:
   application:
     name: azaz-gateway # 服务名称
