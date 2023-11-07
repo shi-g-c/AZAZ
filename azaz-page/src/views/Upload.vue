@@ -10,19 +10,15 @@ const userAccount = ref({
     UserToken: null,
     UserId: null,
 });
-const baseURL = ref(null);
-baseURL.value = "http://10.134.49.88:8080";    //API接口地址
-axios.defaults.baseURL = baseURL.value;    //API接口地址
-axios.defaults.timeout = 5000;                         //请求超时时间
-axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';//请求头
-axios.defaults.headers['Accept'] = '*/*';
-axios.defaults.headers['Host'] = '10.134.49.88:8080';
-axios.defaults.headers['Connection'] = 'keep-alive';
 
 onMounted(() =>
 {
-    userAccount.value = JSON.parse(localStorage.getItem('Useraccount'));
-    axios.defaults.headers.common['token'] = userAccount.value.UserToken;//登陆后更新token
+    const account = localStorage.getItem('Useraccount');
+    if (account)
+    {
+        userAccount.value = JSON.parse(localStorage.getItem('Useraccount'));
+        axios.defaults.headers.common['token'] = userAccount.value.UserToken;//登陆后更新token
+    }
 });
 
 async function beforeCoverUpload(data)
@@ -150,7 +146,7 @@ function uploadProcess()
             publish();
             isUping.value = false;
             UploadDone.value = true;
-            setTimeout(() => { location.reload(true);}, 3000);
+            setTimeout(() => { location.reload(true); }, 3000);
             clearInterval(intervalId);
         }
     }, 1000);
@@ -249,16 +245,17 @@ const coverUpload = async ({ file, onFinish, onError, onProgress }) =>
     <n-message-provider><n-notification-provider>
             <notice />
         </n-notification-provider></n-message-provider>
-         <n-result style="margin-top: 240px;" status="success" title="发布成功" description="请等待页面自动刷新或手动刷新" v-show="UploadDone">
-      </n-result>
-    <div style="display: flex;justify-content: center;" v-show="!UploadDone"> 
+    <n-result style="margin-top: 240px;" status="success" title="发布成功" description="请等待页面自动刷新或手动刷新" v-show="UploadDone">
+    </n-result>
+    <div style="display: flex;justify-content: center;" v-show="!UploadDone">
         <n-card title="上传视频" embedded bordered="false" hoverable id="upload-card" style="max-width: 850px;">
             <div id="upload-container">
                 <n-form label-placement="left" label-width="auto" require-mark-placement="right-hanging" size="large"
                     style="maxWidth: 640px;">
                     <n-form-item label="视频文件" path="video">
-                        <n-upload :show-cancel-button="!isUping" :disabled="isUping" :show-download-button="false" @before-upload="beforeVideoUpload" :show-remove-button="false" :custom-request="videoUpload" @change="fileChange"
-                            :default-upload="false" max="1" ref="uploadVideo">
+                        <n-upload :show-cancel-button="!isUping" :disabled="isUping" :show-download-button="false"
+                            @before-upload="beforeVideoUpload" :show-remove-button="false" :custom-request="videoUpload"
+                            @change="fileChange" :default-upload="false" max="1" ref="uploadVideo">
                             <n-upload-dragger
                                 style="background-color: white;height: 300px;display: flex;justify-content: center; flex-direction: column;">
                                 <n-text style="font-size: 16px">
@@ -271,7 +268,8 @@ const coverUpload = async ({ file, onFinish, onError, onProgress }) =>
                         </n-upload>
                     </n-form-item>
                     <n-form-item label="视频封面" path="cover">
-                        <n-upload :show-cancel-button="!isUping" :disabled="isUping" :show-download-button="false" @before-upload="beforeCoverUpload" :show-remove-button="false" :custom-request="coverUpload" 
+                        <n-upload :show-cancel-button="!isUping" :disabled="isUping" :show-download-button="false"
+                            @before-upload="beforeCoverUpload" :show-remove-button="false" :custom-request="coverUpload"
                             :default-upload="false" max="1" ref="uploadCover">
                             <n-upload-dragger
                                 style="background-color: white;height: 150px;display: flex;justify-content: center; flex-direction: column;">
@@ -285,8 +283,8 @@ const coverUpload = async ({ file, onFinish, onError, onProgress }) =>
                         </n-upload>
                     </n-form-item>
                     <n-form-item label="视频标题" path="title">
-                        <n-input :disabled="isUping" @change="checkVideo" v-model:value="VideoTitle" show-count placeholder="请输入视频标题，最多50字"
-                            :maxlength="50" :count-graphemes="countGraphemes" />
+                        <n-input :disabled="isUping" @change="checkVideo" v-model:value="VideoTitle" show-count
+                            placeholder="请输入视频标题，最多50字" :maxlength="50" :count-graphemes="countGraphemes" />
                     </n-form-item>
                     <n-form-item label="视频分类" path="section">
                         <n-select :disabled="isUping" v-model:value="VideoSection" :options="options" placeholder="请选择视频分类"
@@ -295,7 +293,8 @@ const coverUpload = async ({ file, onFinish, onError, onProgress }) =>
 
 
                     <div style="display: flex; justify-content: flex-end">
-                        <n-button @click="uploadProcess" style="height: 40px;width: 170px;" :disabled="!isValidate||isUping">
+                        <n-button @click="uploadProcess" style="height: 40px;width: 170px;"
+                            :disabled="!isValidate || isUping">
                             <n-icon size="20">
                                 <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                                     viewBox="0 0 512 512">

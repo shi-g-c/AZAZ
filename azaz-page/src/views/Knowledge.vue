@@ -6,7 +6,7 @@ import qs from 'qs';
 import { NDrawerContent, NDrawer, NEmpty, NInput, NAvatar, NThing, NSpin, NIcon, NButton } from 'naive-ui';
 
 const emit = defineEmits(['wanted']);
-const SECTION = 0;
+const SECTION = 5;
 
 axios.defaults.timeout = 10000;                         //请求超时时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';//请求头
@@ -642,7 +642,6 @@ function afterClose()
     position: absolute;
     top: 20px;
     left: 20px;
-    z-index: 900;
 }
 
 #video-player-container {

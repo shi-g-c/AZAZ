@@ -1,5 +1,5 @@
 <script setup>
-import { RouterLink, RouterView } from 'vue-router';
+import { useRouter, RouterLink, RouterView } from 'vue-router';
 import notice from './components/notice.vue';
 import axios from 'axios';
 import qs from 'qs';
@@ -17,14 +17,30 @@ const Userno = ref({
   UserId: null,
 });
 const hasLogin = ref(false);
-const videoPlayer = ref(false);
+const searchText = ref('');
+const router = useRouter();
 
-axios.defaults.baseURL = 'http://10.134.49.88:8080';    //API接口地址
 axios.defaults.timeout = 5000;                         //请求超时时间
 axios.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded';//请求头
 axios.defaults.headers['Accept'] = '*/*';
-axios.defaults.headers['Host'] = '10.134.49.88:8080';
-axios.defaults.headers['Connection'] = 'keep-alive';
+
+function toSearch()
+{
+  // 当用户没有输入内容就按enter键时，就return，不做任何操作，不去搜索
+  if (searchText.value === '')
+  {
+    return;
+  } else
+  {
+    router.push({
+      name: 'search',
+      query: {
+        key: searchText.value,
+      }
+    });
+    searchText.value = '';
+  }
+}
 
 // 定义注册函数
 async function register(phone, password)
@@ -92,6 +108,7 @@ async function login(phone, password)
       hasLogin.value = true;
       showLogin.value = false;
       getPersonalInfo(null);
+      setTimeout(() => { location.reload(true); }, 2000);
     } else
     {
       window.$message.error(
@@ -195,15 +212,7 @@ const getQuery = (url, query) =>
 
 onMounted(() =>
 {
-  const Vid = getQuery(window.location.href, 'Vid');
-  // 判断是否包含名为"Vid"的参数
-  if (Vid)
-  {
-
-    videoPlayer.value = true;
-  } else
-  {
-  }
+  axios.defaults.baseURL = window.config.APIUrl;    //API接口地址
   checkLogin();
 });
 
@@ -394,9 +403,23 @@ function wanted(message)
       <n-layout position="absolute" style="height: 100vh;">
         <n-layout-header style="width: 100vw;height: 64px; border-bottom: 2px solid #dbdbdb;">
           <div class="title-container">
-            <div class="title-left"><span id="web-title">AZAZ</span></div>
+            <div class="title-left"><span id="web-title"><svg width="78" height="22" viewBox="0 0 78 22" fill="none">
+                  <mask id="logo_svg__a" style="mask-type:alpha" maskUnits="userSpaceOnUse" x="0" y="0" width="31"
+                    height="21">
+                    <path d="M0 .08h30.52v20.33H0V.08z" fill="#fff"></path>
+                  </mask>
+                  <g mask="url(#logo_svg__a)">
+                    <path fill-rule="evenodd" clip-rule="evenodd"
+                      d="M30.52.316c-.513-.177-.938.038-1.182.221A18.392 18.392 0 0115.26 7.071c-1.94 0-3.809-.3-5.565-.855l-.78-2.837s-.38-1.156-1.665-.958l.37 2.995A18.495 18.495 0 011.182.536C.94.355.515.14 0 .317A16.343 16.343 0 008.092 9.24l1.013 8.202s.452 3.138 3.397 3.138H18.8c2.944 0 3.397-3.138 3.397-3.138l.712-5.878c-1.912-.155-3.115 1.177-3.496 2.492-.64 2.214-.64 2.356-.766 2.742-.258.79-1.107.885-1.107.885h-3.778s-.849-.094-1.107-.885c-.167-.51-.998-3.488-1.835-6.51 1.412.399 2.901.613 4.44.613 6.99 0 12.949-4.403 15.26-10.585z"
+                      fill="#07BEFF"></path>
+                  </g>
+                  <path fill-rule="evenodd" clip-rule="evenodd"
+                    d="M77.835 12.624v-2.203H64.11v2.203h2.525l-1.952 4.908h-.034v2.203h11.743c.737-.053 1.4-.709 1.4-1.388 0-.338-.109-.723-.132-.8h.002l-.994-2.738h-2.43l.988 2.723h-8.16l1.952-4.908h8.816zm-21.374-3.3h4.893v-2.15h-4.893v-2.18h-2.203v2.18h-3.384l.283-1.616h-2.303l-1.176 6.729h.936c.312-.031 1.359-.23 1.624-1.476l.26-1.487h3.76v6.563h-6.57v2.203h6.57v2.167h2.203V18.09h5.449v-2.203h-5.449V9.324zM35.713 5.017H33.51v2.147H31.32v2.22h2.189v8.967c.062.74.656 1.33 1.398 1.384h8.653a1.518 1.518 0 001.447-1.428v-3.505H42.81v2.678h-7.096V9.385h9.826v-2.22h-9.827V5.016zm28.97 2.664h12.553v-2.15H64.684v2.15z"
+                    fill="#07BEFF"></path>
+                </svg> AZAZ</span></div>
             <div class="title-center">
-              <n-input round clearable placeholder="搜索" style="max-width: 500px;">
+              <n-input round clearable placeholder="搜索" style="max-width: 500px;" v-model:value="searchText"
+                @keyup.enter.native="toSearch">
                 <!-- TODO:搜索路由拼接 -->
                 <template #prefix>
                   <n-icon>
@@ -432,25 +455,6 @@ function wanted(message)
                   </n-popover>
                 </RouterLink>
               </div>
-              <div class="title-box" style="height: 29px;">
-                <RouterLink to="/messages">
-                  <n-popover trigger="hover">
-                    <template #trigger>
-                      <n-button text>
-                        <n-icon size="29">
-                          <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                            viewBox="0 0 1024 1024">
-                            <path
-                              d="M464 512a48 48 0 1 0 96 0a48 48 0 1 0-96 0zm200 0a48 48 0 1 0 96 0a48 48 0 1 0-96 0zm-400 0a48 48 0 1 0 96 0a48 48 0 1 0-96 0zm661.2-173.6c-22.6-53.7-55-101.9-96.3-143.3a444.35 444.35 0 0 0-143.3-96.3C630.6 75.7 572.2 64 512 64h-2c-60.6.3-119.3 12.3-174.5 35.9a445.35 445.35 0 0 0-142 96.5c-40.9 41.3-73 89.3-95.2 142.8c-23 55.4-34.6 114.3-34.3 174.9A449.4 449.4 0 0 0 112 714v152a46 46 0 0 0 46 46h152.1A449.4 449.4 0 0 0 510 960h2.1c59.9 0 118-11.6 172.7-34.3a444.48 444.48 0 0 0 142.8-95.2c41.3-40.9 73.8-88.7 96.5-142c23.6-55.2 35.6-113.9 35.9-174.5c.3-60.9-11.5-120-34.8-175.6zm-151.1 438C704 845.8 611 884 512 884h-1.7c-60.3-.3-120.2-15.3-173.1-43.5l-8.4-4.5H188V695.2l-4.5-8.4C155.3 633.9 140.3 574 140 513.7c-.4-99.7 37.7-193.3 107.6-263.8c69.8-70.5 163.1-109.5 262.8-109.9h1.7c50 0 98.5 9.7 144.2 28.9c44.6 18.7 84.6 45.6 119 80c34.3 34.3 61.3 74.4 80 119c19.4 46.2 29.1 95.2 28.9 145.8c-.6 99.6-39.7 192.9-110.1 262.7z"
-                              fill="currentColor"></path>
-                          </svg>
-                        </n-icon>
-                      </n-button>
-                    </template>
-                    <span>聊天消息</span>
-                  </n-popover>
-                </RouterLink>
-              </div>
               <div class="title-box title-user">
                 <n-button v-if="!hasLogin" strong secondary type="primary" @click="{ showLogin = true; }">
                   登录/注册
@@ -476,64 +480,7 @@ function wanted(message)
       </n-layout>
 
     </div>
-    <div style="position: relative" id="video-canva" v-if="videoPlayer">
-      <div id="video-player-container">
-        <div id="video-player-close">
-          <n-button circle size="large" color="#505050" @click="videoPlayer = false">
-            <n-icon size="30"><svg color="white" xmlns="http://www.w3.org/2000/svg"
-                xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512" style="">
-                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
-                  d="M368 368L144 144" style=""></path>
-                <path fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="32"
-                  d="M368 144L144 368" style=""></path>
-              </svg></n-icon>
-          </n-button>
-        </div>
-        <div id="video-player-frame">
-          <video id="video-player-video"
-            src="https://webstatic.mihoyo.com/upload/op-public/2023/01/13/ff5f7fe208a947bf0c7c0239c54411f4_592291034584067074.mp4"
-            controls="controls" autoplay="autoplay" preload=""></video>
-        </div>
-      </div>
-      <div id="video-detail-container">
-        <div>
-          <n-thing>
-            <template #avatar>
-              <n-avatar round :size="10" :src="Userinfo.UserImg" style="margin-right: 20px;" />
-            </template>
-            <template #header>
-              <p id="user-name">{{ Userinfo.UserName }}</p>
-            </template>
-            <template #header-extra>
-              <n-button circle size="large" @click="share">
-                <template #icon>
-                  <n-icon size="25">
-                    <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                      viewBox="0 0 24 24">
-                      <g fill="none">
-                        <path
-                          d="M6.747 4h3.464a.75.75 0 0 1 .102 1.493l-.102.007H6.747a2.25 2.25 0 0 0-2.245 2.095l-.005.155v9.5a2.25 2.25 0 0 0 2.096 2.244l.154.006h9.5a2.25 2.25 0 0 0 2.245-2.096l.005-.154v-.498a.75.75 0 0 1 1.494-.102l.006.102v.498a3.75 3.75 0 0 1-3.55 3.744l-.2.006h-9.5a3.75 3.75 0 0 1-3.745-3.551l-.005-.2v-9.5a3.75 3.75 0 0 1 3.55-3.744l.2-.005h3.464h-3.464zM14.5 6.52V3.75a.75.75 0 0 1 1.187-.61l.082.068l5.994 5.75c.28.269.306.7.077.998l-.077.085l-5.994 5.752a.75.75 0 0 1-1.262-.435l-.007-.107v-2.725l-.344.03c-2.4.25-4.7 1.331-6.914 3.26c-.52.453-1.323.025-1.237-.658c.664-5.32 3.446-8.251 8.195-8.619l.3-.02V3.75v2.77zM16 5.507V7.25a.75.75 0 0 1-.75.75c-3.874 0-6.274 1.676-7.312 5.157l-.079.278l.352-.237C10.45 11.737 12.798 11 15.251 11a.75.75 0 0 1 .743.649l.007.101v1.743L20.16 9.5l-4.16-3.992z"
-                          fill="currentColor"></path>
-                      </g>
-                    </svg>
-                  </n-icon>
-                </template>
-              </n-button>
-            </template>
 
-            <n-skeleton text :repeat="0" size="small" style="width: 20%;" />
-          </n-thing>
-          <div id="video-detail-flow">
-            <n-tabs type="line" animated size="large"
-              tab-style="font-size: 18px;letter-spacing: 2px;margin: 0 10px 0 10px;font-weight: bold;">
-              <n-tab-pane name="publish" tab="评论">
-                <n-skeleton height="400px" width="100%" />
-              </n-tab-pane>
-            </n-tabs>
-          </div>
-        </div>
-      </div>
-    </div>
   </n-config-provider>
 </template>
 
@@ -601,16 +548,119 @@ const menuOptions = [
     ])
   },
   {
-    label: () => h(
-      RouterLink,
-      {
-        to: {
-          path: "/explore"
-        }
-      },
-      { default: () => h('h2', { class: 'menu-item-h' }, "探索") }
-    ),
+    label: () => h('h2', { class: 'menu-item-h' }, "探索"),
     key: "explore",
+    children: [
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/explore/liveshow"
+            }
+          },
+          { default: () => h('h2', { class: 'menu-item-h-children' }, "直播") }
+        ),
+        key: "liveshow",
+      },
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/explore/sports"
+            }
+          },
+          { default: () => h('h2', { class: 'menu-item-h-children' }, "体育") }
+        ),
+        key: "sports",
+      },
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/explore/games"
+            }
+          },
+          { default: () => h('h2', { class: 'menu-item-h-children' }, "游戏") }
+        ),
+        key: "games",
+      },
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/explore/drama"
+            }
+          },
+          { default: () => h('h2', { class: 'menu-item-h-children' }, "番剧") }
+        ),
+        key: "drama",
+      },
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/explore/knowledge"
+            }
+          },
+          { default: () => h('h2', { class: 'menu-item-h-children' }, "知识") }
+        ),
+        key: "knowledge",
+      },
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/explore/entertainment"
+            }
+          },
+          { default: () => h('h2', { class: 'menu-item-h-children' }, "娱乐") }
+        ),
+        key: "entertainment",
+      },
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/explore/food"
+            }
+          },
+          { default: () => h('h2', { class: 'menu-item-h-children' }, "美食") }
+        ),
+        key: "food",
+      },
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/explore/fashion"
+            }
+          },
+          { default: () => h('h2', { class: 'menu-item-h-children' }, "时尚") }
+        ),
+        key: "fashion",
+      },
+      {
+        label: () => h(
+          RouterLink,
+          {
+            to: {
+              path: "/explore/hot"
+            }
+          },
+          { default: () => h('h2', { class: 'menu-item-h-children' }, "热点") }
+        ),
+        key: "hot",
+      },
+
+    ],
     icon: () => h('svg', {
       xmlns: 'http://www.w3.org/2000/svg',
       viewBox: '2 0 32 32',
@@ -630,63 +680,26 @@ const menuOptions = [
       RouterLink,
       {
         to: {
-          path: "/live"
+          path: "/messages"
         }
       },
-      { default: () => h('h2', { class: 'menu-item-h' }, "直播") }
+      { default: () => h('h2', { class: 'menu-item-h' }, "消息") }
     ),
-    key: "live",
+    key: "messages",
     icon: () => h('svg', {
       xmlns: 'http://www.w3.org/2000/svg',
-      viewBox: '1 -2 26 32',
+      viewBox: '50 50 1024 1024',
     }, [
       h('path', {
-        d: 'M9 10v8l7-4zm12-4h-7.58l3.29-3.29L16 2l-4 4h-.03l-4-4l-.69.71L10.56 6H3c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h18c1.1 0 2-.9 2-2V8c0-1.1-.9-2-2-2zm0 14H3V8h18v12z',
+        d: 'M464 512a48 48 0 1 0 96 0a48 48 0 1 0-96 0zm200 0a48 48 0 1 0 96 0a48 48 0 1 0-96 0zm-400 0a48 48 0 1 0 96 0a48 48 0 1 0-96 0zm661.2-173.6c-22.6-53.7-55-101.9-96.3-143.3a444.35 444.35 0 0 0-143.3-96.3C630.6 75.7 572.2 64 512 64h-2c-60.6.3-119.3 12.3-174.5 35.9a445.35 445.35 0 0 0-142 96.5c-40.9 41.3-73 89.3-95.2 142.8c-23 55.4-34.6 114.3-34.3 174.9A449.4 449.4 0 0 0 112 714v152a46 46 0 0 0 46 46h152.1A449.4 449.4 0 0 0 510 960h2.1c59.9 0 118-11.6 172.7-34.3a444.48 444.48 0 0 0 142.8-95.2c41.3-40.9 73.8-88.7 96.5-142c23.6-55.2 35.6-113.9 35.9-174.5c.3-60.9-11.5-120-34.8-175.6zm-151.1 438C704 845.8 611 884 512 884h-1.7c-60.3-.3-120.2-15.3-173.1-43.5l-8.4-4.5H188V695.2l-4.5-8.4C155.3 633.9 140.3 574 140 513.7c-.4-99.7 37.7-193.3 107.6-263.8c69.8-70.5 163.1-109.5 262.8-109.9h1.7c50 0 98.5 9.7 144.2 28.9c44.6 18.7 84.6 45.6 119 80c34.3 34.3 61.3 74.4 80 119c19.4 46.2 29.1 95.2 28.9 145.8c-.6 99.6-39.7 192.9-110.1 262.7z',
         fill: 'currentColor',
       })
     ])
-  }
+  },
 ];
 </script>
 
 <style>
-#video-player-video {
-  width: 100%;
-  height: 100%;
-}
-
-#video-player-close {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-}
-
-#video-player-container {
-  width: 68vw;
-  height: 100%;
-  background-color: black;
-  display: flex;
-  align-items: center;
-}
-
-#video-detail-container {
-  width: 32vw;
-  height: 100%;
-  background-color: white;
-}
-
-#video-canva {
-  height: 100vh;
-  width: 100vw;
-  position: fixed;
-  top: 0px;
-  left: 0px;
-  z-index: 30;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-}
-
 #web-title {
   font-size: 26px;
   font-weight: bold;
@@ -734,5 +747,15 @@ const menuOptions = [
 .menu-item-h {
   padding-left: 10px;
   font-size: 19px;
+}
+
+.menu-item-h-children {
+  padding-left: 10px;
+  font-size: 18px;
+}
+
+a {
+  text-decoration: none;
+  color: black;
 }
 </style>

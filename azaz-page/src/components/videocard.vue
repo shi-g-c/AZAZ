@@ -1,19 +1,21 @@
 <script setup>
-const props = defineProps(['playnumber', 'title', 'upname', 'likenumber', 'imgurl', 'coverurl']);
+import { RouterLink } from 'vue-router';
+const props = defineProps(['commentsnumber', 'title', 'upname', 'likenumber', 'imgurl', 'coverurl', 'index', 'userid']);
+const emit = defineEmits(['showplay']);
+
+function play()
+{
+    emit('showplay', props.index);
+}
 </script>
 
 <template>
-    <div class="flow-card">
+    <div class="flow-card" @click="play">
         <div class="flow-card-div">
             <img class="flow-card-img" :src="props.coverurl">
             <div class="flow-card-data">
-                <svg class="flow-card-play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-                    viewBox="0 0 32 32">
-                    <path
-                        d="M7 28a1 1 0 0 1-1-1V5a1 1 0 0 1 1.482-.876l20 11a1 1 0 0 1 0 1.752l-20 11A1 1 0 0 1 7 28zM8 6.69V25.31L24.925 16z"
-                        fill="currentColor"></path>
-                </svg>
-                <span class="flow-card-playnumber">{{ props.playnumber }}</span>
+                <svg class="flow-card-play" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 28 28"><g fill="none"><path d="M6 6.01v-.25a3.75 3.75 0 0 1 3.75-3.75h10.5A5.75 5.75 0 0 1 26 7.76v6.99a3.75 3.75 0 0 1-3.75 3.75H22v.25a3.75 3.75 0 0 1-3.75 3.75h-5.997l-4.245 3.235c-.823.627-2.008.04-2.008-.994V22.5h-.25A3.75 3.75 0 0 1 2 18.75V9.76a3.75 3.75 0 0 1 3.75-3.75H6zm1.5-.25v.25h10.75A3.75 3.75 0 0 1 22 9.76V17h.25a2.25 2.25 0 0 0 2.25-2.25V7.76a4.25 4.25 0 0 0-4.25-4.25H9.75A2.25 2.25 0 0 0 7.5 5.76zm-4 4v8.99A2.25 2.25 0 0 0 5.75 21h1a.75.75 0 0 1 .75.75v2.486l4.046-3.082A.75.75 0 0 1 12 21h6.25a2.25 2.25 0 0 0 2.25-2.25V9.76a2.25 2.25 0 0 0-2.25-2.25H5.75A2.25 2.25 0 0 0 3.5 9.76z" fill="currentColor"></path></g></svg>
+                <span class="flow-card-playnumber">{{ props.commentsnumber }}</span>
             </div>
         </div>
         <div class="flow-card-info">
@@ -21,10 +23,10 @@ const props = defineProps(['playnumber', 'title', 'upname', 'likenumber', 'imgur
                 {{ props.title  }}
             </p>
             <div class="flow-card-up">
-                <div class="flow-card-upinfo">
+                <RouterLink :to="'/user/' + props.userid" class="flow-card-upinfo">
                     <img class="flow-card-upimg" :src="props.imgurl">
                     <span class="flow-card-upname">{{ props.upname }}</span>
-                </div>
+                </RouterLink>
                 <div class="flow-card-like">
                     <svg class="flow-card-likeicon" xmlns="http://www.w3.org/2000/svg"
                         xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 24 24">
