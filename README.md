@@ -522,6 +522,9 @@ public class Comment {
       3.查询当前用户是否对视频点赞(查用户id在不在redis中的set)，先从redis中获取该视频的点赞用户set，再判断当前用户id是否在此集合中。若redis失效，从mongodb中拉取 
         数据，并刷新到redis中。
 
+流程图如下
+![输入图片说明](whiteboard_exported_image.png)
+
 **使用MongoDB**
 
 在存储每个视频的点赞用户ID操作中，选择了使用MongoDB存储而非传统的MYSQL，主要有下述原因
