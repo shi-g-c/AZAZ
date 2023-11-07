@@ -85,7 +85,7 @@ npm run dev
 
 ## Demo视频展示
 
-b站地址：
+b站地址：[AZAZ音视频项目演示DEMO](https://www.bilibili.com/video/BV1Y94y1V7FQ/?vd_source=bba7bdf72c37dd66fa65178812ffc8c4)
 
 ## TODO
 
