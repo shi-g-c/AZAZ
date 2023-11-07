@@ -455,6 +455,8 @@ public class Comment {
       3.查询当前用户是否对视频点赞(查用户id在不在redis中的set)，先从redis中获取该视频的点赞用户set，再判断当前用户id是否在此集合中。若redis失效，从mongodb中拉取 
         数据，并刷新到redis中。
 
+![](../resource/imgs/video1.png)
+
 **使用MongoDB**
 
 在存储每个视频的点赞用户ID操作中，选择了使用MongoDB存储而非传统的MYSQL，主要有下述原因
@@ -484,10 +486,20 @@ public class Comment {
     在查询时,根据此条评论ID和对应视频ID即可快速查处此条评论的回复。
 
 **视频流获取设计**
+
 在视频获取时，需要对视频信息进行一定处理
-    1.通过sql倒序查询id查到最后一次上传的videoId
-    2.根据前端传过来的lastVideoId到redis中取出10个视频并反序列化为视频类并进行分区筛选
-    3.以用户ID为key将视频ID存入redis对应的集合中，便于以后查询用户的发布列表
+
+```
+1.通过sql倒序查询id查到最后一次上传的videoId,如果前端传来的lastId值为0，则从最新发布的视频查起。
+
+2.在发布视频时将视频序列化为Jason字符串存入redis中
+
+3.根据前端传过来的lastVideoId到redis中取出10个视频并反序列化为视频类，再进行分区筛选
+
+4.根据视频id和用户id在redis中查询是否点赞或收藏
+
+5.通过feign远程调用用户模块的方法，将用户信息和视频信息一起封装
+```
 
 
 ### 社交模块
